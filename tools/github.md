@@ -1,7 +1,12 @@
+## 구조
+
+![[Pasted image 20260321014347.png]]
 ## 기본 사용법
-git add .
+git add .  (add 취소 : git restore --staged <파일명>)
 git commit -m "message"
 git push origin main
+
+최근 커밋으로 돌아가기 - git restore <파일명>
 
 ## Conventional Commits
 
@@ -22,7 +27,7 @@ git commit -m "refactor: 옵시디언 템플릿 적용 및 Mermaid 차트 추가
 
 git commit -m "feat: 운영체제 및 알고리즘 학습 노트 추가" -m "- OS: 데드락 발생 조건 4가지 정리 - Algorithm: 백준 1234번(그리디) 풀이 추가 - CS: 캐시 메모리 매핑 방식 요약"
 
-나눠서도 가능!
+근데 나눠서 하는게 나을 듯
 
 - `git add OS_note.md` -> `git commit -m "feat: OS 데드락 정리"`
     
