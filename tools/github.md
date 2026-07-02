@@ -2,6 +2,7 @@
 
 ![[Pasted image 20260321014347.png]]
 ## 기본 사용법
+git clone [URL] -> 가져오기
 git add .  (add 취소 : git restore --staged <파일명>)
 git commit -m "message"
 git push origin main
