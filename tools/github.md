@@ -1,3 +1,8 @@
+---
+review_count: 0
+last_reviewed: null
+---
+
 ## 구조
 
 ![[Pasted image 20260321014347.png]]

@@ -1,3 +1,8 @@
+---
+review_count: 0
+last_reviewed: null
+---
+
 ### 파일트리
 ### 파일 트리 열기: `Space` + `e`
 

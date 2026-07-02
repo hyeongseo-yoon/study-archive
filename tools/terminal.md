@@ -1,3 +1,8 @@
+---
+review_count: 0
+last_reviewed: null
+---
+
 ## 0. 터미널이 기초 개념
 
 ### 정의
