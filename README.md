@@ -17,12 +17,17 @@
     
 - **핵심 차이/포인트**
 
+
+프론트매터 설정
+
+- 각 노트는 frontmatter에 `review_count`(복습 횟수), `last_reviewed`(마지막 복습일)가 있음.
+- 새 노트를 만들 때는 `review_count: 0`, `last_reviewed: null`로 시작한다.
+
 ## 복습 루틴
 
-- 각 노트는 frontmatter에 `review_count`(복습 횟수), `last_reviewed`(마지막 복습일)를 가진다.
-- **매주 1회**, 전체 노트 중 `review_count`가 가장 낮은 노트 2~3개를 골라 복습한다.
-- 복습 후에는 해당 노트의 `review_count`를 1 늘리고 `last_reviewed`를 그날 날짜로 갱신한다.
-- 새 노트를 만들 때는 `review_count: 0`, `last_reviewed: null`로 시작한다.
+- **매주 1회**, 전체 노트 중 `review_count`가 가장 낮은 노트 2~3개를 골라 복습
+- 복습 후 해당 노트의 `review_count`를 1 늘리고 `last_reviewed`를 그날 날짜로 갱신
+
 
 
 

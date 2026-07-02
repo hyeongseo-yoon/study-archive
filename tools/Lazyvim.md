@@ -1,6 +1,6 @@
 ---
 review_count: 0
-last_reviewed: null
+last_reviewed:
 ---
 
 ### 파일트리
