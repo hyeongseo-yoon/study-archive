@@ -21,7 +21,7 @@
 프론트매터 설정
 
 - 각 노트는 frontmatter에 `review_count`(복습 횟수), `last_reviewed`(마지막 복습일)가 있음.
-- 새 노트를 만들 때는 `review_count: 0`, `last_reviewed: null`로 시작한다.
+- 새 노트를 만들 때는 `review_count: 0`, `last_reviewed: null`로 시작.
 
 ## 복습 루틴
 
