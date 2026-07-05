@@ -1,7 +1,7 @@
 
 # Study Archive
 
-> Computer Science를 중심으로 학습한 내용을 기록하는 저장소입니다.
+> Computer Science를 중심으로 공부한 내용을 기록
 
 ## Goal
 

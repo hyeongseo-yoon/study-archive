@@ -1,6 +1,6 @@
 ---
-review_count: 0
-last_reviewed: null
+review_count:
+last_reviewed:
 ---
 
 ## 구조
