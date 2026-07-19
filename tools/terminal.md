@@ -256,3 +256,159 @@ grep "login" app.log | awk '{print $6}' | sort | uniq -c
 | `kill %1` | job 1번에 SIGTERM 전송 (정상 종료 요청) |
 | `kill -9 %1` | job 1번에 SIGKILL 전송 (강제 종료) |
 | `nohup sleep 300 &` | 터미널을 닫아도 살아있는 백그라운드 작업 실행 |
+
+## 8. 셸 스크립팅
+
+### 스크립트 기본 구조
+
+```bash
+#!/bin/bash
+echo "안녕"
+```
+
+- 1번째 줄(**셔뱅**, `#!`)은 "이 파일을 어떤 인터프리터로 실행할지" 커널에게 알려주는 표시.
+- `./script.sh`처럼 직접 실행할 때만 의미 있음: 커널이 `execve()`로 실행하려다 텍스트 형식을 인식 못 하면(`ENOEXEC`), 호출한 셸이 fallback으로 `/bin/sh`를 대신 써버림 → bash 전용 문법이 깨질 수 있음.
+- `bash script.sh`처럼 인터프리터를 직접 명시해서 실행하면 셔뱅은 무시됨(이미 뭘로 실행할지 정해줬으니까).
+
+### 변수와 따옴표
+
+- 대입 시 `=` 양옆에 공백 있으면 안 됨(`name = "alice"`는 `name`이라는 명령어 실행 시도로 오해받음).
+- 변수를 따옴표 없이 쓰면(`$name`) **워드 스플리팅** 발생 — `IFS`(기본: 공백/탭/줄바꿈) 기준으로 값을 다시 쪼갬. 따옴표로 감싸면(`"$name"`) 쪼개지지 않고 원본 그대로 보존.
+
+```bash
+name="alice    smith"
+echo $name      # alice smith  (스페이스 1개로 뭉개짐 — 쪼개졌다가 합쳐짐)
+echo "$name"    # alice    smith  (원본 스페이스 그대로 보존)
+```
+
+- 실무 규칙: **변수는 기본적으로 항상 큰따옴표로 감싸서 사용.**
+
+### 위치 인자
+
+`./greet.sh alice bob`로 실행했을 때:
+
+| 변수 | 값 | 의미 |
+| --- | --- | --- |
+| `$0` | `./greet.sh` | 스크립트 자기 자신의 이름/경로 |
+| `$1`, `$2` | `alice`, `bob` | 첫 번째, 두 번째 인자 |
+| `$#` | `2` | 인자 개수 (`$0` 제외) |
+| `$@` | `alice bob` | 전체 인자 (각각 개별 단어로 유지, `"$@"`로 쓰는 게 안전) |
+
+```bash
+for arg in "$@"; do
+  echo "인자: $arg"
+done
+```
+
+### export와 환경변수
+
+- 그냥 `name="alice"` → 현재 셸 프로세스 내부 메모리에만 존재. 자식 프로세스는 모름.
+- `export name="alice"` → "환경변수 블록"에 등록됨. `fork()`가 자식을 만들 때 이 블록을 복제해서 넘겨줌 → 자식이 `exec()`한 프로그램도 이 값을 물려받음.
+- `.bashrc`에서 다른 프로그램이 알아야 할 값(`PATH`, `EDITOR` 등)엔 반드시 `export` 필요.
+
+### .bashrc
+
+- 홈 디렉토리(`~/.bashrc`)에 있고, **bash가 새로 시작될 때마다 자동으로 읽어서 실행**하는 설정 파일.
+- alias, 환경변수, 프롬프트 설정 등을 여기에 넣어둠.
+
+```bash
+alias ll='ls -al'
+export PATH="$HOME/bin:$PATH"
+export EDITOR="vim"
+```
+
+### 제어문: if
+
+```bash
+if [ "$1" = "hello" ]; then
+  echo "인사네"
+else
+  echo "인사 아니네"
+fi
+```
+
+- `[`는 bash 문법이 아니라 **진짜 명령어**(`test`와 동일, `type [`로 확인 가능). 그래서 다른 명령어처럼 이름과 인자 사이에 공백이 꼭 필요함. 마지막 `]`도 그냥 마지막 인자일 뿐 — `[` 명령어가 스스로 마지막 인자가 `]`인지 검사함.
+- 숫자 비교는 `<`/`>`를 안 쓰고 문자 옵션을 씀 — bash가 `<`/`>`를 리다이렉션 기호로 먼저 해석해버리기 때문.
+
+| 연산자 | 의미 |
+| --- | --- |
+| `-eq` / `-ne` | equal / not equal |
+| `-lt` / `-le` | less than / less than or equal |
+| `-gt` / `-ge` | greater than / greater than or equal |
+
+### 제어문: for와 글로빙
+
+```bash
+for file in *.txt; do
+  echo "파일: $file"
+done
+```
+
+- `*.txt`는 for문 실행 **전에** 셸이 먼저 실제 파일 목록으로 바꿔치기함(**글로빙**, 경로명 확장).
+- 함정: 매칭되는 파일이 하나도 없으면, bash 기본 동작은 빈 목록이 아니라 **패턴 문자열 자체(`*.txt`)를 리터럴로 남김** → 루프가 0번이 아니라 1번 돌면서 `$file`에 `"*.txt"`라는 글자 그대로가 들어감.
+- 이 특성을 역이용해서 "파일 없음" 케이스를 감지 가능:
+  ```bash
+  for file in *.txt; do
+      if [ "$file" = "*.txt" ]; then
+          continue   # 진짜 파일이 아니므로 건너뜀
+      fi
+      cp "$file" "backup_$file" || echo "복사 실패: $file"
+  done
+  ```
+  (참고: `shopt -s nullglob` 옵션을 켜면 매칭 없을 때 진짜로 빈 목록이 되게 만들 수도 있음)
+
+### 제어문: while
+
+```bash
+count=1
+while [ $count -le 5 ]; do
+  echo "count: $count"
+  count=$((count + 1))
+done
+```
+
+- `$((...))`: 산술 연산 문법.
+
+### 함수와 반환값
+
+```bash
+greet() {
+  echo "안녕, $1"
+}
+greet "alice"
+```
+
+- 함수 안의 `$1`, `$2`, `$@`는 스크립트 전체 인자가 아니라 **그 함수를 호출할 때 넘긴 인자**로 새로 바뀜(shadowing).
+- `return`은 실제 값 반환이 아니라 **0~255 사이의 정수(종료 코드)만** 반환 가능 → 계산값이 256을 넘으면 나머지 연산으로 잘못된 값이 나옴 (예: `return 300` → 실제론 `44`).
+- 진짜 계산값을 돌려받고 싶으면 `echo` + 커맨드 치환 사용:
+  ```bash
+  add() {
+    echo $(($1 + $2))
+  }
+  result=$(add 3 4)
+  ```
+
+### 종료 코드(`$?`)와 `&&`/`||`
+
+- 모든 명령어/함수는 끝나면 종료 코드를 남김 — `$?`로 확인. **0=성공, 1~255=실패**.
+- `A && B` : A가 성공(0)해야 B 실행
+- `A || B` : A가 실패(0 아님)해야 B 실행
+
+```bash
+mkdir backup && echo "생성 성공"
+cp file.txt backup/ || echo "복사 실패!"
+```
+
+### 실습: 파일 일괄 백업 스크립트
+
+```bash
+#!/bin/bash
+echo "복사본 생성"
+
+for backup in *.txt; do
+    if [ "$backup" = "*.txt" ]; then
+        continue
+    fi
+    cp "$backup" backup_"$backup" || echo "복사 실패"
+done
+```
