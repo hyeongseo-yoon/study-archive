@@ -1,6 +1,7 @@
 ---
-review_count: 0
-last_reviewed: null
+created: 2026-07-22
+tags:
+  - review
 ---
 
 # 시그널 핸들러 안전성 (Signal Handler Safety)

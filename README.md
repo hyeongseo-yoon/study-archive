@@ -23,15 +23,10 @@
 - 위 4가지 핵심 사항을 이해하기 쉽게 정리/구조화
 
 
-프론트매터 설정
+## 복습 시스템
 
-- 각 노트는 frontmatter에 `review_count`(복습 횟수), `last_reviewed`(마지막 복습일)가 있음.
-- 새 노트를 만들 때는 `review_count: 0`, `last_reviewed: null`로 시작.
-
-## 복습 루틴
-
-- **매주 1회**, 전체 노트 중 `review_count`가 가장 낮은 노트 2~3개를 골라 복습
-- 복습 후 해당 노트의 `review_count`를 1 늘리고 `last_reviewed`를 그날 날짜로 갱신
+- 개념 노트는 태그 기반 분산 복습으로 관리 (`#review` → `#completed` / `#incomplete`).
+- 매주 `복습-대시보드.md`(Dataview)로 복습 진행. 
 
 
 

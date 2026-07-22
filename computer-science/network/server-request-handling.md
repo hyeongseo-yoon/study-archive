@@ -1,6 +1,7 @@
 ---
-review_count: 0
-last_reviewed: 2026-07-21
+created: 2026-07-22
+tags:
+  - review
 ---
 
 # 서버의 요청 처리 방식

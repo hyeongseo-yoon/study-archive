@@ -1,8 +1,3 @@
----
-review_count:
-last_reviewed:
----
-
 ## 구조
 
 - Working Directory
