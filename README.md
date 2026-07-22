@@ -26,7 +26,7 @@
 ## 복습 시스템
 
 - 개념 노트는 태그 기반 분산 복습으로 관리 (`#review` → `#completed` / `#incomplete`).
-- 매주 `복습-대시보드.md`(Dataview)로 복습 진행. 
+- 매주 `dashboard.md`(Dataview)로 복습 진행.
 
 
 
