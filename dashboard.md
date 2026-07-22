@@ -38,7 +38,7 @@ FROM #incomplete
 SORT created ASC
 ```
 
-## 🏆 명예의 전당 (#completed)
+## 🏆 학습완료 (#completed)
 ```dataview
 TABLE created AS "작성일"
 FROM #completed

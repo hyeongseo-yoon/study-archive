@@ -2,6 +2,8 @@
 created: 2026-07-22
 tags:
   - review
+velog_slug: file-descriptor-socket
+velog_hash: e0cac9fa60a8
 ---
 
 # 파일 디스크립터(fd)와 소켓(socket)
