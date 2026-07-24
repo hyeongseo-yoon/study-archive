@@ -72,3 +72,35 @@ void handler(int sig) {
 }
 ```
 
+## main(int argc, char *argv[])
+
+- `int main(int argc, char *argv[])`: 프로그램 실행 시 명령줄 인수를 받기 위한 `main` 함수 형태. 인수가 필요 없으면 `int main(void)`로 충분.
+- `argc` (argument count): 실행 시 전달된 인자의 개수. 실행 파일 이름 자체도 포함되므로 최소값은 1.
+- `argv` (argument vector): 인자 문자열들이 담긴 배열. `argv[0]`은 항상 실행된 프로그램의 경로/이름, `argv[argc]`는 표준상 `NULL`이 보장됨.
+- `argv`의 각 원소는 `char *`, 즉 전부 문자열이다. 숫자로 다루려면 `atoi`, `strtol` 등으로 직접 변환해야 함.
+- `argc` 체크 없이 바로 `argv[1]`에 접근하면, 인자가 안 들어왔을 때 배열 범위 밖(정확히는 유효하지 않은 인덱스)을 읽어 undefined behavior(대개 segfault)로 이어짐. 그래서 `if (argc < 2)` 같은 검사가 관례.
+
+```c
+#include <stdio.h>
+
+int main(int argc, char *argv[]) {
+    printf("입력받은 인자의 개수: %d\n", argc);
+
+    for (int i = 0; i < argc; i++) {
+        printf("argv[%d]: %s\n", i, argv[i]);
+    }
+
+    return 0;
+}
+```
+
+```
+$ gcc -o test test.c
+$ ./test hello world 123
+입력받은 인자의 개수: 4
+argv[0]: ./test
+argv[1]: hello
+argv[2]: world
+argv[3]: 123
+```
+
