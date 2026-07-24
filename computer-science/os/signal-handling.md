@@ -50,3 +50,69 @@ int main() {
 
 - `volatile` 단독으로도 캐싱 문제는 해결되지만, 표준이 명시적으로 보장하는 타입은 `sig_atomic_t`이므로 관례적으로 `volatile sig_atomic_t`를 세트로 씀
 - **발견 방법**: CERT C 시큐어 코딩 가이드라인의 `SIG30-C`(핸들러 안에서는 async-signal-safe 함수만 호출), `SIG31-C`(공유 객체는 보호 없이 핸들러 안에서 접근 금지) 규칙 참고. `clang-tidy`의 `cert-sig30-c`, `cppcheck`, Clang Static Analyzer 같은 정적 분석 툴이 이 규칙들을 체크해줌
+
+## SIGCHLD: 자식 종료 비동기 감지
+
+### 정의
+- **SIGCHLD**: 자식 프로세스가 종료되거나 상태가 바뀔 때(정지/재개 포함) 커널이 부모 프로세스에게 자동으로 보내는 시그널
+- 자식 종료를 **폴링 없이** 비동기로 감지하기 위한 용도
+
+### 원리
+
+```c
+void sigchld_handler(int sig) {
+    while (waitpid(-1, NULL, WNOHANG) > 0) {
+    }
+}
+
+int main() {
+    signal(SIGCHLD, sigchld_handler);
+    // ...
+}
+```
+
+- **`waitpid(-1, ...)`**: 첫 인자 `-1`은 "특정 pid 말고 종료된 아무 자식이나" — 핸들러 안에서는 어떤 자식이 죽었는지 미리 알 수 없어서 필요
+- **`WNOHANG`**: `waitpid`는 기본적으로 자식 종료까지 블로킹하는데, 핸들러 안에서 블로킹되면 안 되므로 "종료된 자식 없으면 즉시 0 반환" 옵션을 줌
+- **왜 `while` 루프여야 하는가**: 일반 시그널(standard signal)은 **큐잉되지 않음**. 이미 pending 중인 시그널과 같은 종류가 또 오면 병합(merge)됨. 그래서 자식 A, B, C가 거의 동시에 죽어도 핸들러는 한 번만 호출될 수 있음 → 그 한 번의 호출 안에서 `waitpid`를 반복 호출해 죽은 자식을 전부 거둬야 함 (`-1` 또는 `0` 반환 시 루프 종료)
+
+### 대기 방식 비교
+
+| 방식 | CPU 사용 | 동작 |
+|---|---|---|
+| busy-wait (`while(!flag){}`) | 계속 소모 | 조건을 스스로 계속 확인 (스핀) |
+| `waitpid()` 블로킹 | 0 (슬립) | 커널이 자식 종료 감지 → 직접 깨움. 단, 그동안 다른 이벤트 처리 불가 |
+| `pause()` | 0 (슬립) | 아무 시그널이나 도착 → 깨어나서 조건 재확인. 여러 이벤트 소스를 다루는 구조로 확장하기 좋음 |
+
+- `pause()`는 항상 `-1`을 반환하며 `errno = EINTR`. "아무 시그널"에나 깨어나므로 `while (!flag) pause();` 형태로 조건을 다시 체크해야 함 (원하는 시그널이 아닌 다른 시그널로 깨어났을 수도 있어서)
+
+### 이유 (왜 이 방식을 쓰는가)
+- job 러너처럼 여러 클라이언트/자식을 동시에 감시해야 하는 이벤트 루프 구조에서는, `waitpid()` 블로킹처럼 "자식 하나 끝날 때까지 통째로 멈추는" 방식이 안 맞음
+- SIGCHLD + `pause()`(또는 이후 select) 조합은 "이벤트 하나로 깨어나서 처리하고 다시 대기"하는 흐름이라, 여러 이벤트 소스를 하나의 루프에서 다루는 구조(select 이벤트 루프)로 자연스럽게 확장됨
+
+### 실습: 자식 stdout 캡처 + SIGCHLD로 종료 대기
+
+```c
+volatile sig_atomic_t child_done = 0;
+
+void sigchld_handler(int sig) {
+    while (waitpid(-1, NULL, WNOHANG) > 0) {
+    }
+    child_done = 1;
+}
+
+int main(void) {
+    signal(SIGCHLD, sigchld_handler);
+    // ... fork + pipe + dup2 + exec, 부모는 read()로 자식 stdout 캡처 ...
+
+    while (child_done == 0) {
+        pause();
+    }
+    return 0;
+}
+```
+
+- `waitpid()`를 직접 호출하는 대신 SIGCHLD 핸들러가 자식을 거두고 `child_done` 플래그를 세움
+- 메인은 `pause()`로 재웠다가 시그널로 깨어나 조건 재확인 — busy-wait 없음
+
+### 남은 과제
+- **핸들러 ↔ 메인루프 race condition**: 메인루프가 job 테이블을 읽는 도중 핸들러가 같은 테이블을 수정하면 문제 발생. 왜 이때 mutex를 못 쓰는지(핸들러가 signal-safe 락만 써야 하는 제약)는 아직 안 다룸 — 1주차 본격 적용 시 재검토
