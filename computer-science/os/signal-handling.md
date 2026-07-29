@@ -31,7 +31,7 @@ int main() {
 ```
 
 - **해결**: `volatile sig_atomic_t done;`으로 선언
-  - `volatile`: 상수 취급 x. "이 변수는 컴파일러가 모르는 경로로 바뀔 수 있으니 매번 메모리에서 다시 읽어라"라고 지시  
+  - `volatile`: "이 변수는 컴파일러가 모르는 경로로 바뀔 수 있으니 매번 메모리에서 다시 읽어라"라고 지시
   - `sig_atomic_t`: 표준이 시그널 핸들러-메인 코드 간 안전한 접근을 명시적으로 보장하는 타입
 
 ### 2) Async-signal-safe 함수
@@ -49,6 +49,7 @@ int main() {
 ## 핵심 차이/포인트
 
 - `volatile` 단독으로도 캐싱 문제는 해결되지만, 표준이 명시적으로 보장하는 타입은 `sig_atomic_t`이므로 관례적으로 `volatile sig_atomic_t`를 세트로 씀
+- **발견 방법**: CERT C 시큐어 코딩 가이드라인의 `SIG30-C`(핸들러 안에서는 async-signal-safe 함수만 호출), `SIG31-C`(공유 객체는 보호 없이 핸들러 안에서 접근 금지) 규칙 참고. `clang-tidy`의 `cert-sig30-c`, `cppcheck`, Clang Static Analyzer 같은 정적 분석 툴이 이 규칙들을 체크해줌
 
 ## SIGCHLD: 자식 종료 비동기 감지
 
@@ -114,4 +115,4 @@ int main(void) {
 - 메인은 `pause()`로 재웠다가 시그널로 깨어나 조건 재확인 — busy-wait 없음
 
 ### 남은 과제
-- **핸들러 ↔ 메인루프 race condition**: 메인루프가 job 테이블을 읽는 도중 핸들러가 같은 테이블을 수정하면 문제 발생. 왜 이때 mutex를 못 쓰는지(핸들러가 signal-safe 락만 써야 하는 제약)는 아직 안 다룸 
+- **핸들러 ↔ 메인루프 race condition**: 메인루프가 job 테이블을 읽는 도중 핸들러가 같은 테이블을 수정하면 문제 발생. 왜 이때 mutex를 못 쓰는지(핸들러가 signal-safe 락만 써야 하는 제약)는 아직 안 다룸 — 1주차 본격 적용 시 재검토
