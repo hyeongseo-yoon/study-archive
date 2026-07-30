@@ -147,7 +147,7 @@ dup2(pipefd[1], 1);   // fd 1이 이제 파이프 write-end를 가리킴
 
 fd 테이블은 사용자 메모리가 아니라 커널 내부(PCB)에 있는 데이터라 exec의 교체 대상이 아님. 이 덕분에 `dup2` → `exec` 순서로 리다이렉션을 걸어두면, exec된 프로그램도 그 fd 상태를 그대로 물려받음 — 셸의 리다이렉션(`>`, `|`)이 전부 이 원리로 작동함.
 
-예외: `fcntl(fd, F_SETFD, FD_CLOEXEC)`로 특정 fd에 표시해두면 그 fd만 exec 시점에 커널이 자동으로 닫아줌.
+예외: `fcntl(fd, F_SETFD, FD_CLOEXEC)`로 특정 fd에 표시해두면 그 fd만 exec 시점에 커널이 자동으로 닫아줌. (자세한 활용은 아래 "에러 파이프 패턴" 참고)
 
 ---
 
@@ -195,3 +195,71 @@ int main(void) {
 1. `buf`를 `{0}`으로 초기화 안 하면, `read()`가 다 못 채운 뒷부분에 스택 쓰레기값이 남아서 `printf("%s")`가 null terminator를 못 찾고 garbage 출력함
 
 2. `waitpid()`를 `read()`보다 먼저 호출하면, 자식 출력이 파이프 버퍼(64KB)보다 클 때 **데드락** — 자식은 파이프가 꽉 차서 `write()` 안에 블로킹된 채 갇히고, 그걸 풀어줄 유일한 방법(부모의 read)이 더 이상 안 옴. 부모도 자식이 종료를 못 하니 `waitpid()`에 갇혀서 서로 무한 대기. 해결: `read()`를 EOF(0 반환)까지 반복 호출해서 파이프를 다 비운 뒤에 `waitpid()` 호출
+
+---
+
+## 에러 파이프 패턴: exec 성공/실패 구분
+
+### 문제
+
+`fork` 자체는 성공했는데 자식 안에서 `execvp`가 실패(존재하지 않는 명령 등)하면, 그 실패를 부모가 어떻게 알아챌까? exit code만으로는 안 됨 — "명령이 정상 실행되고 특정 exit code를 리턴한 것"과 "exec 자체가 실패한 것"이 구분이 안 됨.
+
+### 원리
+
+fork 직후 (exec 전에) 파이프를 하나 만들고, write-end에 `FD_CLOEXEC`를 걸어둔다.
+
+- **exec 성공**: `FD_CLOEXEC`가 걸린 fd는 exec 성공 시점에 커널이 자동으로 닫음 → 부모의 `read()`가 즉시 EOF(0바이트) 받음 → "exec 성공"으로 판단
+- **exec 실패**: exec가 실행조차 안 됐으므로 fd 테이블이 안 건드려짐 → 자식이 여전히 write-end를 들고 있음 → `errno`를 그 파이프에 write하고 `_exit()` → 부모의 `read()`가 그 값을 읽고 "exec 실패, errno=X"로 판단
+
+### 왜 CLOEXEC 없이는 안 되는가
+
+CLOEXEC 없이 exec가 **성공**하면, write-end fd는 새 프로그램(예: `sleep 100`) 안에서도 안 닫히고 열린 채로 남는다. 파이프 read-end가 EOF를 받는 조건은 "write-end를 가리키는 fd가 시스템에 하나도 안 남았을 때"라서, 그 프로그램이 종료(fd가 프로세스 종료로 자동 회수)할 때까지 부모의 `read()`가 계속 블로킹된다. exec 성공을 즉시 알아야 하는 이 패턴의 목적 자체가 무너짐.
+
+### 설정 방법
+
+```c
+// 방법 1: pipe + fcntl (전통적)
+int errfd[2];
+pipe(errfd);
+fcntl(errfd[1], F_SETFD, FD_CLOEXEC);
+
+// 방법 2: pipe2 (리눅스 확장, 원자적)
+int errfd[2];
+pipe2(errfd, O_CLOEXEC);
+```
+
+`pipe()` + `fcntl()`은 두 호출 사이에 틈이 있어서, 멀티스레드 환경에서 그 틈에 다른 스레드가 fork+exec 하면 CLOEXEC가 아직 안 걸린 fd가 새 프로그램으로 새는(leak) 레이스가 생길 수 있음 — `pipe2(fds, O_CLOEXEC)`는 생성과 CLOEXEC 설정을 원자적으로 처리해서 이 레이스를 없앰. select 기반 단일 스레드 서버에선 이 레이스가 해당 없지만, 어차피 한 줄이라 `pipe2` 쪽이 더 간결함.
+
+### 코드 스케치
+
+```c
+int errfd[2];
+pipe2(errfd, O_CLOEXEC);
+
+pid_t pid = fork();
+if (pid == 0) {
+    // 자식: stdout/stderr pipe+dup2 세팅 ...
+    close(errfd[0]);
+    execvp(argv[0], argv);
+    // 여기 도달 = exec 실패
+    int e = errno;
+    write(errfd[1], &e, sizeof(e));
+    _exit(127);
+}
+
+// 부모
+close(errfd[1]);
+int e = 0;
+ssize_t n = read(errfd[0], &e, sizeof(e));
+close(errfd[0]);
+if (n == 0) {
+    // exec 성공
+} else {
+    // exec 실패, errno = e
+}
+```
+
+### 핵심 차이/포인트
+- exit code는 "exec 이후 프로그램이 리턴한 값"과 "exec 자체의 실패"를 구분 못 함 — 구분하려면 별도 채널(에러 파이프)이 필요
+- CLOEXEC가 신호를 만드는 방식: "exec 성공 = fd 자동 닫힘 = EOF", "exec 실패 = fd 그대로 = 데이터 있음"
+- `pipe2(fds, O_CLOEXEC)`가 `pipe()`+`fcntl()`보다 원자적이라 선호됨 (멀티스레드 fork/exec 레이스 방지 목적으로 설계된 것)
