@@ -12,7 +12,7 @@ tags:
 - **표준 입출력(stdio)**: ISO C 언어 표준(ISO/IEC 9899)에 명세된 입출력 라이브러리. `<stdio.h>`에 정의된 `fopen`, `fprintf`, `fread` 등이 여기 속함. "표준"인 이유는 C 표준 자체에 정의돼 있어서 OS·컴파일러가 달라도 동일하게 동작함이 보장되기 때문 — `open()`/`read()`/`write()` 같은 시스템콜은 POSIX 표준이지 C 언어 표준이 아니라서 이 보장이 없음 (Windows엔 없음)
 - **FILE\: stdio에서 스트림 개념을 구현한 구조체. 
 	-> 사용할 때는 포인터를 이용함.
-- fd는 커널이 관리하는 저수준 자원 핸들(정수)이고, FILE\*는 그 fd를 감싸서 버퍼링을 얹은 유저 공간(glibc) 객체 — [[file-descriptor-socket|fd 자체 개념]] 참고
+- fd는 커널이 관리하는 저수준 자원 핸들(정수)이고, FILE\*는 그 fd를 감싸서 버퍼링을 얹은 유저 공간(glibc) 객체 — [[02.Area/study-archive/computer-science/os/file-descriptor-socket|fd 자체 개념]] 참고
 
 ## FILE 구조체 인터페이스
 

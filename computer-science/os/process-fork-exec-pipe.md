@@ -73,21 +73,21 @@ pid_t waitpid(pid_t pid, int *wstatus, int options);
 
 `wstatus`는 여러 정보가 비트로 인코딩된 값이라 직접 비교하면 안 되고 전용 매크로로 해석해야 함:
 
-| 매크로 | 이름 풀이 | 의미 |
-|---|---|---|
-| `WIFEXITED` | Wait status IF EXITED | 자식이 정상 종료했는지 boolean 체크 |
-| `WEXITSTATUS` | Wait EXIT STATUS | 정상 종료 시 exit code 꺼냄 |
-| `WIFSIGNALED` | Wait IF SIGNALED | 시그널 받고 죽었는지 boolean 체크 |
-| `WTERMSIG` | Wait TERMinating SIG | 어떤 시그널로 죽었는지 꺼냄 |
+| 매크로           | 이름 풀이                 | 의미                      |
+| ------------- | --------------------- | ----------------------- |
+| `WIFEXITED`   | Wait status IF EXITED | 자식이 정상 종료했는지 boolean 체크 |
+| `WEXITSTATUS` | Wait EXIT STATUS      | 정상 종료 시 exit code 꺼냄    |
+| `WIFSIGNALED` | Wait IF SIGNALED      | 시그널 받고 죽었는지 boolean 체크  |
+| `WTERMSIG`    | Wait TERMinating SIG  | 어떤 시그널로 죽었는지 꺼냄         |
 
 `WIF*`는 항상 확인용 boolean, `W*STATUS`/`W*SIG`는 그 상황의 구체값을 꺼내는 것 — 그래서 `WIFEXITED`가 참일 때만 `WEXITSTATUS`를 호출하는 게 맞는 사용법.
 
 ### 좀비 / 고아 프로세스
 
-| 구분 | 정의 | 위험성 / 해결 |
-|---|---|---|
+| 구분             | 정의                                                                                    | 위험성 / 해결                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | **좀비(zombie)** | 자식이 먼저 종료됐는데 부모가 `wait`를 안 해서 종료 정보가 회수 안 된 상태. 프로세스 테이블에 껍데기만 남음 (`ps`에 `<defunct>`) | 계속 쌓이면 프로세스 테이블 슬롯 고갈 → 새 프로세스 생성 불가. 해결: 부모가 반드시 `wait`/`waitpid` 호출 (1주차에서 SIGCHLD 핸들러로 자동화 예정) |
-| **고아(orphan)** | 부모가 먼저 죽어서 자식이 남겨진 상태 | 커널이 자동으로 init(PID 1)의 자식으로 재입양시킴 → init이 대신 wait 해줘서 문제없음 |
+| **고아(orphan)** | 부모가 먼저 죽어서 자식이 남겨진 상태                                                                 | 커널이 자동으로 init(PID 1)의 자식으로 재입양시킴 → init이 대신 wait 해줘서 문제없음                                         |
 
 방향이 반대: 자식이 먼저 죽으면 좀비, 부모가 먼저 죽으면 고아.
 
@@ -224,6 +224,10 @@ pipe(errfd);
 fcntl(errfd[1], F_SETFD, FD_CLOEXEC);
 
 // 방법 2: pipe2 (리눅스 확장, 원자적)
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <fcntl.h>
+
 int errfd[2];
 pipe2(errfd, O_CLOEXEC);
 ```

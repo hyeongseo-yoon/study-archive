@@ -6,7 +6,7 @@ tags:
 	``
 # TCP 소켓 프로그래밍 기초
 
-관련 노트: [[02. Area/study-archive/computer-science/os/file-descriptor-socket]] · [[02. Area/study-archive/computer-science/network/server-request-handling]]
+관련 노트: [[02.Area/study-archive/computer-science/os/file-descriptor-socket]] · [[02.Area/study-archive/computer-science/network/server-request-handling]]
 
 ## TCP의 핵심 특성
 
@@ -80,7 +80,7 @@ int client_fd = accept(sockfd, NULL, NULL);  // 여기서 blocking
 
 `accept()`, `read()`, `write()` 전부 blocking syscall. 프로세스가 하나뿐이면 지금 처리 중인 작업이 끝날 때까지 다른 어떤 것도 처리 못함.
 
-- 이건 **busy waiting이 아님** — blocking 상태에선 프로세스가 WAITING으로 전환되며 CPU에서 내려가고, 인터럽트+스케줄러가 깨워줌 (→ [[02. Area/study-archive/computer-science/network/server-request-handling]] 참고)
+- 이건 **busy waiting이 아님** — blocking 상태에선 프로세스가 WAITING으로 전환되며 CPU에서 내려가고, 인터럽트+스케줄러가 깨워줌 (→ [[02.Area/study-archive/computer-science/network/server-request-handling]] 참고)
 - 실습으로 직접 확인: 클라이언트1을 연결한 채로 두고 클라이언트2를 접속 시도하면, TCP 3-way handshake는 `listen()`의 backlog 큐에 쌓여서 성공할 수 있어도, 서버는 클라이언트1의 `read()` 루프에 갇혀있어서 `accept()`를 다시 호출하지 않음 → 클라이언트2는 연결은 됐지만 완전히 방치됨
 - select에서 이 한계를 해결
 
