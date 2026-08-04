@@ -104,3 +104,24 @@ argv[2]: world
 argv[3]: 123
 ```
 
+## perror / errno
+
+- `perror(const char *s)`: `<stdio.h>`. 시스템 콜/라이브러리 함수 실패 시, 전역 변수 `errno`에 저장된 에러 코드를 사람이 읽을 수 있는 메시지로 변환해서 stderr에 출력하는 함수.
+- 출력 형식: `s + ": " + strerror(errno) + "\n"`. `s`가 NULL이거나 빈 문자열이면 에러 메시지만 출력됨.
+- `errno`는 문자열이 아니라 **정수(int) 변수**다. `<errno.h>`에 선언돼 있고, 실패 원인을 나타내는 정수 코드(`ENOENT`, `EACCES` 등 매크로 상수)가 저장됨. 이 정수를 문자열로 바꿔주는 게 `strerror(errno)`, 그걸 자동으로 출력까지 해주는 게 `perror`.
+- `perror`만 호출할 거면 `<stdio.h>`만 있으면 충분(`errno`는 전역 심볼이라 링크 시 문제없음). 단, `errno`를 직접 비교/참조하려면 (`if (errno == ENOENT)`) `<errno.h>`가 필요함.
+- 함수 호출이 성공했다고 `errno`가 자동으로 0으로 리셋되지 않음. 이전 실패의 잔여값이 남아있을 수 있어서, 성공 여부는 반드시 함수의 리턴값으로 먼저 판단하고 `errno`는 실패했을 때만 참고해야 함.
+- 최신 시스템에서는 스레드별로 독립된 `errno`를 가짐(thread-local storage) — 멀티스레드에서도 안전.
+- `errno`는 다음 라이브러리 호출에서 덮어써질 수 있으므로, 에러 발생 직후 바로 `perror`(또는 `strerror`)를 호출해야 정확한 값을 본다.
+
+```c
+#include <stdio.h>
+#include <errno.h>
+
+FILE *fp = fopen("nofile.txt", "r");
+if (fp == NULL) {
+    perror("fopen");   // 출력: fopen: No such file or directory
+    exit(1);
+}
+```
+
