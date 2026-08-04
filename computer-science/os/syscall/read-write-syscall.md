@@ -51,6 +51,7 @@ while (total < count) {
 }
 ```
 
+
 ### EINTR
 
 시그널 핸들러가 실행되면 시스템 콜이 중간에 끊기고 -1/EINTR을 반환할 수 있음. 재시도 로직 없으면 데이터 유실됨. — [[signal-handling]] 참고

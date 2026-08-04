@@ -67,6 +67,9 @@ perror("execvp");  // 실패했을 때만 도달
 
 pid_t wait(int *wstatus);
 pid_t waitpid(pid_t pid, int *wstatus, int options);
+
+pid_t pid = waitpid(pid, &wstatus, WNOHANG);
+pid_t pid = waitpid(-1, &wstatus, 0); // wait() 이랑 같은 기능
 ```
 
 - wait : 아무 자식이나 하나 종료할 때까지 블록됨
@@ -222,10 +225,6 @@ fork 직후 (exec 전에) 파이프를 하나 만들고, write-end에 `FD_CLOEXE
 
 - **exec 성공**: `FD_CLOEXEC`가 걸린 fd는 exec 성공 시점에 커널이 자동으로 닫음 → 부모의 `read()`가 즉시 EOF(0바이트) 받음 → "exec 성공"으로 판단
 - **exec 실패**: exec가 실행조차 안 됐으므로 fd 테이블이 안 건드려짐 → 자식이 여전히 write-end를 들고 있음 → `errno`를 그 파이프에 write하고 `_exit()` → 부모의 `read()`가 그 값을 읽고 "exec 실패, errno=X"로 판단
-
-### CLOEXEC 필요성
-
-CLOEXEC 없이 exec가 **성공**하면, write-end fd는 새 프로그램(예: `sleep 100`) 안에서도 안 닫히고 열린 채로 남는다. 파이프 read-end가 EOF를 받는 조건은 "write-end를 가리키는 fd가 시스템에 하나도 안 남았을 때"라서, 그 프로그램이 종료(fd가 프로세스 종료로 자동 회수)할 때까지 부모의 `read()`가 계속 블로킹됨. exec 성공을 즉시 알기 어려움 -> CLOEXEC 필요함.
 
 ### 설정 방법
 
