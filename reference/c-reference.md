@@ -104,6 +104,49 @@ argv[2]: world
 argv[3]: 123
 ```
 
+## 헤더(.h) / 구현(.c) 분리
+
+- `.h`: 함수 시그니처, 구조체 정의 등 인터페이스 선언만. `.c`: 실제 구현.
+- C 컴파일은 파일(translation unit) 단위로 따로 이루어짐 — 다른 파일의 함수를 쓰려면 컴파일러는 "이런 함수가 존재한다"는 선언만 알면 됨. 실제 연결은 링크 단계에서 처리.
+- 이렇게 나누면 구현부(`.c`)만 바뀌었을 때 그 파일만 재컴파일하면 됨(나머지는 재컴파일 불필요) → 빌드 시간 절약. 헤더만 보면 그 모듈이 뭘 제공하는지 알 수 있음.
+
+```bash
+gcc -c main.c -o main.o          # main.c는 arraylist.h의 시그니처만 보고 컴파일됨
+gcc -c arraylist.c -o arraylist.o
+gcc main.o arraylist.o -o out    # 링커가 실제 구현과 연결
+```
+
+## 헤더 가드
+
+- 같은 헤더가 여러 경로로 두 번 include되면(`#include`는 전처리기가 파일 내용을 그대로 복사) 구조체/함수가 중복 정의돼서 컴파일 에러가 남.
+- 매크로로 "이미 한 번 포함됐으면 다시 넣지 않는다"는 표시를 해서 방지함.
+
+```c
+#ifndef POINT_H
+#define POINT_H
+
+struct Point { int x, y; };
+
+#endif
+```
+
+- 매크로 이름은 관례상 `파일명_확장자` 대문자(`ARRAYLIST_H` 등). 모든 `.h` 파일에 예외 없이 적용하는 게 정석.
+
+## valgrind (메모리 누수 검증)
+
+- 프로그램을 가상 CPU 위에서 실행시키며 모든 메모리 접근(할당/해제/읽기/쓰기)을 감시하는 도구.
+
+```bash
+gcc -g -o prog prog.c              # -g: 디버그 심볼 필수 (파일:줄번호 추적용)
+valgrind --leak-check=full ./prog
+```
+
+- `--leak-check=full`: 누수된 블록이 어디서(어느 파일:줄) 할당됐는지까지 상세히 알려줌. `-g` 없이 컴파일하면 함수/주소만 나와서 추적하기 어려움.
+- 출력 읽는 법:
+  - `HEAP SUMMARY`의 `N allocs, M frees` — 할당/해제 횟수 차이가 누수 후보
+  - `definitely lost` — 확실히 샌 메모리(진짜 버그). free 안 한 지점의 파일:줄번호가 콜스택에 표시됨
+  - `ERROR SUMMARY: 0 errors` + `All heap blocks were freed` — 깨끗한 상태
+
 ## perror / errno
 
 - `perror(const char *s)`: `<stdio.h>`. 시스템 콜/라이브러리 함수 실패 시, 전역 변수 `errno`에 저장된 에러 코드를 사람이 읽을 수 있는 메시지로 변환해서 stderr에 출력하는 함수.
