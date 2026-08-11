@@ -98,7 +98,7 @@ pid_t pid = waitpid(-1, &wstatus, 0); // wait() 이랑 같은 기능
 | **좀비(zombie)** | 자식이 먼저 종료됐는데 부모가 `wait`를 안 해서 종료 정보가 회수 안 된 상태. 프로세스 테이블에 껍데기만 남음 (`ps`에 `<defunct>`) | 계속 쌓이면 프로세스 테이블 슬롯 고갈 → 새 프로세스 생성 불가. 해결: 부모가 반드시 `wait`/`waitpid` 호출 (1주차에서 SIGCHLD 핸들러로 자동화 예정) |
 | **고아(orphan)** | 부모가 먼저 죽어서 자식이 남겨진 상태                                                                 | 커널이 자동으로 init(PID 1)의 자식으로 재입양시킴 → init이 대신 wait 해줘서 문제없음                                         |
 
-방향이 반대: 자식이 먼저 죽으면 좀비, 부모가 먼저 죽으면 고아.
+자식이 먼저 죽으면 좀비, 부모가 먼저 죽으면 고아.
 
 ---
 
@@ -119,7 +119,7 @@ int pipe(int pipefd[2]);
 ```
 
 - `pipefd[0]`: 읽기 전용(read-end), `pipefd[1]`: 쓰기 전용(write-end)
-- 커널 메모리 안의 고정 크기 버퍼(보통 64KB)에 FIFO(먼저 들어온 순서대로 나감)로 접근하는 두 개의 fd
+- 커널 메모리 안의 고정 크기 버퍼(보통 64KB)를 만들고, 할당된 두개의 fd를 통해서 FIFO로 접근.
 - 반환값 (int)
   - 성공: 0 반환. 이때 `pipefd[0]`, `pipefd[1]`에 각각 새로 열린 fd가 채워짐 (fd 자체는 커널이 할당하는 값이라 함수 리턴값이 아니라 출력 파라미터로 전달됨)
   - 실패: -1 반환, `errno` 설정 (예: 프로세스당 fd 한도 초과 → `EMFILE`)
@@ -142,6 +142,7 @@ int dup2(int oldfd, int newfd);
 
 ```c
 dup2(pipefd[1], 1);   // fd 1이 이제 파이프 write-end를 가리킴
+close(pipefd[1]); // 사용하지 않는 fd는 닫음.
 ```
 
 ### 안 쓰는 fd close()
@@ -206,7 +207,7 @@ int main(void) {
 }
 ```
 
-**실습하며 잡은 버그 3개**:
+**실습하며 잡은 버그**
 1. `buf`를 `{0}`으로 초기화 안 하면, `read()`가 다 못 채운 뒷부분에 스택 쓰레기값이 남아서 `printf("%s")`가 null terminator를 못 찾고 garbage 출력함
 
 2. `waitpid()`를 `read()`보다 먼저 호출하면, 자식 출력이 파이프 버퍼(64KB)보다 클 때 **데드락** — 자식은 파이프가 꽉 차서 `write()` 안에 블로킹된 채 갇히고, 그걸 풀어줄 유일한 방법(부모의 read)이 더 이상 안 옴. 부모도 자식이 종료를 못 하니 `waitpid()`에 갇혀서 서로 무한 대기. 해결: `read()`를 EOF(0 반환)까지 반복 호출해서 파이프를 다 비운 뒤에 `waitpid()` 호출
@@ -234,7 +235,7 @@ int errfd[2];
 pipe(errfd);
 fcntl(errfd[1], F_SETFD, FD_CLOEXEC);
 
-// 방법 2: pipe2 (리눅스 확장, 원자적)
+// 방법 2: pipe2 (리눅스 확장, atomic 함수)
 #define _GNU_SOURCE
 #include <unistd.h>
 #include <fcntl.h>
@@ -243,7 +244,7 @@ int errfd[2];
 pipe2(errfd, O_CLOEXEC);
 ```
 
-`pipe()` + `fcntl()`은 두 호출 사이에 틈이 있어서, 멀티스레드 환경에서 그 틈에 다른 스레드가 fork+exec 하면 CLOEXEC가 아직 안 걸린 fd가 새 프로그램으로 새는(leak) 레이스가 생길 수 있음 — `pipe2(fds, O_CLOEXEC)`는 생성과 CLOEXEC 설정을 원자적으로 처리해서 이 레이스를 없앰. select 기반 단일 스레드 서버에선 이 레이스가 해당 없지만, 어차피 한 줄이라 `pipe2` 쪽이 더 간결함.
+`pipe()` + `fcntl()`은 두 호출 사이에 틈이 있어서, 멀티스레드 환경에서 그 틈에 다른 스레드가 fork+exec 하면 CLOEXEC가 아직 안 걸린 fd가 새 프로그램으로 새는(leak) race가 생길 수 있음 — `pipe2(fds, O_CLOEXEC)`는 생성과 CLOEXEC 설정을 atomic하게 처리해서 이 race를 없앰. select 기반 단일 스레드 서버에선 이 레이스가 해당 없지만, 어차피 한 줄이라 `pipe2` 쪽이 더 간결함.
 
 ### 코드 스케치
 
