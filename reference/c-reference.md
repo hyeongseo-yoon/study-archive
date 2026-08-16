@@ -168,3 +168,53 @@ if (fp == NULL) {
 }
 ```
 
+## 표준/POSIX 헤더 파일
+
+### 1. 표준 C 라이브러리 (ISO C)
+
+| 헤더 | 어원 | 기본 설명 |
+|---|---|---|
+| `stdio.h` | **st**an**d**ard **i**nput/**o**utput | 표준 입출력. `printf`, `scanf`, `fopen`, `perror` 등 |
+| `stdlib.h` | **st**an**d**ard **lib**rary | 범용 유틸리티. `malloc`/`free`, `atoi`, `exit`, `rand` 등 |
+| `string.h` | string | 문자열·메모리 조작. `strcpy`, `strlen`, `memcpy`, `memset` 등 |
+| `stddef.h` | **st**an**d**ard **def**initions | 공통 타입/매크로. `size_t`, `NULL`, `ptrdiff_t`, `offsetof` |
+| `stdint.h` | **st**an**d**ard **int**eger | 고정폭 정수 타입. `int32_t`, `uint8_t`, `SIZE_MAX` 등 (C99) |
+| `stdarg.h` | **st**an**d**ard **arg**ument | 가변 인자 매크로. `va_list`, `va_start`, `va_arg`, `va_end` — `printf`류 직접 구현할 때 씀 |
+| `ctype.h` | **c**haracter **type** | 문자 분류/변환. `isalpha`, `isdigit`, `toupper` 등 |
+| `math.h` | mathematics | 수학 함수. `sqrt`, `pow`, `sin`, `floor` 등 |
+| `float.h` | floating point | 부동소수점 한계값 매크로. `FLT_MAX`, `DBL_EPSILON` 등 |
+| `limits.h` | integer limits | 정수 타입 한계값 매크로. `INT_MAX`, `CHAR_BIT` 등 |
+| `assert.h` | assertion | `assert()` 매크로 — 조건 실패 시 중단+메시지. `NDEBUG` 정의하면 비활성화됨 |
+| `errno.h` | **err**or **no**mber | 전역 변수 `errno`와 에러 코드 매크로(`ENOENT` 등) |
+| `signal.h` | signal | 시그널 처리. `signal()`, `sig_atomic_t`, `SIGINT` 등 |
+| `setjmp.h` | **set** **j**u**mp** | 비지역 점프. `setjmp`/`longjmp` — 함수 호출 스택을 건너뛰는 탈출(에러 복구·예외 흉내) |
+| `time.h` | time | 시간/날짜. `time()`, `clock()`, `strftime` 등 |
+| `getopt.h` | **get** **opt**ion | 명령줄 옵션 파싱. `getopt()` (GNU 확장) |
+
+### 2. POSIX 시스템/프로세스
+
+| 헤더 | 어원 | 기본 설명 |
+|---|---|---|
+| `unistd.h` | **UNI**X **st**an**d**ard | POSIX 시스템 콜 핵심. `read`, `write`, `fork`, `exec*`, `close`, `sleep` 등 |
+| `fcntl.h` | **f**ile **c**o**ntr**o**l** | 파일 열기/제어. `open()`, `fcntl()`, `O_RDONLY` 등 플래그 |
+| `sys/types.h` | system types | 시스템 공용 데이터 타입. `pid_t`, `off_t`, `ssize_t` 등 |
+| `sys/stat.h` | system stat(us) | 파일 상태 정보. `stat` 구조체, `stat()` 함수, 퍼미션 매크로 |
+| `sys/wait.h` | system wait | 자식 프로세스 대기. `wait`, `waitpid`, `WNOHANG`, `WIFEXITED` 등 |
+| `sys/mman.h` | system **m**e**m**ory-**m**apped | 메모리 매핑. `mmap()`, `munmap()` |
+| `sys/select.h` | system select | I/O 멀티플렉싱. `select()`, `fd_set` |
+| `sys/time.h` | system time | 정밀 시간 구조체. `struct timeval`, `gettimeofday()` — `time.h`보다 세밀한 단위 |
+| `sys/times.h` | system times | 프로세스 CPU 시간 측정. `times()`, `struct tms` |
+| `dirent.h` | **dir**ectory **ent**ry | 디렉터리 읽기. `opendir`, `readdir`, `struct dirent` |
+| `termios.h` | **term**inal **i**nput/**o**utput **s**ettings | 터미널 속성 제어(raw mode 등). `struct termios` |
+| `pthread.h` | **P**OSIX **thread** | 스레드. `pthread_create`, 뮤텍스 등 |
+| `semaphore.h` | semaphore | 세마포어. `sem_init`, `sem_wait`, `sem_post` |
+
+### 3. 네트워크 (POSIX 소켓)
+
+| 헤더 | 어원 | 기본 설명 |
+|---|---|---|
+| `sys/socket.h` | system socket | 소켓 API 핵심. `socket`, `bind`, `listen`, `accept` 등 |
+| `netinet/in.h` | **net**work **in**ternet | 인터넷 프로토콜 구조체. `sockaddr_in`, `htons` 등 |
+| `arpa/inet.h` | **ARPA**net internet | IP 주소 변환. `inet_addr`, `inet_ntoa`, `inet_pton` — ARPA(미 국방부 고등연구계획국)가 초기 인터넷(ARPANET)을 만든 데서 유래한 이름 |
+| `netdb.h` | **net**work **d**ata**b**ase | 네트워크 이름 해석. `gethostbyname`, `getaddrinfo` |
+
