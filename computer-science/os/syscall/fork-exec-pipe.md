@@ -278,4 +278,3 @@ if (n == 0) {
 ### 핵심 차이/포인트
 - exit code는 "exec 이후 프로그램이 리턴한 값"과 "exec 자체의 실패"를 구분 못 함 — 구분하려면 별도 채널(에러 파이프)이 필요
 - CLOEXEC가 신호를 만드는 방식: "exec 성공 = fd 자동 닫힘 = EOF", "exec 실패 = fd 그대로 = 데이터 있음"
-- `pipe2(fds, O_CLOEXEC)`가 `pipe()`+`fcntl()`보다 원자적이라 선호됨 (멀티스레드 fork/exec 레이스 방지 목적으로 설계된 것)
