@@ -4,6 +4,7 @@ tags:
   - review
 ---
 
+
 # 프로세스 생성 / 파이프 (fork / exec / wait / pipe / dup2)
 
 ## 프로세스 생성: fork → exec → wait

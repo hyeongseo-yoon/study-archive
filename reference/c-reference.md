@@ -172,49 +172,96 @@ if (fp == NULL) {
 
 ### 1. 표준 C 라이브러리 (ISO C)
 
-| 헤더 | 어원 | 기본 설명 |
-|---|---|---|
-| `stdio.h` | **st**an**d**ard **i**nput/**o**utput | 표준 입출력. `printf`, `scanf`, `fopen`, `perror` 등 |
-| `stdlib.h` | **st**an**d**ard **lib**rary | 범용 유틸리티. `malloc`/`free`, `atoi`, `exit`, `rand` 등 |
-| `string.h` | string | 문자열·메모리 조작. `strcpy`, `strlen`, `memcpy`, `memset` 등 |
-| `stddef.h` | **st**an**d**ard **def**initions | 공통 타입/매크로. `size_t`, `NULL`, `ptrdiff_t`, `offsetof` |
-| `stdint.h` | **st**an**d**ard **int**eger | 고정폭 정수 타입. `int32_t`, `uint8_t`, `SIZE_MAX` 등 (C99) |
-| `stdarg.h` | **st**an**d**ard **arg**ument | 가변 인자 매크로. `va_list`, `va_start`, `va_arg`, `va_end` — `printf`류 직접 구현할 때 씀 |
-| `ctype.h` | **c**haracter **type** | 문자 분류/변환. `isalpha`, `isdigit`, `toupper` 등 |
-| `math.h` | mathematics | 수학 함수. `sqrt`, `pow`, `sin`, `floor` 등 |
-| `float.h` | floating point | 부동소수점 한계값 매크로. `FLT_MAX`, `DBL_EPSILON` 등 |
-| `limits.h` | integer limits | 정수 타입 한계값 매크로. `INT_MAX`, `CHAR_BIT` 등 |
-| `assert.h` | assertion | `assert()` 매크로 — 조건 실패 시 중단+메시지. `NDEBUG` 정의하면 비활성화됨 |
-| `errno.h` | **err**or **no**mber | 전역 변수 `errno`와 에러 코드 매크로(`ENOENT` 등) |
-| `signal.h` | signal | 시그널 처리. `signal()`, `sig_atomic_t`, `SIGINT` 등 |
-| `setjmp.h` | **set** **j**u**mp** | 비지역 점프. `setjmp`/`longjmp` — 함수 호출 스택을 건너뛰는 탈출(에러 복구·예외 흉내) |
-| `time.h` | time | 시간/날짜. `time()`, `clock()`, `strftime` 등 |
-| `getopt.h` | **get** **opt**ion | 명령줄 옵션 파싱. `getopt()` (GNU 확장) |
+| 헤더         | 어원                                    | 기본 설명                                                                       |
+| ---------- | ------------------------------------- | --------------------------------------------------------------------------- |
+| `stdio.h`  | **st**an**d**ard **i**nput/**o**utput | 표준 입출력. `printf`, `scanf`, `fopen`, `perror` 등                              |
+| `stdlib.h` | **st**an**d**ard **lib**rary          | 범용 유틸리티. `malloc`/`free`, `atoi`, `exit`, `rand` 등                          |
+| `string.h` | string                                | 문자열·메모리 조작. `strcpy`, `strlen`, `memcpy`, `memset` 등                        |
+| `stddef.h` | **st**an**d**ard **def**initions      | 공통 타입/매크로. `size_t`, `NULL`, `ptrdiff_t`, `offsetof`                        |
+| `stdint.h` | **st**an**d**ard **int**eger          | 고정폭 정수 타입. `int32_t`, `uint8_t`, `SIZE_MAX` 등 (C99)                         |
+| `stdarg.h` | **st**an**d**ard **arg**ument         | 가변 인자 매크로. `va_list`, `va_start`, `va_arg`, `va_end` — `printf`류 직접 구현할 때 씀 |
+| `ctype.h`  | **c**haracter **type**                | 문자 분류/변환. `isalpha`, `isdigit`, `toupper` 등                                 |
+| `math.h`   | mathematics                           | 수학 함수. `sqrt`, `pow`, `sin`, `floor` 등                                      |
+| `float.h`  | floating point                        | 부동소수점 한계값 매크로. `FLT_MAX`, `DBL_EPSILON` 등                                   |
+| `limits.h` | integer limits                        | 정수 타입 한계값 매크로. `INT_MAX`, `CHAR_BIT` 등                                      |
+| `assert.h` | assertion                             | `assert()` 매크로 — 조건 실패 시 중단+메시지. `NDEBUG` 정의하면 비활성화됨                        |
+| `errno.h`  | **err**or **no**mber                  | 전역 변수 `errno`와 에러 코드 매크로(`ENOENT` 등)                                        |
+| `signal.h` | signal                                | 시그널 처리. `signal()`, `sig_atomic_t`, `SIGINT` 등                              |
+| `setjmp.h` | **set** **j**u**mp**                  | 비지역 점프. `setjmp`/`longjmp` — 함수 호출 스택을 건너뛰는 탈출(에러 복구·예외 흉내)                 |
+| `time.h`   | time                                  | 시간/날짜. `time()`, `clock()`, `strftime` 등                                    |
+| `getopt.h` | **get** **opt**ion                    | 명령줄 옵션 파싱. `getopt()` (GNU 확장)                                              |
 
 ### 2. POSIX 시스템/프로세스
 
-| 헤더 | 어원 | 기본 설명 |
-|---|---|---|
-| `unistd.h` | **UNI**X **st**an**d**ard | POSIX 시스템 콜 핵심. `read`, `write`, `fork`, `exec*`, `close`, `sleep` 등 |
-| `fcntl.h` | **f**ile **c**o**ntr**o**l** | 파일 열기/제어. `open()`, `fcntl()`, `O_RDONLY` 등 플래그 |
-| `sys/types.h` | system types | 시스템 공용 데이터 타입. `pid_t`, `off_t`, `ssize_t` 등 |
-| `sys/stat.h` | system stat(us) | 파일 상태 정보. `stat` 구조체, `stat()` 함수, 퍼미션 매크로 |
-| `sys/wait.h` | system wait | 자식 프로세스 대기. `wait`, `waitpid`, `WNOHANG`, `WIFEXITED` 등 |
-| `sys/mman.h` | system **m**e**m**ory-**m**apped | 메모리 매핑. `mmap()`, `munmap()` |
-| `sys/select.h` | system select | I/O 멀티플렉싱. `select()`, `fd_set` |
-| `sys/time.h` | system time | 정밀 시간 구조체. `struct timeval`, `gettimeofday()` — `time.h`보다 세밀한 단위 |
-| `sys/times.h` | system times | 프로세스 CPU 시간 측정. `times()`, `struct tms` |
-| `dirent.h` | **dir**ectory **ent**ry | 디렉터리 읽기. `opendir`, `readdir`, `struct dirent` |
-| `termios.h` | **term**inal **i**nput/**o**utput **s**ettings | 터미널 속성 제어(raw mode 등). `struct termios` |
-| `pthread.h` | **P**OSIX **thread** | 스레드. `pthread_create`, 뮤텍스 등 |
-| `semaphore.h` | semaphore | 세마포어. `sem_init`, `sem_wait`, `sem_post` |
+| 헤더             | 어원                                             | 기본 설명                                                                |
+| -------------- | ---------------------------------------------- | -------------------------------------------------------------------- |
+| `unistd.h`     | **UNI**X **st**an**d**ard                      | POSIX 시스템 콜 핵심. `read`, `write`, `fork`, `exec*`, `close`, `sleep` 등 |
+| `fcntl.h`      | **f**ile **c**o**ntr**o**l**                   | 파일 열기/제어. `open()`, `fcntl()`, `O_RDONLY` 등 플래그                      |
+| `sys/types.h`  | system types                                   | 시스템 공용 데이터 타입. `pid_t`, `off_t`, `ssize_t` 등                         |
+| `sys/stat.h`   | system stat(us)                                | 파일 상태 정보. `stat` 구조체, `stat()` 함수, 퍼미션 매크로                           |
+| `sys/wait.h`   | system wait                                    | 자식 프로세스 대기. `wait`, `waitpid`, `WNOHANG`, `WIFEXITED` 등              |
+| `sys/mman.h`   | system **m**e**m**ory-**m**apped               | 메모리 매핑. `mmap()`, `munmap()`                                         |
+| `sys/select.h` | system select                                  | I/O 멀티플렉싱. `select()`, `fd_set`                                      |
+| `sys/time.h`   | system time                                    | 정밀 시간 구조체. `struct timeval`, `gettimeofday()` — `time.h`보다 세밀한 단위    |
+| `sys/times.h`  | system times                                   | 프로세스 CPU 시간 측정. `times()`, `struct tms`                              |
+| `dirent.h`     | **dir**ectory **ent**ry                        | 디렉터리 읽기. `opendir`, `readdir`, `struct dirent`                       |
+| `termios.h`    | **term**inal **i**nput/**o**utput **s**ettings | 터미널 속성 제어(raw mode 등). `struct termios`                              |
+| `pthread.h`    | **P**OSIX **thread**                           | 스레드. `pthread_create`, 뮤텍스 등                                         |
+| `semaphore.h`  | semaphore                                      | 세마포어. `sem_init`, `sem_wait`, `sem_post`                             |
 
 ### 3. 네트워크 (POSIX 소켓)
 
-| 헤더 | 어원 | 기본 설명 |
-|---|---|---|
-| `sys/socket.h` | system socket | 소켓 API 핵심. `socket`, `bind`, `listen`, `accept` 등 |
-| `netinet/in.h` | **net**work **in**ternet | 인터넷 프로토콜 구조체. `sockaddr_in`, `htons` 등 |
-| `arpa/inet.h` | **ARPA**net internet | IP 주소 변환. `inet_addr`, `inet_ntoa`, `inet_pton` — ARPA(미 국방부 고등연구계획국)가 초기 인터넷(ARPANET)을 만든 데서 유래한 이름 |
-| `netdb.h` | **net**work **d**ata**b**ase | 네트워크 이름 해석. `gethostbyname`, `getaddrinfo` |
+| 헤더             | 어원                           | 기본 설명                                                                                                |
+| -------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `sys/socket.h` | system socket                | 소켓 API 핵심. `socket`, `bind`, `listen`, `accept` 등                                                    |
+| `netinet/in.h` | **net**work **in**ternet     | 인터넷 프로토콜 구조체. `sockaddr_in`, `htons` 등                                                               |
+| `arpa/inet.h`  | **ARPA**net internet         | IP 주소 변환. `inet_addr`, `inet_ntoa`, `inet_pton` — ARPA(미 국방부 고등연구계획국)가 초기 인터넷(ARPANET)을 만든 데서 유래한 이름 |
+| `netdb.h`      | **net**work **d**ata**b**ase | 네트워크 이름 해석. `gethostbyname`, `getaddrinfo`                                                           |
+
+## `_GNU_SOURCE` (feature test macro)
+
+- glibc는 표준(ISO C, POSIX)에 없는 GNU 확장 함수(`pipe2`, `strdup`, `getline` 등)를 헤더에서 기본적으로 숨겨둠. `_GNU_SOURCE`를 정의해야 그 선언들이 헤더에 노출됨.
+- 그 파일에서 시스템 헤더를 **처음 include하기 전에** 정의해야 함 — feature test macro는 헤더가 include되는 시점에 평가되기 때문에, 헤더 include 이후에 정의하면 늦음.
+- 안 정의하고 GNU 확장 함수를 쓰면: 컴파일러가 선언을 못 찾아서 `implicit declaration of function 'pipe2'` 경고가 뜸 (그리고 컴파일러가 반환형을 임의로 `int`라고 가정해버려서, 실제 반환형이 다르면 미묘한 버그로 이어질 수 있음).
+
+```c
+#define _GNU_SOURCE   // 반드시 맨 위, 다른 include보다 먼저
+#include <fcntl.h>
+#include <unistd.h>
+
+pipe2(fds, O_CLOEXEC);  // 이제 선언이 보임
+```
+
+## strcspn / strspn
+
+- `size_t strcspn(const char *s, const char *reject);`
+- `size_t strspn(const char *s, const char *accept);`
+- 두 번째 인자는 문자열이 아니라 **문자 집합**으로 취급됨 — `" \n"`은 "공백 또는 개행"이라는 두 글자짜리 집합이지, 그 순서 그대로 매칭하는 부분 문자열이 아님.
+- 반환값: `strcspn`은 `s` 앞에서부터 `reject` 집합에 속하지 않는 문자가 이어지는 길이(= complement span). `strspn`은 반대로 `accept` 집합에 속하는 문자만 이어지는 길이.
+
+```c
+strcspn("hello world\n", " \n");  // 5 (공백 전까지)
+strcspn("hello\nworld", " \n");   // 5 (개행 전까지, 둘 중 먼저 나오는 것)
+```
+
+## 수동 토크나이징 (strcspn 기반)
+
+- `strtok` 없이 긴 문자열을 토큰 단위로 쪼갤 때 쓰는 패턴: 포인터를 앞으로 밀면서 "공백 건너뛰기 → 다음 구분자까지 잘라서 토큰 하나 얻기"를 반복.
+
+```c
+const char *p = input;
+while (*p) {
+    while (*p == ' ') p++;           // 연속 공백 건너뛰기 (반드시 while, if 아님)
+    if (*p == '\0' || *p == '\n') break;
+
+    size_t len = strcspn(p, " \n");
+    char token[256];
+    memcpy(token, p, len);
+    token[len] = '\0';
+
+    p += len;                        // 다음 토큰 자리로 이동
+}
+```
+
+- `strtok`과의 차이: `strtok`은 원본 문자열의 구분자 자리에 직접 `'\0'`을 박아 넣는 방식이라 **원본이 훼손됨**. 원본을 그대로 유지해야 하거나(같은 버퍼를 다른 데서도 다시 써야 함) 멀티스레드 환경(`strtok`은 내부 static 상태를 쓰므로 스레드 세이프 하지 않음)이면 위 방식이나 `strtok_r`을 씀.
 
