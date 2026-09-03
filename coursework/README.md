@@ -10,6 +10,7 @@
 ## 구조
 - 과목별 폴더로 나눈다: `coursework/<학기>/<과목명>/`
   - 예: `coursework/2026-2/operating-systems/`
+- 각 과목 폴더 안 `materials/`는 강의자료(PDF·슬라이드 등) 보관용. gitignore 처리되어 추적 안 됨.
 
 ## 학기말 이관 루틴
 매 학기 종료 시 실행한다.
