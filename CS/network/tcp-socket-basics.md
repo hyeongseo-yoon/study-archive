@@ -6,7 +6,7 @@ tags:
 
 # TCP 소켓 프로그래밍 기초
 
-관련 노트: [[02.Area/study-archive/computer-science/os/file-descriptor-socket]] · [[02.Area/study-archive/computer-science/network/server-request-handling]]
+관련 노트: [[02.Area/study-archive/CS/os/file-descriptor-socket]] · [[02.Area/study-archive/CS/network/server-request-handling]]
 
 ## TCP : 데이터 전송 프로토콜 중 하나
 ## TCP의 핵심 특성

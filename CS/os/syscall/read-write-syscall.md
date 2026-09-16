@@ -20,7 +20,7 @@ ssize_t read(int fd, void *buf, size_t count);
 ssize_t write(int fd, const void *buf, size_t count);
 ```
 
-- **fd**: 파일 디스크립터 (open()으로 얻은 정수, 0=stdin, 1=stdout, 2=stderr) — [[file-descriptor-socket]] 참고
+- **fd**: 파일 디스크립터 (open()으로 얻은 정수, 0=stdin, 1=stdout, 2=stderr) — [[02.Area/study-archive/CS/os/file-descriptor-socket]] 참고
 - **buf**: read는 데이터를 채워넣을 버퍼, write는 데이터가 들어있는 버퍼
 - **count**: 읽거나 쓰려는 바이트 수
 
@@ -52,7 +52,7 @@ while (total < count) {
 
 ### EINTR
 
-시그널 핸들러가 실행되면 시스템 콜이 중간에 끊기고 -1/EINTR을 반환할 수 있음. 재시도 로직 없으면 데이터 유실됨. — [[signal-handling]] 참고
+시그널 핸들러가 실행되면 시스템 콜이 중간에 끊기고 -1/EINTR을 반환할 수 있음. 재시도 로직 없으면 데이터 유실됨. — [[02.Area/study-archive/CS/os/syscall/signal-handling]] 참고
 
 ### read/write는 버퍼링 안 함
 

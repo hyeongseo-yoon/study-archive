@@ -27,7 +27,7 @@ tags:
 
 - **FILE\: fd 하나를 감싸서 스트림기능을 지원하게 하는 래퍼 객체
 	-> 사용할 때는 포인터를 이용함.
-- fd는 커널이 관리하는 외부 자원에 대한 핸들(정수)이고, FILE\*는 그 fd를 감싸서 버퍼링을 얹은 유저 공간(glibc) 객체 — [[02.Area/study-archive/computer-science/os/file-descriptor-socket|fd 자체 개념]] 참고
+- fd는 커널이 관리하는 외부 자원에 대한 핸들(정수)이고, FILE\*는 그 fd를 감싸서 버퍼링을 얹은 유저 공간(glibc) 객체 — [[02.Area/study-archive/CS/os/file-descriptor-socket|fd 자체 개념]] 참고
 
 ## FILE 구조체 인터페이스
 
