@@ -256,3 +256,19 @@ m e m a t r h t g p r y
 - **Transposition**: Rail fence 등으로 글자 순서 자체를 뒤섞음
 - **Rotor machine(Enigma)**: substitution+transposition을 기계적으로 반복 적용해 방대한 키 공간을 만든 실용적 구현체
 - **Steganography**: 암호화(내용 은닉)와는 다른 축의 보안 — 메시지 존재 자체를 은닉
+
+## 수업 진행 섹션
+
+1. Symmetric Cipher Model + 용어
+2. Cryptography 분류 기준
+3. Cryptanalysis
+4. Substitution / Transposition 개요
+5. Shift Cipher (Caesar Cipher)
+6. Monoalphabetic Cipher
+7. Playfair Cipher
+8. Hill Cipher
+9. Polyalphabetic Cipher — Vigenère Cipher
+10. One-Time Pad (Vernam Cipher)
+11. Transposition Techniques — Rail Fence
+12. Rotor Machine (Enigma)
+13. Steganography
