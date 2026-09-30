@@ -359,3 +359,15 @@ DFA에는 **redundant/equivalent state**가 있을 수 있어 최적화 여지�
 - **DFA**(결정적, 구현 쉬움)와 **NFA**(비결정적, RE에서 변환 쉬움)는 표현력은 같지만 트레이드오프가 다름
 - **Thompson's construction**(RE→NFA)과 **Subset construction/ε-closure**(NFA→DFA)로 자동 변환되며, 이후 **상태 최소화**로 중복 state를 merge해 최적화함
 - 실제로는 **Lex/Flex** 같은 도구가 RE 명세(`.l` 파일)로부터 이 과정을 전부 자동화해 lexer(`lex.yy.c`)를 생성해줌
+
+---
+
+## 수업에서 다룬 섹션
+
+1. Lexical Analysis 개요
+2. Specification, Recognition, Automation — 세 가지 하위 문제
+3. Specification: Regular Expression
+4. Recognition: Finite State Automata
+5. Automation ①: Lex/Flex를 이용한 자동 생성
+6. Automation ②: Thompson's Construction (RE → NFA)
+7. Automation ③: Subset Construction (NFA → DFA), DFA 최소화, 여러 RE 동시 처리
