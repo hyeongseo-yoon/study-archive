@@ -172,3 +172,16 @@ CREATE TABLE Registry (
 - **Inner Join**: 두 테이블을 join predicate로 교집합. `INNER JOIN ... ON`(explicit) / `FROM A, B WHERE ...`(implicit) 두 문법이 동치지만, implicit에서는 연산자 우선순위를 조심해야 함
 - Join의 의미는 **nested-loop semantics**로 정의되지만, 실제 실행은 **query optimizer**가 훨씬 효율적인 방법(순서 변경, 조기 필터링, 인덱스)으로 처리 — 이것이 **Physical Data Independence**
 - ORDER BY/DISTINCT, CREATE TABLE의 데이터 타입, (복합) Primary Key/Foreign Key 선언 문법 복습
+
+---
+
+## 체크리스트
+1. Recap: Foreign Key & SELECT-FROM-WHERE
+2. Joins 개요
+3. Inner Joins
+4. Nested-Loop Semantics
+5. Inner Join 문법 (explicit / implicit)
+6. SQL 쿼리는 여러 "phase"를 가진다
+7. Joins 구현: 복잡도와 최적화
+8. ORDER BY / DISTINCT 복습
+9. 테이블/키 생성 복습

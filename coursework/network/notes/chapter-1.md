@@ -266,3 +266,14 @@ OSI 7계층 관점에서 TCP/IP 스택의 각 계층에 실제로 속하는 프�
 - 인터넷 역사
 
 이 챕터는 "feel"과 용어를 잡는 개론 — 각 주제(access network 세부, 라우팅, 전송 계층, 보안 등)는 이후 장에서 깊게 다룸.
+
+---
+
+## 수업에서 다룬 섹션
+1. What is the Internet?
+2. Network Edge
+3. Network Core
+4. Performance: Loss, Delay, Throughput
+5. Security
+6. Protocol Layers & Service Models
+7. Internet History

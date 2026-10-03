@@ -196,3 +196,15 @@ CREATE TABLE Regist (
 - CREATE TABLE, KEY(primary key), FOREIGN KEY
 
 다음 시간은 SQL을 계속 다룬다.
+
+---
+
+## 체크리스트
+1. SQL 개요
+2. Basic Query: SELECT-FROM-WHERE
+3. Semantics: For-each Semantics
+4. ORDER BY와 DISTINCT
+5. Tables in SQL: CREATE / INSERT / DELETE
+6. Keys (Primary Key)
+7. Foreign Keys
+8. 핵심 요약
