@@ -9,7 +9,7 @@
 **컴파일러 큰 흐름**
 ```
 소스코드 → [Front end: Lexical → Syntax → Semantic]
-         → 코드 생성 → [Back end: 분석/최적화 → 코드 생성] → 어셈블리
+         → 코드 생성(IR) → [Back end: 분석/최적화 → 코드 생성] → 어셈블리
 ```
 - Front end: 소스코드를 이해하는 쪽. 언어에 의존적. 오늘 배우는 Lexical Analysis(Scanner)가 첫 단계.
 - Back end: 이해한 결과로 좋은 기계어를 만드는 쪽. 타깃 머신에 의존적.
@@ -86,11 +86,11 @@ do 5 I = 1,25
 
 Scanner를 만든다는 건 세 가지 질문에 답하는 것.
 
-| 문제 | 질문 | 답(도구) |
-|---|---|---|
-| **Specification** | token의 모양을 어떻게 **적을** 것인가 | **Regular Expression (RE)** |
-| **Recognition** | 적어둔 모양에 입력이 맞는지 어떻게 **판별**할 것인가 | **DFA** |
-| **Automation** | RE에서 DFA를 어떻게 **자동으로** 만들 것인가 | Lex 같은 도구, Thompson's construction(RE→NFA), Subset construction(NFA→DFA) |
+| 문제                | 질문                              | 답(도구)                                                                    |
+| ----------------- | ------------------------------- | ------------------------------------------------------------------------ |
+| **Specification** | token의 모양을 어떻게 **적을** 것인가       | **Regular Expression (RE)**                                              |
+| **Recognition**   | 적어둔 모양에 입력이 맞는지 어떻게 **판별**할 것인가 | **DFA**                                                                  |
+| **Automation**    | RE에서 DFA를 어떻게 **자동으로** 만들 것인가   | Lex 같은 도구, Thompson's construction(RE→NFA), Subset construction(NFA→DFA) |
 
 ```
 RE (사람이 씀) → NFA → DFA → 코드/테이블 (기계가 씀)
@@ -103,18 +103,18 @@ RE (사람이 씀) → NFA → DFA → 코드/테이블 (기계가 씀)
 ## 3. Specification: Regular Expression *(p.9~14)*
 
 ### RE의 귀납적 정의 *(p.9)*
-| 표기 | 의미 |
-|---|---|
-| `a` | 일반 문자 하나는 자기 자신 |
-| `ε` | 빈 문자열 |
-| `R\|S` | R **또는** S (alternation) |
-| `RS` | R **다음에** S (concatenation) |
-| `R*` | R을 **0번 이상** 반복 (closure, Kleene star) |
+| 표기     | 의미                                     |
+| ------ | -------------------------------------- |
+| `a`    | 일반 문자 하나는 자기 자신                        |
+| `ε`    | 빈 문자열                                  |
+| `R\|S` | R **또는** S (alternation)               |
+| `RS`   | R **다음에** S (concatenation)            |
+| `R*`   | R을 **0번 이상** 반복 (closure, Kleene star) |
 
 R, S는 이미 만들어진 RE. 이 규칙만으로 어떤 RE든 조합해서 만들 수 있다.
 
 ### RE가 나타내는 언어 `L(R)` *(p.10)*
-RE `R`이 나타내는 문자열 집합을 `L(R)`이라 쓴다.
+-> R이 RE이고 L(R)은 RE로 만들어지는 언어(문자열의 집합).
 ```
 L(abc)            = {abc}
 L(hello|goodbye)  = {hello, goodbye}
@@ -128,14 +128,14 @@ Integer = L( (-|+|ε) (1|2|...|9) (0|1|2|...|9)* )
 Integer 정의: 부호는 `-`나 `+`나 없음 중 하나, 그 다음에 0이 아닌 숫자 하나, 그 뒤에 숫자가 0개 이상.
 
 ### 축약 표기(shorthand) *(p.11)*
-| 표기 | 의미 | 풀어쓰면 |
-|---|---|---|
-| `R+` | 1번 이상 반복 | `R(R*)` |
-| `R?` | 있어도 되고 없어도 됨 | `(R\|ε)` |
-| `[abcd]` | 나열된 글자 중 **하나** | `(a\|b\|c\|d)` |
-| `[a-z]` | 범위 안의 글자 하나 | `(a\|b\|...\|z)` |
-| `[^ab]` | 나열된 글자를 **제외한** 아무 글자 | |
-| `[^a-z]` | 범위에 **속하지 않는** 아무 글자 | |
+| 표기       | 의미                    | 풀어쓰면             |
+| -------- | --------------------- | ---------------- |
+| `R+`     | 1번 이상 반복              | `R(R*)`          |
+| `R?`     | 있어도 되고 없어도 됨          | `(R\|ε)`         |
+| `[abcd]` | 나열된 글자 중 **하나**       | `(a\|b\|c\|d)`   |
+| `[a-z]`  | 범위 안의 글자 하나           | `(a\|b\|...\|z)` |
+| `[^ab]`  | 나열된 글자를 **제외한** 아무 글자 |                  |
+| `[^a-z]` | 범위에 **속하지 않는** 아무 글자  |                  |
 
 새로운 표현력이 아니라 전부 기본 규칙으로 풀어쓸 수 있는 줄임말. 그래서 Thompson's construction에서는 기본 5개 규칙만 다루면 된다.
 
@@ -197,7 +197,7 @@ Keyword RE(`else`)도, Identifier RE(`[a-zA-Z]+`)도 맞는다. 규칙:
 - 유한한 개수의 상태(state)
 - 시작 상태(start state) 하나
 - 수락 상태(accepting state)들의 집합
-- 상태에서 상태로 가는 전이(transition). "어떤 문자를 읽으면"이라는 조건이 붙는다.
+- 상태에서 상태로 가는 전이(transition). "어떤 문자를 읽으면"이라는 조건이 붙는다. -> 모든 상태에서 전이가 알파벳 별로 하나가 존재함.(만약 없다면 죽은 상태로 가는걸로 생각하면 된다. - 알파벳에 대한 전이가 없다고도 생각해도 무방)
 
 예시로 `ab+`를 인식하는 기계:
 ```
@@ -289,16 +289,15 @@ RE → NFA → DFA → Table 변환을 직접 코딩하지 않고 **대신 해�
 
 ### 명세의 3개 섹션 *(p.26)*
 ```
-Definition section
+Definition section //%{ ... %} 형식
 %%
-Rules section
+Rules section // pattern-action 구조조
 %%
 User function section
 ```
-- **Definition section**: `%{ ... %}` 사이에 C 코드(include, 변수 선언). 자주 쓰는 패턴에 이름도 붙인다(`digit [0-9]`).
-- **Rules section**: `패턴  {action}` 형태. "입력에서 이 패턴이 나오면 이 코드를 실행해라"는 뜻.
-- **User function section**: C 함수를 결과물에 그대로 복사. 보통 `main()`을 여기에 쓴다.
-- 세부사항은 man page: `https://man.freebsd.org/cgi/man.cgi?query=lex&sektion=1`
+- **Definition section**: 준비물을 적는 곳. `%{ ... %}` 사이에 C 코드(include, 변수 선언). 
+- **Rules section**: `패턴  {action}` 형태. 왼쪽이 RE, 오른쪽이 C 코드임."입력에서 이 패턴이 나오면 이 코드를 실행해라"는 뜻. 위쪽에 있으면 우선순위 높음. FLEX는 여기 RE들을 DFA로 바꿔준다.
+- **User function section**: 나머지 C 코드를 적는곳. 보통 main 함수를 여기서 적고 yylex()를 실행함. yylex는 scanner를 실행하는 함수(DFA를 보고 루프 돌리는 부분)
 
 ### Partial Flex 예시 *(p.27)*
 ```
@@ -310,6 +309,18 @@ if          {return "IF";}
 {digit}+    {return "decimal";}
 ```
 왼쪽이 Pattern, 오른쪽이 Action. (슬라이드는 개념을 보여주려고 문자열을 return하는 의사코드에 가깝다.)
+
+### action이란 *(p.26~28 보충)*
+```
+패턴      action
+\n        {++num_lines; ++num_chars;}
+.         {++num_chars;}
+```
+- **패턴**: 어떤 입력이 왔을 때. **action**: 그 패턴이 매치되면 실행할 **C 코드 전체**(규칙 오른쪽 `{ ... }` 안).
+- `yylex()`는 입력을 읽다가 패턴이 매치되면 그 규칙의 action을 그대로 실행한다. action 안에는 뭐든 쓸 수 있다.
+- **return은 action에 들어가는 선택지 중 하나**일 뿐이다. "return 여부"는 action이 뭘 하느냐에 따라 달라지는 결과.
+  - action 안에서 `return`을 만나면 `yylex()`가 거기서 끝나고 그 값을 돌려준다. 컴파일러에서는 "token 하나 찾았으니 parser에게 넘긴다"가 된다.
+  - return이 없으면 `yylex()`는 멈추지 않고 다음 입력으로 넘어가 계속 규칙을 돌린다. `count.l`이 EOF까지 한 번에 도는 이유.
 
 ### 예제 ① count.l *(p.28)*
 ```

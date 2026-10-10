@@ -5,3 +5,5 @@ english-reading/
 dashboard.md
 coursework/**/materials/
 .aider*
+
+.playwright-mcp/
