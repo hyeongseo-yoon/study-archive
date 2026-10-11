@@ -408,3 +408,14 @@ Nullable/First/Follow를 위 알고리즘대로 반복 계산한 최종 결과:
 - **Parse tree**는 derivation의 트리 표현이고, **AST**는 여기서 non-terminal을 제거해 핵심 구조(연산자와 피연산자)만 남긴 것
 - **Top-down parsing**은 leftmost derivation을 구성하며 진행 — **recursive descent**(backtracking 필요)와, 문법을 **LL(1)**(left factoring + left recursion 제거)로 만들면 backtracking 없는 **predictive parsing**이 가능해짐
 - LL(1) parsing table은 **Nullable, First, Follow** 세 속성을 고정점(fixed-point) 반복으로 계산한 뒤, 이를 이용해 각 (non-terminal, lookahead terminal) 쌍에 적용할 production을 결정해서 만든다
+
+---
+
+## 수업에서 다룬 섹션
+
+1. Syntax Analysis 개요 (Scanner vs Parser 3단계)
+2. Specification: Context-Free Grammar (구성요소, 예제, RE vs CFG)
+3. Recognition: Parse Tree, Derivation 순서, Ambiguity (우선순위/결합성/Dangling Else), AST
+4. Error Handling
+5. Automation: Top-Down Parsing (Recursive Descent, LL(1), Predictive Parsing, Parsing Table, Recursive-Descent Parser 구현)
+6. Parsing Table 자동 생성: Nullable, First, Follow
