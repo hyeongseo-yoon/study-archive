@@ -275,3 +275,17 @@ expr parse_S() {
 - **LALR(1)**: LR(1) state 중 production은 같고 lookahead만 다른 state를 병합 — SLR 수준의 state 수로 LR(1) 수준의 lookahead 능력을 확보 (실무에서 가장 널리 쓰임)
 - **Ambiguous grammar**는 precedence/associativity 삽입으로 문법 자체를 다시 쓰거나(dangling-else는 MIF/UIF 분리), yacc/bison처럼 **precedence 선언**으로 파서가 shift/reduce를 자동 결정하게 할 수 있음
 - **AST**는 parse tree에서 non-terminal을 제거한 형태이며, LL은 production 함수의 반환값으로, LR은 reduce 시 semantic action(`$1,$2,…→$$`)으로 파싱과 동시에 암묵적으로 구축됨
+
+---
+
+## 수업에서 다룬 섹션
+
+1. 복습: Parser의 3대 과제, CFG, Parse Tree, AST, Top-down(LL) parsing
+2. Bottom-Up Parsing 개념 (rightmost derivation 역순, Shift-Reduce, Action Selection Problem, Conflict)
+3. LR(0) Parsing (item, dummy production, NFA 표현, closure/goto로 DFA 구성, LR 파싱 테이블, 파싱 구현)
+4. LR(0)의 한계와 SLR(1) (Follow 기반 reduce, Class Exercise: SLR 판별)
+5. LR(1) Parsing (lookahead를 가진 item, closure/goto, 파싱 테이블)
+6. LALR(1) Parsing (state 병합, 부작용)
+7. LL/LR Grammar 비교와 계층
+8. Ambiguous Grammar 다루기 (Precedence, Associativity, Dangling Else, yacc/bison 자동 해소)
+9. AST 구성 (자료구조, 암묵적 구성, LL/LR에서의 구성)
