@@ -153,3 +153,12 @@ EXCEPT ALL
 - **LEFT/RIGHT/FULL OUTER JOIN**: 매칭 안 되는 쪽을 NULL로 채워서라도 원본 행을 보존. 실무에서는 거의 LEFT OUTER JOIN만 사용
 - **Self-join**: 같은 테이블을 여러 번 FROM에 등장시켜 "다시 순회" — all-pairs를 만든 뒤 조건으로 필터링하는 패턴
 - SQL의 집합 연산(UNION/INTERSECT/EXCEPT)과 그 bag 버전(...ALL)의 차이
+
+---
+
+## 체크리스트
+1. NULLs in SQL
+2. Three-Valued Logic (+ 함정 예시, Discussion)
+3. Outer Joins
+4. Self Joins
+5. Set/Bag 연산

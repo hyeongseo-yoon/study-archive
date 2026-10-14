@@ -115,7 +115,7 @@ WHERE P.UserID = R.UserID;
 - nested loop 코드와 거의 1:1로 대응된다. `FROM`의 두 테이블이 두 겹 루프이고, `WHERE`가 `if`다.
 
 둘은 같은 결과를 낸다. 차이는 *결합 조건을 어디에 쓰느냐*(`ON` vs `WHERE`)뿐이다.
-
+-> `ON`은 join _중에_ 짝을 정하는 조건이고, `WHERE`는 join _이후에_ 결과를 거르는 조건
 ### 함정: implicit 문법과 연산자 우선순위 *(p.35)*
 
 implicit 문법은 결합 조건과 필터 조건이 전부 `WHERE`에 섞여 들어간다.
@@ -147,12 +147,12 @@ WHERE (P.UserID = R.UserID AND R.Car = 'Civic') OR R.Car = 'Ferrari';
 
 **끼어드는 row**: nested loop로 보면 Registry의 `(567, Ferrari)`가 안쪽 루프에 나올 때 `R.Car = 'Ferrari'`가 참이므로, **바깥 루프의 Payroll row가 누구든** 조건을 통과한다.
 
-| Name | Car |
-|---|---|
-| Leslie | Ferrari |
+| Name    | Car     |
+| ------- | ------- |
+| Leslie  | Ferrari |
 | Frances | Ferrari |
-| Magda | Ferrari |
-| Quinn | Ferrari |
+| Magda   | Ferrari |
+| Quinn   | Ferrari |
 
 Leslie, Frances, Quinn은 Ferrari를 가진 적이 없는데도 소유자로 나온다. join이 깨지고 Payroll 4명 × Ferrari 조합이 전부 튀어나온 것이다. (A)는 괄호 덕분에 `join 조건 AND (Civic 또는 Ferrari)`로 묶여 `(Magda, Civic)`, `(Magda, Ferrari)`만 나온다.
 

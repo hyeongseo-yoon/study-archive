@@ -238,3 +238,15 @@ FROM Payroll AS p
 - **HAVING**은 그룹(집계 이후)을 필터링, **WHERE**는 개별 행(집계 이전)을 필터링 — 서로 다른 단계에서 동작하므로 결과와 실행 모두 다를 수 있다
 - **FJWGHOS**: FROM → JOIN → WHERE → GROUP BY → HAVING → ORDER BY → SELECT가 SQL의 실제(개념적) 실행 순서
 - Join + Aggregate를 함께 쓸 때, **outer join으로 빈 그룹을 살리고, `COUNT(컬럼)`으로 NULL placeholder를 세지 않게** 주의해야 정확한 "0" 결과를 얻을 수 있다
+
+---
+
+## 체크리스트
+1. 지금까지: Joined Tables 위의 단순 쿼리
+2. SQL Aggregation Functions
+3. GROUP BY
+4. HAVING
+5. WHERE vs HAVING
+6. Query Mental Model: FJWGHOS
+7. Aggregates + Joins 함께 쓰기
+8. 빈 그룹(Empty Groups) 문제
