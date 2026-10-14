@@ -54,12 +54,12 @@ Payroll (UserId, Name, Job, Salary)
 ```
 - 이 구조 정의가 **schema**. 데이터를 기술하는 구조.
 
-| UserID | Name | Job | Salary |
-|---|---|---|---|
-| 123 | Jack | TA | 50000 |
-| 345 | Allison | TA | 60000 |
-| 567 | Magda | Prof | 90000 |
-| 789 | Dan | Prof | 100000 |
+| UserID | Name    | Job  | Salary |
+| ------ | ------- | ---- | ------ |
+| 123    | Jack    | TA   | 50000  |
+| 345    | Allison | TA   | 60000  |
+| 567    | Magda   | Prof | 90000  |
+| 789    | Dan     | Prof | 100000 |
 
 - 위처럼 실제로 채워진 데이터가 **instance**. 실제 데이터 그 자체.
 
@@ -74,8 +74,8 @@ Payroll (UserId, Name, Job, Salary)
 
 ## 7. Data Model의 세 요소
 모든 Data Model은 다음 세 부분으로 구성된다.
-- **Instance**: 실제 데이터
 - **Schema**: 데이터의 타입(구조)
+- **Instance**: 실제 데이터
 - **Query Language**: 데이터를 어떻게 가져올지에 대한 언어
 
 예시:

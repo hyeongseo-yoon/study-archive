@@ -67,10 +67,10 @@ for each row in Payroll:
         output (row.Name, row.UserID)
 ```
 
-| SQL | 의사코드 |
-|---|---|
-| `FROM Payroll` | `for each row in Payroll` (순회 대상) |
-| `WHERE P.Job = 'TA'` | `if (row.Job == 'TA')` (필터) |
+| SQL                       | 의사코드                                     |
+| ------------------------- | ---------------------------------------- |
+| `FROM Payroll`            | `for each row in Payroll` (순회 대상)        |
+| `WHERE P.Job = 'TA'`      | `if (row.Job == 'TA')` (필터)              |
 | `SELECT P.Name, P.UserID` | `output (row.Name, row.UserID)` (출력할 컬럼) |
 
 - 이렇게 쿼리가 **무슨 결과를 내는지** 정의하는 방식이 **for-each semantics**. 쿼리 결과가 헷갈릴 때 이 루프를 머릿속으로 돌려보면 된다. join, subquery로 갈수록 계속 쓰인다.
