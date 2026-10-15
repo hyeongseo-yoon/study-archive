@@ -23,12 +23,12 @@
 
 수업 내내 쓰는 **Payroll** 테이블:
 
-| UserID | Name | Job | Salary |
-|---|---|---|---|
-| 123 | Jack | TA | 50000 |
-| 345 | Allison | TA | 60000 |
-| 567 | Magda | Prof | 90000 |
-| 789 | Dan | Prof | 100000 |
+| UserID | Name    | Job  | Salary |
+| ------ | ------- | ---- | ------ |
+| 123    | Jack    | TA   | 50000  |
+| 345    | Allison | TA   | 60000  |
+| 567    | Magda   | Prof | 90000  |
+| 789    | Dan     | Prof | 100000 |
 
 **예제 1** *(p.8~9)*
 ```sql
@@ -120,12 +120,12 @@ SELECT * FROM Payroll ORDER BY Name;
 
 `ORDER BY Job, Name` 결과 (Prof가 알파벳상 TA보다 앞):
 
-| Job | Name |
-|---|---|
-| Prof | Dan |
-| Prof | Magda |
-| TA | Allison |
-| TA | Jack |
+| Job  | Name    |
+| ---- | ------- |
+| Prof | Dan     |
+| Prof | Magda   |
+| TA   | Allison |
+| TA   | Jack    |
 
 - `ORDER BY Name, Job`은 Name을 먼저 정렬한다. 이 테이블은 Name이 전부 달라서 Job은 영향을 못 주고 Allison, Dan, Jack, Magda 순이 된다. 위 결과와 다르다.
 
@@ -219,11 +219,11 @@ CREATE TABLE Payroll (
 
 ### 복합 키 *(p.69~74)*
 
-| Name | Job | Salary |
-|---|---|---|
-| Alice | TA | 20000 |
+| Name  | Job  | Salary |
+| ----- | ---- | ------ |
+| Alice | TA   | 20000  |
 | Alice | Prof | 200000 |
-| Bob | Prof | 200000 |
+| Bob   | Prof | 200000 |
 
 - Name 하나만으로도(Alice 반복), Job 하나만으로도(Prof 반복) key가 안 된다.
 - **(Name, Job) 조합은 유일**하다. 컬럼을 추가하지 않아도 key가 있다. "한 사람이 같은 직업을 두 번 갖지 않는다"는 현실 규칙이 있으면 이 조합은 어떤 행이든 하나만 가리킨다. 이것이 **복합 키(composite key)**.
@@ -248,20 +248,20 @@ CREATE TABLE Payroll (
 
 **Payroll**
 
-| UserID | Name | Job | Salary |
-|---|---|---|---|
-| 123 | Jack | TA | 50000 |
-| 345 | Allison | TA | 60000 |
-| 567 | Magda | Prof | 90000 |
-| 789 | Dan | Prof | 100000 |
+| UserID | Name    | Job  | Salary |
+| ------ | ------- | ---- | ------ |
+| 123    | Jack    | TA   | 50000  |
+| 345    | Allison | TA   | 60000  |
+| 567    | Magda   | Prof | 90000  |
+| 789    | Dan     | Prof | 100000 |
 
 **Regist** (누가 어떤 차를 등록했는지)
 
-| UserID | Car |
-|---|---|
-| 123 | Charger |
-| 567 | Civic |
-| 567 | Pinto |
+| UserID | Car     |
+| ------ | ------- |
+| 123    | Charger |
+| 567    | Civic   |
+| 567    | Pinto   |
 
 - `(567, Civic)`의 주인은 UserID로 두 표를 대조하면 Magda임을 알 수 있다.
 

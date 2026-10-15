@@ -38,7 +38,7 @@
 ## 4. Relational Model의 배경
 - E. F. Codd가 1970년 논문 *"A Relational Model of Data for Large Shared Data Banks"*(Communications of the ACM)에서 제안.
 - 이 공로로 Codd는 1981년 ACM Turing Award 수상.
-
+																																																																																																																																																								
 ## 5. Relational Model의 특징
 1. **Data is stored in simple, flat relations**: 데이터를 단순하고 평평한 관계(=테이블)로 저장.
 2. **Is retrieved via a set-at-a-time query language**: 한 줄씩이 아니라 집합 단위로 조회하는 쿼리 언어(SQL)로 가져온다.

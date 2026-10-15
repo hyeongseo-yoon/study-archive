@@ -22,11 +22,11 @@
 
 **Registry**
 
-| UserID | Car |
-|---|---|
-| 123 | Charger |
-| 567 | Civic |
-| 567 | Ferrari |
+| UserID | Car     |
+| ------ | ------- |
+| 123    | Charger |
+| 567    | Civic   |
+| 567    | Ferrari |
 
 - **Foreign key**는 다른 테이블의 row를 유일하게 식별하는 attribute(들)다. Registry.UserID는 Payroll의 primary key(UserID) 값을 그대로 복사해서 담고 있다.
 - **참조 방향이 중요하다.**
@@ -45,14 +45,15 @@
 ## 3. Inner Joins *(p.13)*
 
 > Inner join은 SQL 쿼리의 "bread and butter"다. 흔히 그냥 "join"이라고 부른다. 두 relation을 **join predicate**(결합 조건)로 교집합(intersect)한다.
+>  **두 테이블에서 조건(보통 키 값)이 일치하는 행끼리만 붙여서 보여주는 연산. 두 테이블의 교집합.**
 
 Payroll과 Registry를 **UserID가 같은 값끼리** 묶으면:
 
-| Name | Job | Salary | Car |
-|---|---|---|---|
-| Leslie | TA | 50k | Charger |
-| Magda | Prof | 120k | Civic |
-| Magda | Prof | 120k | Ferrari |
+| Name   | Job  | Salary | Car     |
+| ------ | ---- | ------ | ------- |
+| Leslie | TA   | 50k    | Charger |
+| Magda  | Prof | 120k   | Civic   |
+| Magda  | Prof | 120k   | Ferrari |
 
 포인트 세 가지:
 1. **Frances(345)와 Quinn(789)은 결과에 없다.** 차 등록이 없어서 짝이 없다. inner join은 짝이 있는 것만 남긴다.

@@ -234,3 +234,19 @@ WHERE NOT EXISTS (SELECT * FROM Registry AS R
 - **Correlated subquery**는 outer row마다 재계산되는 "파라미터화된" subquery. Outer join+empty group 문제를 우아하게 해결 가능
 - WHERE/HAVING의 `EXISTS/IN/ANY/ALL`은 1차 논리의 `∃`/`∈`/`∃`/`∀`에 대응 — 문제를 논리식으로 먼저 쓰고 De Morgan 법칙으로 변환하면 decorrelate하거나 SQL이 지원 안 하는 연산까지 표현 가능
 - **Monotonicity**: 데이터 추가가 기존 결과를 절대 지우지 않는 성질. subquery/aggregate 없는 순수 SFW 쿼리는 항상 monotone → **not monotone한 요구사항은 반드시 aggregate나 NOT EXISTS/NOT IN/ALL이 필요**하다는 실전 판단 기준
+
+---
+
+## 수업에서 다룬 섹션
+
+1. Subquery란? + 동기 (직군별 최고 연봉자)
+2. Subquery 문법 규칙, WITH 절
+3. Subqueries in FROM
+4. Subqueries in SELECT, Correlated Subquery
+5. Correlated Subquery의 성능, decorrelate
+6. 빈 그룹(Empty Groups) 문제, 다시
+7. Subqueries in WHERE/HAVING
+8. EXISTS/IN/ANY/ALL 예제 (Ex.1~6)
+9. Subquery 관련 주의점
+10. Monotonicity
+11. 유용한 정리(Theorem)와 그 대우

@@ -149,17 +149,17 @@ SELECT * FROM Registry AS R1, Registry AS R2;
 ```
 R1의 모든 행과 R2의 모든 행의 **모든 조합(all-pairs)**. Registry가 3행이면 3 x 3 = 9행이고, 자기 자신과 짝지어진 것도 포함된다.
 
-| R1.UserID | R1.Car | R2.UserID | R2.Car |
-|---|---|---|---|
-| 123 | Charger | 123 | Charger |
-| 123 | Charger | 567 | Civic |
-| 123 | Charger | 567 | Ferrari |
-| 567 | Civic | 123 | Charger |
-| 567 | Civic | 567 | Civic |
-| 567 | Civic | 567 | Ferrari |
-| 567 | Ferrari | 123 | Charger |
-| 567 | Ferrari | 567 | Civic |
-| 567 | Ferrari | 567 | Ferrari |
+| R1.UserID | R1.Car  | R2.UserID | R2.Car  |
+| --------- | ------- | --------- | ------- |
+| 123       | Charger | 123       | Charger |
+| 123       | Charger | 567       | Civic   |
+| 123       | Charger | 567       | Ferrari |
+| 567       | Civic   | 123       | Charger |
+| 567       | Civic   | 567       | Civic   |
+| 567       | Civic   | 567       | Ferrari |
+| 567       | Ferrari | 123       | Charger |
+| 567       | Ferrari | 567       | Civic   |
+| 567       | Ferrari | 567       | Ferrari |
 
 - 원하는 행은 6번째(Civic, Ferrari)와 8번째(Ferrari, Civic).
 - `R1.UserID = R2.UserID`: **같은 사람** 소유의 쌍만 남긴다. 없으면 다른 사람끼리도 짝지어진다.
@@ -179,9 +179,9 @@ WHERE R1.UserID = P.UserID
 2. `R1.UserID = P.UserID AND R2.UserID = P.UserID`: R1과 R2가 **둘 다 같은 P(같은 사람)**에 연결된다. R1.UserID = R2.UserID도 자동 성립하고, P를 거치므로 이름도 얻는다.
 3. `R1.Car = 'Civic' AND R2.Car = 'Ferrari'`: R1과 R2 **각각에 한 값씩** 지정한다. 원래 쿼리는 한 R에 두 값을 요구해서 실패했지만, 이제는 서로 다른 두 R이 한 값씩 맡는다. Civic ≠ Ferrari라서 `<>`가 불필요하고, 순서가 고정되어 중복(8행)도 생기지 않는다.
 
-| Name | R1.Car | R2.Car |
-|---|---|---|
-| Magda | Civic | Ferrari |
+| Name  | R1.Car | R2.Car  |
+| ----- | ------ | ------- |
+| Magda | Civic  | Ferrari |
 
 > Self-join은 "테이블 데이터를 다시 한 번 순회"하는 수단이다. 같은 테이블로 all-pairs(또는 triple, quadruple...)를 만든 뒤 원하는 조합만 필터링한다. "한 행에 값 두 개를 나란히 놓고 비교해야 할 때" 쓰는 패턴이다. 세 대를 비교하려면 R3까지 세 번 쓰면 된다. all-pairs를 만든 뒤 거르므로 데이터가 크면 비싸서, join 조건을 꼭 걸어야 한다.
 
@@ -190,11 +190,11 @@ WHERE R1.UserID = P.UserID
 - **Relational model은 set semantics**가 기본이다. 한 relation 안에 중복 레코드는 원래 없어야 한다.
 - SQL은 중간 결과를 계산하는 과정에서 중복이 자주 생기고, 이 중복이 aggregate 계산 등에서 의미가 있어서 **기본적으로 bag semantics**를 가정한다.
 
-| set 연산 | 의미 | bag 연산 | 의미 |
-|---|---|---|---|
-| `UNION` | 합집합(중복 제거) | `UNION ALL` | 중복 유지, count를 **덧셈** |
-| `INTERSECT` | 교집합 | `INTERSECT ALL` | count의 **min** |
-| `EXCEPT` | 차집합 | `EXCEPT ALL` | count의 **max(0, 차)** |
+| set 연산      | 의미         | bag 연산          | 의미                   |
+| ----------- | ---------- | --------------- | -------------------- |
+| `UNION`     | 합집합(중복 제거) | `UNION ALL`     | 중복 유지, count를 **덧셈** |
+| `INTERSECT` | 교집합        | `INTERSECT ALL` | count의 **min**       |
+| `EXCEPT`    | 차집합        | `EXCEPT ALL`    | count의 **max(0, 차)** |
 
 ```sql
 (SELECT * FROM T1)
