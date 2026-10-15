@@ -52,7 +52,7 @@ Lexical analysis는 세 개의 하위 문제로 나뉜다:
 |---|---|
 | `a` | 일반 문자는 자기 자신을 나타냄 |
 | `ε` | 빈 문자열 |
-| `R\|S` | R 또는 S (alteration), R,S는 RE |
+| <code>R&#124;S</code> | R 또는 S (alteration), R,S는 RE |
 | `RS` | R 다음에 S (concatenation) |
 | `R*` | R의 0회 이상 반복(concatenation) — closure |
 
@@ -69,9 +69,9 @@ L(1(0|1)*) = 1로 시작하는 모든 이진수
 | 표기 | 의미 |
 |---|---|
 | `R+` | R의 1회 이상 반복: `R(R*)` |
-| `R?` | R 또는 없음(optional): `(R\|ε)` |
-| `[abcd]` | 나열된 문자 중 하나: `(a\|b\|c\|d)` |
-| `[a-z]` | 범위 내 하나: `(a\|b\|...\|z)` |
+| `R?` | R 또는 없음(optional): <code>(R&#124;ε)</code> |
+| `[abcd]` | 나열된 문자 중 하나: <code>(a&#124;b&#124;c&#124;d)</code> |
+| `[a-z]` | 범위 내 하나: <code>(a&#124;b&#124;...&#124;z)</code> |
 | `[^ab]` | 나열된 문자를 제외한 아무 문자 |
 | `[^a-z]` | 범위에 속하지 않는 아무 문자 |
 
@@ -242,7 +242,7 @@ main() { yylex(); }
 | `\` | 메타문자 이스케이프 |
 | `+` | positive closure (1회 이상) |
 | `?` | 0회 또는 1회 매치 |
-| `\|` | alteration |
+| <code>&#124;</code> | alteration |
 | `/` | lookahead 제공 |
 | `()` | RE 그루핑 |
 | `<>` | 특정 상태에서만 매치되도록 패턴 제한 |

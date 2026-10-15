@@ -47,7 +47,7 @@ Front end의 두 번째 단계. Lexical Analysis(Scanner) 다음에 오는 **Par
 ### 언어에서의 비유 *(p.4)*
 `I gave him the book`
 - Scanner: 단어로 쪼개고 품사를 붙인다. `I`(pronoun), `gave`(verb), `him`(pronoun), `the`(article), `book`(noun).
-- Parser: 각 단어의 **문법적 기능을 식별하고 문법을 검사**해서 문장 구조 tree로 조직한다. `subject + verb + indirect object + object(article + noun)`.
+- Parser: 토큰 스트림이 CFG로 유도 될 수 있는지 확인해서 문법을 검사한다.(막히면 ParseError) 이후 문장 구조 tree로 조직한다. `subject + verb + indirect object + object(article + noun)`.
 
 ### 프로그램에서 *(p.5)*
 `if (score > 90) then grade = "A" else grade = "D"`
@@ -79,15 +79,15 @@ Token stream + CFG → [Parser] → Valid/Invalid + Error msg
 
 ## 2. Specification: Context-Free Grammar (CFG) *(슬라이드 p.9~20)*
 
-CFG는 선언적 개념이라 정의와 구성요소가 핵심.
+CFG : **"non-terminal 하나를 terminal과 non-terminal의 문자열로 바꿔 쓰는 규칙(production)들의 모음"**
 
 ### CFG의 4가지 구성요소 *(p.9~10)*
-| 요소 | 뜻 | 예 |
-|---|---|---|
-| **Terminal** | 토큰 또는 `ε` | keyword, symbol, `ID`, `NUM` |
-| **Non-terminal** | 구조를 나타내는 변수(syntactic variable) | expression, if-statement, function |
-| **Start symbol** `S` | 유도를 시작하는 특별한 non-terminal | 컴파일러에서는 보통 `program` |
-| **Production** | LHS를 RHS로 바꿔 쓰는 규칙 | `type-specifier → int \| float \| bool` |
+| 요소                   | 뜻                               | 예                                                          |
+| -------------------- | ------------------------------- | ---------------------------------------------------------- |
+| **Terminal**         | 토큰 또는 `ε`                       | keyword, symbol, `ID`, `NUM`                               |
+| **Non-terminal**     | 구조를 나타내는 변수(syntactic variable) | expression, if-statement, function                         |
+| **Start symbol** `S` | 유도를 시작하는 특별한 non-terminal       | 컴파일러에서는 보통 `program`                                       |
+| **Production**       | LHS를 RHS로 바꿔 쓰는 규칙              | <code>type-specifier → int &#124; float &#124; bool</code> |
 
 - LHS(왼쪽)는 **non-terminal 하나**, RHS(오른쪽)는 terminal과 non-terminal을 섞은 **문자열**. `|`는 "또는".
 ```
@@ -399,13 +399,13 @@ id  id
 - 3강에서는 이 정도 개념만 다루고, 에러 복구 기법 자체는 나오지 않는다.
 
 ---
-
+## 이 파트부터 문법을 확인하는 방법을 어떻게 자동화하냐를 다룸.
 ## 5. Automation: Top-Down Parsing *(슬라이드 p.38~53)*
 
-### Top-Down Parsing 개념 *(p.39)*
+### Top-Down Parsing 개념 *(p.39)* -> 파싱(토큰 문자열을 CFG 로 파싱하는) 전략 
 토큰을 왼쪽에서 오른쪽으로 읽으면서 **left-most derivation**을 구성해가는 방식. 입력을 **이미 맞춘 부분(parsed)** 과 **아직 안 읽은 부분(unparsed)** 으로 나눠서, 매 단계 left-most derivation을 한 칸씩 진행한다. 왼쪽 non-terminal을 먼저 전개하면서, terminal이 입력과 맞으면 parsed 쪽으로 옮겨간다. (예: `S → E+S | E`, `E → num | (S)`로 `(1+2+(3+4))+5`.)
 
-### Recursive Descent *(p.40)*
+### Recursive Descent *(p.40)* -> 파싱 전략을 구현하는 한가지 방법
 규칙들을 **순서대로** 시도해보고, 안 맞으면 되돌아가는(**backtrack**) 방식.
 ```
 E → T | T + E
@@ -459,7 +459,10 @@ E() → E1() → T()
 `int`만 소비한 채 **성공(true)** 으로 끝나고, 남은 `· int`는 처리되지 않아 최종적으로 입력 전체를 못 읽었다는 에러가 난다. 올바른 정답은 `T2`(`int · T`)였는데도.
 - 핵심: **`||`는 앞 항이 false일 때만 다음 항으로 넘어간다.** `T2`로 가려면 `T1`이 false여야 하는데, `T1`은 첫 토큰이 `int`가 아닐 때만 false. 그래서 `int`로 시작하는 입력에서는 `T2`가 영원히 실행되지 않는다. backtracking은 **실패했을 때만** 일어나고, "부분적으로 성공했지만 틀린" 경우는 되돌리지 않는다.
 - 해결 방향 두 가지: (1) production 순서를 바꿔 긴 것(`int · T`)을 먼저 시도 — 문법마다 손으로 조정해야 함. (2) **문법 자체를 고쳐서** 첫 토큰 하나만 보고 규칙이 하나로 정해지게 만든다 — 이게 LL(1).
+----
 
+## 더 나은 방법 LL(1)
+ 
 ### LL(1) *(p.44)*
 - **L**: 입력을 **L**eft에서 오른쪽으로 읽는다
 - **L**: **L**eftmost derivation을 만든다
@@ -619,8 +622,8 @@ parse_S()            token='('  → case '(' : parse_E(); parse_S'()
 | 속성 | 뜻 |
 |---|---|
 | **Nullable(x)** | `x`가 빈 문자열을 유도할 수 있으면 true (`x →* ε`) |
-| **First(x)** | `x`에서 유도되는 문자열의 **맨 앞에 올 수 있는 terminal 집합** `{t \| x →* ty}` |
-| **Follow(x)** | 어떤 유도에서든 `x` **바로 뒤에 올 수 있는 terminal 집합** `{t \| S →* yxtz}` |
+| **First(x)** | `x`에서 유도되는 문자열의 **맨 앞에 올 수 있는 terminal 집합** <code>{t &#124; x →* ty}</code> |
+| **Follow(x)** | 어떤 유도에서든 `x` **바로 뒤에 올 수 있는 terminal 집합** <code>{t &#124; S →* yxtz}</code> |
 
 직관 예 (`S → E S'`, `S' → + S | ε`, `E → num | ( S )`):
 - `S'`는 `S' → ε`이 있으니 Nullable. `S`는 `E`가 nullable이 아니라서 Nullable이 아니다.

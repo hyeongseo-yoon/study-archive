@@ -235,7 +235,7 @@ static void traverse( TreeNode * t,
 
 **Class Exercise: proof tree** *(p.67~68)*
 - CFG: `exp → true | false | if exp then exp else exp | 0 | succ exp | pred exp | iszero exp`
-- 규칙: `⊢ 0 : int`, `⊢ true : bool`, `⊢ false : bool`, [if-then-else], `⊢ e1 : int ⟹ ⊢ succ e1 : int`(슬라이드에는 [succ]의 가설이 `e1: bool`로 인쇄되어 보이나 정답 proof tree는 int 가정으로 전개됨), `⊢ e1 : int ⟹ ⊢ pred e1 : int` [pred], `⊢ e1 : int ⟹ ⊢ iszero e1 : bool` [iszero]
+- 규칙: `⊢ 0 : int`, `⊢ true : bool`, `⊢ false : bool`, [if-then-else], `⊢ e1 : bool ⟹ ⊢ succ e1 : int` [succ] (가설은 bool, 결론은 int. 정답 proof tree도 이 규칙대로 전개됨), `⊢ e1 : int ⟹ ⊢ pred e1 : int` [pred], `⊢ e1 : int ⟹ ⊢ iszero e1 : bool` [iszero]
 - 증명할 식: (1) `if iszero 0 then 0 else pred 0 : int`, (2) `pred succ iszero pred 0 : int`
 - 정답 proof tree: `0:int` → `iszero 0 : bool`, `0:int` → `pred 0 : int`, → (1) 완성. (2)는 `0 : int → pred 0 : int → iszero pred 0 : bool → succ iszero pred 0 : int → pred succ iszero pred 0 : int`
 
@@ -277,3 +277,14 @@ static void traverse( TreeNode * t,
   - `local $x`: 변수가 **call stack에서 보임**(dynamic)
   - `my $x`: 변수가 **그 scope 안에서만** 쓰임(static)
   - 같은 코드에서 `func1`이 `local $x = 10`이면 func2가 10을, `my $x = 10`이면 50을 본다
+
+---
+
+## 수업에서 다룬 섹션
+
+1. 복습: Specification / Recognition / Automation
+2. Semantic Analysis란
+3. 분석의 두 범주 (Scope / Type)
+4. Scope Analysis (Lexical scope, Symbol Table, 계층 표현, 예제, 연산, AST 순회로 생성, 함수 선언 순서, 생성 시점)
+5. Type Analysis (Type checking/inferencing, 언어 종류, Type이란, 비교 구현, 동치성, SDD / AST 순회, Inference Rule, Proof tree, Type Environment, Subtyping, lub)
+6. Static vs Dynamic Scoping

@@ -73,8 +73,8 @@ Top-down(LL)은 **leftmost derivation**을 앞에서부터 만들어가는 방�
 - **좌재귀 제거**: `S →* Sa` 꼴의 left recursion은 derivation이 무한히 이어지므로 우재귀로 바꾼다.
 
 ---
-
-## 2. Bottom-Up Parsing 개념 *(p.14~19)*
+## LL(1) 과 다른 방법 소개
+## 2. Bottom-Up Parsing 개념 (LR 류)*(p.14~19)*
 
 ### 핵심 아이디어 *(p.15~16)*
 Bottom-up은 **rightmost derivation을 역순으로** 추적한다. **LR grammar**를 쓰기 때문에 top-down(LL)보다 **더 표현력 있는(more expressive) 문법**을 다룰 수 있다. 동작은 **shift-reduce parser**에 의존한다.
