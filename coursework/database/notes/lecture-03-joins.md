@@ -1,5 +1,9 @@
 # Lecture 3: Joins
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. Recap: Foreign Key & SELECT-FROM-WHERE *(슬라이드 p.5~9)*

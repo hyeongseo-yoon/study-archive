@@ -1,5 +1,9 @@
 # Lecture 1 수업노트: Introduction & The Relational Model
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 
 **이번 수업 목표**: Relational Model이 뭔지, DB/DBMS/schema/instance 같은 핵심 용어를 자기 말로 설명할 수 있게 되는 것.
 

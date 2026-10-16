@@ -1,5 +1,9 @@
 # Chapter 1: Introduction
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Computer Networking: A Top-Down Approach, 8th ed. (Kurose & Ross)*
 
 ## 1. What is the Internet?

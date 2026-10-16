@@ -1,5 +1,9 @@
 # Chapter 5: Semantic Analysis — 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *수업일: 2026-10-16 / 대응 정리노트: `notes/chapter-5.md`*
 
 > `p.N`은 슬라이드 우측 하단 쪽번호 기준이다.

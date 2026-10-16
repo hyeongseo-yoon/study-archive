@@ -1,5 +1,9 @@
 # 0강: 오리엔테이션 — 역사학과 영화 사료론
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *영화로 보는 서양의 역사 (한양대학교 2026-2)*
 
 ## I. 수업 개요 *(슬라이드 p.2~4)*

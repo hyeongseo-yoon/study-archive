@@ -1,5 +1,9 @@
 # 1강: 파리의 딜릴리 — 벨 에포크와 제국주의
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *영화로 보는 서양의 역사 (한양대학교 2026-2)*
 
 ## I. 유럽의 황금기: 벨 에포크 시대

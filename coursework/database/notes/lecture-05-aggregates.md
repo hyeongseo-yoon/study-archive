@@ -1,5 +1,9 @@
 # Lecture 5: Aggregates
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. 지금까지: Joined Tables 위의 단순 쿼리 *(슬라이드 p.9)*

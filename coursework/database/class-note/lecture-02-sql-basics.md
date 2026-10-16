@@ -1,5 +1,9 @@
 # Lecture 2: SQL Basics — 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 > 정리 노트: `notes/lecture-02-sql-basics.md` (슬라이드 p.6~88)
 > 오늘 목표: 테이블을 만들고 키로 관계를 걸 수 있고, 기본 쿼리가 계산하는 결과(for-each semantics)를 설명할 수 있다.
 

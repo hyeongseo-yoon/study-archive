@@ -1,5 +1,9 @@
 # Chapter 0: Course Intro
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Computer Networking: A Top-Down Approach, 8th ed. (Kurose & Ross)*
 
 > 이 PDF는 대부분 강의계획서(강사 정보, 교재, 주차별 일정, 성적 평가, 수업 정책) 내용이라 개념적으로 정리할 내용은 아래 TCP/IP 프로토콜 스택 다이어그램뿐이다.

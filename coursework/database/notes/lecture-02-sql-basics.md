@@ -1,5 +1,9 @@
 # Lecture 2: SQL Basics
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. SQL 개요 *(슬라이드 p.6~7)*

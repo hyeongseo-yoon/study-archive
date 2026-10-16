@@ -1,5 +1,9 @@
 # Chapter 2-1: Classical Encryption Techniques
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Hanyang University, Division of Computer Science and Engineering*
 
 ## 1. Symmetric/Private Cipher Model *(슬라이드 p.2~5)*

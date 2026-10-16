@@ -1,5 +1,9 @@
 # Lecture 4: Outer Joins and NULL
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. NULLs in SQL *(슬라이드 p.5)*

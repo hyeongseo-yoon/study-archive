@@ -1,5 +1,9 @@
 # Chapter 4: Syntax Analysis - 2 — 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *수업일: 2026-10-13 / 대응 정리노트: `notes/chapter-4.md`*
 
 > 슬라이드에 쪽번호가 없어서 `p.N`은 PDF 페이지 순서 기준이다.

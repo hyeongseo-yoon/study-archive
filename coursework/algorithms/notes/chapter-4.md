@@ -1,5 +1,9 @@
 # Chapter 4: Divide-and-Conquer
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Introduction to Algorithms, 3rd Ed. (Cormen, Leiserson, Rivest, Stein)*
 
 ## 1. Recurrence 개념 *(슬라이드 p.3~4)*

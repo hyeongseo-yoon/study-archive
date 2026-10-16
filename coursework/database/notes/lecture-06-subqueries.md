@@ -1,5 +1,9 @@
 # Lecture 6: Subqueries
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. Subqueries란? *(슬라이드 p.6~7)*

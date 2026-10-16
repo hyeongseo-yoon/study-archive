@@ -1,5 +1,9 @@
 # Lecture 1: Introduction & The Relational Model
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Systems & its Applications, Hanyang University (Instructor: Cha Jaehyuk)*
 *Textbook: Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 

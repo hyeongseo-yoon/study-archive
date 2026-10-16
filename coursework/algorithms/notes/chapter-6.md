@@ -1,5 +1,9 @@
 # Chapter 6: Heapsort
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Introduction to Algorithms, 3rd Ed. (Cormen, Leiserson, Rivest, Stein)*
 
 ## 1. Heapsort 개요 *(슬라이드 p.3)*

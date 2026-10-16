@@ -1,5 +1,9 @@
 # Chapter 3: Syntax Analysis
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *2026 Fall, Hunjun Lee, Hanyang University*
 
 ## 1. Syntax Analysis 개요 *(슬라이드 p.2~6)*

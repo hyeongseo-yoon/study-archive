@@ -1,5 +1,9 @@
 # Chapter 2-3: Cryptographic Tools - 2
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 ## 1. Block Cipher Modes of Operation (simplified) *(슬라이드 p.3~11)*
 
 블록 암호는 한 블록(예: DES는 64bit)씩만 암호화할 수 있음 — 긴 메시지를 여러 블록으로 어떻게 처리할지 정하는 것이 "mode of operation". 이 자료에서는 5가지 모드(ECB, CBC, CFB, OFB, CTR) 중 **ECB**와 **CTR**만 다룸(나머지는 시간 관계상 스킵). *(p.4)*

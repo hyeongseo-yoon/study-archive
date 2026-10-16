@@ -1,5 +1,9 @@
 # Chapter 4: Syntax Analysis - 2
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *2025/2026 Fall, Hunjun Lee*
 
 > 이 자료는 슬라이드에 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일 자체의 페이지 순서(1부터 시작)를 가리킨다. 이 강의는 이전 강의(Syntax Analysis - 1)에서 다룬 CFG·Parse Tree·AST·Top-down(LL) parsing을 복습한 뒤, **Bottom-up(LR) parsing**을 본격적으로 다룬다.

@@ -1,5 +1,9 @@
 # Chapter 2: Application Layer
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Computer Networking: A Top-Down Approach, 8th ed. (Kurose & Ross)*
 
 > 이 자료는 슬라이드 우측 하단에 "Application Layer: 2-N" 형식의 쪽번호가 있어, 아래 `p.N`은 그 N을 그대로 가리킨다.

@@ -1,5 +1,9 @@
 # Chapter 1 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *(수업일: 2026-09-17, 참조 노트: `notes/chapter-1.md`)*
 
 ## 1. Introduction

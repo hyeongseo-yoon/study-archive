@@ -1,5 +1,9 @@
 # Lecture 7: Conceptual Design and ER Diagrams
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. Database Design 개요 *(슬라이드 p.4~10)*

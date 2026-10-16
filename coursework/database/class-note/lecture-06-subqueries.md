@@ -1,5 +1,9 @@
 # Lecture 6: Subqueries — 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 > 정리 노트: `notes/lecture-06-subqueries.md` (슬라이드 p.6~137)
 > 오늘 목표: 서브쿼리를 FROM/SELECT/WHERE 어디에든 써서 쿼리를 쪼개고, "오직 ~만", "~가 없는" 같은 요구사항을 논리식으로 바꿔 `EXISTS/IN/ANY/ALL`로 쓸 수 있다. 어떤 문제에 서브쿼리가 꼭 필요한지 판단할 수 있다.
 

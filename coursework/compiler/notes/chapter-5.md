@@ -1,5 +1,9 @@
 # Chapter 5: Semantic Analysis
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *2026 Fall, Hunjun Lee*
 
 > 슬라이드 우측 하단 쪽번호가 PDF 페이지 순서와 같다. 이 강의는 lexical/syntax analysis 다음 단계인 **Semantic Analysis**를 **Scope(식별자 선언·사용)**와 **Type(값/식의 타입)** 두 갈래로 나눠 다루고, 마지막에 Static vs Dynamic scoping을 덧붙인다.

@@ -1,5 +1,9 @@
 # Lecture 4: Outer Joins and NULL — 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 > 정리 노트: `notes/lecture-04-outerjoins-null.md` (슬라이드 p.5~44)
 > 오늘 목표: NULL이 섞인 WHERE 조건이 왜 직관과 다르게 평가되는지 설명하고, outer join과 self-join으로 "짝 없는 행 보존"과 "같은 테이블 두 번 순회" 쿼리를 쓸 수 있다.
 

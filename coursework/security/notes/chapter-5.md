@@ -1,5 +1,9 @@
 # Chapter 5: Database Security
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 > 이 슬라이드에는 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일의 페이지 순서(1부터 시작)를 가리킨다.
 > 흐름: DB/DBMS 기본 → 관계형 DB 용어 → **SQL Injection** → (DB 접근 제어) → **Inference** → **Database encryption**. (요약 슬라이드에는 Cloud 항목도 적혀 있지만 본문 슬라이드는 없다.)
 

@@ -1,5 +1,9 @@
 # 2강: 서부 전선 이상 없다 — 제1차 세계대전과 내셔널리즘
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *영화로 보는 서양의 역사 (한양대학교 2026-2)*
 
 ## I. 제1차 세계대전

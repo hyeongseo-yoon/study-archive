@@ -1,5 +1,9 @@
 # Lecture 8: Schema Design and Normalization
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
 ## 1. Data Anomalies *(슬라이드 p.6~12)*

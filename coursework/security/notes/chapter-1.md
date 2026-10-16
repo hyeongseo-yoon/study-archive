@@ -1,5 +1,9 @@
 # Chapter 1: Introduction
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Hanyang University, Division of Computer Science and Engineering*
 
 ## 1. Introduction *(슬라이드 p.3~4)*

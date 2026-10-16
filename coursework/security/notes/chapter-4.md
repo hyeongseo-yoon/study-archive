@@ -1,5 +1,9 @@
 # Chapter 4: Access Control
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *Hanyang University, Division of Computer Science and Engineering*
 
 ## 1. Access Control 개념 *(슬라이드 p.3~7)*

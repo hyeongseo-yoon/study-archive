@@ -1,5 +1,9 @@
 # Chapter 3: Syntax Analysis — 수업노트
 
+```dataviewjs
+await dv.view("02.Area/study-archive/coursework/_nav")
+```
+
 *수업일: 2026-10-11 / 대응 정리노트: `notes/chapter-3.md`*
 
 ---
