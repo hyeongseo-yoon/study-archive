@@ -51,7 +51,8 @@ Redundant row = 느린 업데이트 또는 데이터 불일치 — Magda의 주�
 3. FD를 이용해 schema를 **normalize**함
 
 ### Functional Dependency 정의 *(p.16)*
-> **Functional Dependency** `A1,…,Am → B1,…,Bn`이 relation R에서 성립하려면: `∀t,t' ∈ R, (t.A1=t'.A1 ∧ … ∧ t.Am=t'.Am → t.B1=t'.B1 ∧ … ∧ t.Bn=t'.Bn)`
+
+**Functional Dependency** `A1,…,Am → B1,…,Bn`이 relation R에서 성립하려면: `∀t,t' ∈ R, (t.A1=t'.A1 ∧ … ∧ t.Am=t'.Am → t.B1=t'.B1 ∧ … ∧ t.Bn=t'.Bn)`
 
 - 비형식적으로는 "일부 attribute가 다른 attribute를 결정한다"는 의미
 - 실생활 예: `FullName → Initials`, `ModelNumber → Capacity`, `UserID → Name`
@@ -79,9 +80,36 @@ FD `A1,…,Am → B1,…,Bn`에서:
 | 333 | Amal | 9876 | Salesrep |
 | 444 | Luka | 1234 | Lawyer |
 
-- `ID → Name, Phone, Position` ✅ (ID가 PK이므로 당연히 성립)
-- `Position → Phone` ✅ — 검증 쿼리: `SELECT COUNT(*) FROM R1,R2 WHERE R1.position=R2.position AND R1.Phone<>R2.Phone` → 결과 0(위반 없음)이면 FD가 성립함
-- `Phone → Position` ❌ — 검증 쿼리 결과 1(같은 Phone `1234`를 가진 Amal은 Clerk, Luka는 Lawyer로 Position이 다름) → **FD가 깨짐**
+- `ID → Name, Phone, Position` ✅ (ID가 PK이므로 당연히 성립) *(p.22)*
+- `Position → Phone` ✅ — 슬라이드가 `???`로 묻고 쿼리로 확인 *(p.23~24)*: 결과 0(위반 없음)이면 FD가 성립함 (R1, R2는 같은 R의 두 복사본)
+```sql
+SELECT COUNT(*)
+FROM R1, R2
+WHERE (R1.position = R2.position)
+  AND (R1.Phone <> R2.Phone)
+-- answer: 0
+```
+- `Phone → Position` ❌ *(p.25~27)* — 같은 쿼리를 방향만 바꿔 실행:
+```sql
+SELECT COUNT(*)
+FROM R1, R2
+WHERE (R1.phone = R2.phone)
+  AND (R1.position <> R2.position)
+-- answer: 2
+```
+  - 결과 2는 (Amal/Clerk, Luka/Lawyer) 쌍이 순서만 바꿔 두 번 세어졌기 때문. 같은 Phone `1234`를 가진 Amal은 Clerk, Luka는 Lawyer로 Position이 다름 → **FD가 깨짐**
+  - 슬라이드는 쌍이 중복되지 않게 `<>` 대신 `<`로 바꾼 버전도 보여줌 (`R1.position < R2.position` → `-- answer: 1`) *(p.27)*
+
+**슬라이드 Q** *(p.28)*: 아래 테이블에서 다음 FD들이 이 인스턴스에서 성립하는가? 또 도메인 지식으로 볼 때 이 스키마의 어떤 relation이든 이 FD를 만족할 수 있는가? (답 없음)
+
+| ID | Name | Job | Car |
+|---|---|---|---|
+| 123 | Leslie | TA | Civic |
+| 345 | Frances | TA | NULL |
+| 567 | Magda | Prof | Ferrari |
+| 789 | Quinn | Prof | Picklemobile |
+
+- `ID → Name`, `Name → Car`, `Name → Job`
 
 ### Reasoning about FDs — Armstrong's Axioms *(p.29~33)*
 일부 FD는 다른 FD를 논리적으로 함의(imply)함 — 예: `rating → popularity`와 `city, popularity → rec?`이 성립하면 `city, rating → rec?`도 성립함(직접 확인 가능하지만, 일반적 알고리즘이 필요)
@@ -104,7 +132,8 @@ FD `A1,…,Am → B1,…,Bn`에서:
 ## 3. Closures *(슬라이드 p.35~41)*
 
 ### Closure 정의 *(p.35~37)*
-> 집합 `{A1,…,Am}`의 **Closure**(표기: `{A1,…,Am}⁺`)는, `A1,…,Am → B`가 성립하는 모든 attribute `B`의 집합이다. Closure는 **한 attribute 집합이 결정하는 모든 것**을 찾아냄
+
+집합 `{A1,…,Am}`의 **Closure**(표기: `{A1,…,Am}⁺`)는, `A1,…,Am → B`가 성립하는 모든 attribute `B`의 집합이다. Closure는 **한 attribute 집합이 결정하는 모든 것**을 찾아냄
 
 - 예: `Name → Initials`, `ID → Name`이 주어지면
   - `Name⁺ = {Name, Initials}`
@@ -128,6 +157,17 @@ Return X
 `id → name`, `rating → popularity`, `name, rating → rec?`이 주어졌을 때:
 `{id, rating}⁺ = {id, rating} → {id, rating, name} → {id, rating, name, popularity} → {id, rating, name, popularity, rec?}`
 전체 attribute 집합과 일치하면, **`{id, rating}`은 key**
+
+**슬라이드 Q** *(p.40)*: FD가 `Name, SignatureDrink → Calories`, `Name → Price`일 때 `{Name}⁺`와 `{Name, SignatureDrink}⁺`는? (답 없음)
+
+| Name | SignatureDrink | Calories | Price |
+|---|---|---|---|
+| Boba Up | Monster Golden | 350 | $6.99 |
+| Timeless Tea | Monster Golden | 300 | $5.50 |
+| Sharetea | Taro Milk Tea | 400 | $7.00 |
+| Boba Up | Brown Sugar Boba | 380 | $6.99 |
+| Timeless Tea | Brown Sugar Boba | 420 | $5.50 |
+| TP Tea | Brown Sugar Boba | 380 | $4.75 |
 
 ### Closure로 FD 성립 여부 검사하기 *(p.41)*
 `A → B`가 성립하는지 확인하려면, 단순히 **`B ⊆ A⁺`인지만 확인**하면 됨 — Armstrong's Axioms를 반복 적용하는 것보다 훨씬 간단하고 이와 동치인 테스트
@@ -165,9 +205,10 @@ relation이 여러 key(candidate key)를 가질 수 있는데, `CREATE TABLE` �
 - **5NF**: join dependency를 고려(다루기 어려움)
 
 ### 1NF, BCNF 정의 *(p.55~56)*
-> **1NF**: relation R이 First Normal Form이라는 것은 모든 attribute 값이 **atomic**함을 뜻함 — attribute 값은 multivalued일 수 없고, nested relation은 허용되지 않음. 이를 데이터가 "**flat**"하다고 표현
->
-> **BCNF (Boyce-Codd Normal Form)**: relation R이 BCNF라는 것은, 모든 **non-trivial functional dependency `X → C`에 대해 `X`가 superkey**임을 뜻함. 동치인 표현: 모든 `X`에 대해 `X⁺ = X`이거나 `X⁺ = A`(A는 R의 모든 attribute)
+
+**1NF**: relation R이 First Normal Form이라는 것은 모든 attribute 값이 **atomic**함을 뜻함 — attribute 값은 multivalued일 수 없고, nested relation은 허용되지 않음. 이를 데이터가 "**flat**"하다고 표현
+
+**BCNF (Boyce-Codd Normal Form)**: relation R이 BCNF라는 것은, 모든 **non-trivial functional dependency `X → C`에 대해 `X`가 superkey**임을 뜻함. 동치인 표현: 모든 `X`에 대해 `X⁺ = X`이거나 `X⁺ = A`(A는 R의 모든 attribute)
 
 ### BCNF와 SQL: 사람들 *(p.58~59)*
 - "Boyce-Codd"라는 이름은 **Edgar F. Codd**(relational data model의 창시자, IBM)와 **Raymond Boyce**(relational data model의 초기 기여자, IBM)에서 유래
@@ -225,6 +266,17 @@ Normalize(R):
 - `R2`에서는 `X⁺ = X`가 성립함(즉 X 이상으로 더 결정하는 게 없음)
 - **재귀 호출**하는 이유: R1과 R2가 여전히 BCNF가 아닐 수 있어 추가 분해가 필요할 수 있음
 
+**슬라이드 Q** *(p.72)*: 아래 relation을 FD `id → name, rating`로 분해해보라 (답 없음)
+
+`Restaurant(id, name, rating, popularity, rec?)`
+
+| id | name | rating | popularity | rec? |
+|---|---|---|---|---|
+| 1 | Mee Sum Pastry | 3 | Respectable | N |
+| 2 | Café on the Ave | 4 | Poppin | Y |
+| 3 | Guanaco's Tacos | 4 | Poppin | Y |
+| 4 | Aladdin Gyro-Cery | 5 | Poppin | Y |
+
 ### 예시: Restaurant 테이블 전체 BCNF 분해 *(p.77~88)*
 `Restaurant(id, name, rating, popularity, rec?)`, FD 3개: `id → name, rating` / `rating → popularity` / `popularity → rec?`
 
@@ -236,7 +288,42 @@ Normalize(R):
    - `R3(popularity, rec?)` — FD: `popularity→rec?`
    - `R4(rating, popularity)` — FD: `rating→popularity`
 4. **R3, R4 검사**: 각각의 FD에서 antecedent가 자기 relation 내 전체 attribute를 결정 → 둘 다 **BCNF**
-5. **최종 결과**: `R2(id, name, rating)`, `R3(popularity, rec?)`, `R4(rating, popularity)` — 이 세 relation이 normalize된 최종 schema이며, **더 이상 anomaly가 없음**
+5. **최종 결과**: `R2(id, name, rating)`, `R3(popularity, rec?)`, `R4(rating, popularity)` — 이 세 relation이 normalize된 최종 schema이며, **더 이상 anomaly가 없음** *(p.89 요약 슬라이드)*
+
+분해 후 실제 데이터 *(p.89)*:
+
+| R2: id | name | rating |
+|---|---|---|
+| 1 | Mee Sum Pastry | 3 |
+| 2 | Café on the Ave | 4 |
+| 3 | Guanaco's Tacos | 4 |
+| 4 | Aladdin Gyro-Cery | 5 |
+
+| R3: popularity | rec? |
+|---|---|
+| Respectable | N |
+| Poppin | Y |
+
+| R4: rating | popularity |
+|---|---|
+| 3 | Respectable |
+| 4 | Poppin |
+| 5 | Poppin |
+
+(중간 단계 R1(rating, popularity, rec?)의 데이터는 (3, Respectable, N), (4, Poppin, Y), (5, Poppin, Y))
+
+**슬라이드 Q 1** *(p.90~91)*: BCNF decomposition algorithm으로 다른 schema를 제안해보라 (답 없음)
+- `Employees(ID, Name, Car, ParkingLot, Job, Salary)`
+  1. `ID → Name, Job, Salary`
+  2. `ID → Car`
+  3. `Car → ParkingLot`
+
+**슬라이드 Q 2** *(p.92~93)*: 같은 문제 (답 없음)
+- `Students(FName, LName, Initials, Major, PredictedGPA, ActualGPA)`
+  1. `FName, LName → Initials`
+  2. `Major → PredictedGPA`
+
+(슬라이드에는 두 문제 모두 `Normalize(R)` 의사코드가 옆에 함께 표시됨)
 
 ---
 
@@ -253,3 +340,15 @@ Normalize(R):
 - `zipcode`의 closure가 전체 attribute가 아니므로(city 누락) BCNF 위반 → BCNF 알고리즘으로 분해하면: `L1(zipcode, state)`, `L2(zipcode, city)`
 - **문제**: 분해 과정에서 **`city, state → zipcode`라는 FD 자체가 사라짐**(두 결과 테이블 어디에서도 이 FD를 표현할 수 없게 됨)
 - **3NF**는 이런 FD 손실을 막기 위해 일부 anomaly를 허용하는 대신 모든 FD를 보존함 — 정의는 상대적으로 단순하지만, normalization 알고리즘은 복잡하고 비효율적임
+
+---
+
+## 수업에서 다룬 섹션
+
+1. Data Anomalies
+2. Design Theory와 Functional Dependencies (FD 정의, Armstrong's Axioms)
+3. Closures
+4. Formal Definition of Keys
+5. Normalization 개요와 BCNF
+6. BCNF Decomposition Algorithm
+7. Discussion — BCNF의 한계와 3NF

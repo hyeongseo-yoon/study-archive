@@ -22,7 +22,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 NIST가 내리는 정의:
 
-> 정보시스템 자원(H/W, S/W, 데이터, 통신 등)의 **integrity, availability, confidentiality**를 지키기 위해 자동화된 정보시스템에 제공되는 보호
+정보시스템 자원(H/W, S/W, 데이터, 통신 등)의 **integrity, availability, confidentiality**를 지키기 위해 자동화된 정보시스템에 제공되는 보호
 
 여기서 핵심은 "보호"의 목표가 뭔지를 세 가지로 쪼갠 거야. 이게 바로 **CIA triad**:
 
@@ -140,7 +140,7 @@ Security attack은 크게 두 가지로 나뉘어: **Passive Attacks**와 **Acti
 
 **특징**: 새로운 취약점/기법이 계속 나오기 때문에 **예방이 어려워**. 그래서 목표가 Passive와 정반대로, 최대한 빨리 **탐지(detect)하고 복구(recover)**하는 쪽으로 바뀌어.
 
-> 결국 이 섹션의 핵심 대비: **Passive = 예방 중심 / Active = 탐지+복구 중심**. 이게 왜 그런지는 위에서 설명한 "탐지 가능 여부" 차이에서 나오는 자연스러운 결론이야.
+결국 이 섹션의 핵심 대비: **Passive = 예방 중심 / Active = 탐지+복구 중심**. 이게 왜 그런지는 위에서 설명한 "탐지 가능 여부" 차이에서 나오는 자연스러운 결론이야.
 
 둘 다 정확해.
 

@@ -21,7 +21,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 ## 3. Inner Joins *(슬라이드 p.13)*
 
-> Inner join은 SQL 쿼리의 "bread and butter" — 흔히 그냥 "join"이라고도 부름. 두 relation을 **join predicate**로 교집합(intersect)한다
+Inner join은 SQL 쿼리의 "bread and butter" — 흔히 그냥 "join"이라고도 부름. 두 relation을 **join predicate**로 교집합(intersect)한다
 
 | Payroll |||| Registry ||
 |---|---|---|---|---|---|
@@ -136,7 +136,8 @@ CREATE TABLE Payroll (
 - 또는 `PRIMARY KEY (UserId)`를 컬럼 목록 끝에 별도로 명시
 
 ### Aggregate(복합) Key *(p.55~57)*
-> Key = 하나 이상의 attribute가 **in aggregate**(합쳐서) row를 유일하게 식별하는 것
+
+Key = 하나 이상의 attribute가 **in aggregate**(합쳐서) row를 유일하게 식별하는 것
 
 ```sql
 CREATE TABLE Payroll (

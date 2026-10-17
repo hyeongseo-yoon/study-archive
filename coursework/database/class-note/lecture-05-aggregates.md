@@ -4,8 +4,8 @@
 await dv.view("02.Area/study-archive/coursework/_nav")
 ```
 
-> 정리 노트: `notes/lecture-05-aggregates.md` (슬라이드 p.9~81)
-> 오늘 목표: 테이블을 요약하는 쿼리(집계, 그룹핑)를 쓰고, SQL이 실제로 어떤 순서로 실행되는지 머릿속에서 그려서 결과를 예측할 수 있다.
+정리 노트: `notes/lecture-05-aggregates.md` (슬라이드 p.9~81)
+오늘 목표: 테이블을 요약하는 쿼리(집계, 그룹핑)를 쓰고, SQL이 실제로 어떤 순서로 실행되는지 머릿속에서 그려서 결과를 예측할 수 있다.
 
 ## 0. 선수 개념 점검
 
@@ -217,7 +217,7 @@ WHERE double_pay > 100000;   -- 에러
 ```
 - `double_pay` alias는 SELECT 단계에서 만들어지는데 WHERE는 그보다 먼저 실행되므로, WHERE 시점에는 그 이름이 존재하지 않는다.
 
-> **오해 주의**: `FROM A, B WHERE A.id = B.id`를 보면 join이 WHERE에서 일어나는 것처럼 보이지만, **JOIN은 항상 WHERE보다 먼저**다. implicit join도 결국 join이다.
+**오해 주의**: `FROM A, B WHERE A.id = B.id`를 보면 join이 WHERE에서 일어나는 것처럼 보이지만, **JOIN은 항상 WHERE보다 먼저**다. implicit join도 결국 join이다.
 
 ## 7. Aggregates + Joins *(p.60~71)*
 

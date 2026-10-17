@@ -119,7 +119,7 @@ DELETE FROM Payroll;
 
 ## 6. Keys (Primary Key) *(슬라이드 p.60~75)*
 
-> **Key**: 하나의 row를 **유일하게** 식별하는 attribute(들)
+**Key**: 하나의 row를 **유일하게** 식별하는 attribute(들)
 
 - 예: Job(TA/Prof 반복) → 키 아님. UserID(값이 고유) → 키의 좋은 후보 *(p.61~63)*
 - Salary처럼 얼핏 고유해 보여도, 우연히 같은 값(두 사람이 같은 salary)이 나올 수 있으면 키가 아님 — **데이터는 현실 세계에서 오므로, 모델도 그 현실을 반영해야 한다** *(p.64~65)*
@@ -167,7 +167,7 @@ CREATE TABLE Payroll (
 | 567 | Magda | Prof | 90000 | 567 | Pinto |
 | 789 | Dan | Prof | 100000 | | |
 
-> **Foreign Key**: 다른 테이블(another table)의 한 row를 유일하게 식별하는 attribute(들) — 그 테이블을 "reference"한다 *(p.78~80)*
+**Foreign Key**: 다른 테이블(another table)의 한 row를 유일하게 식별하는 attribute(들) — 그 테이블을 "reference"한다 *(p.78~80)*
 
 - 방향이 중요함: Regist.UserID → Payroll.UserID는 유효(Payroll에서 UserID가 유일) *(p.81)*
 - 반대로 Payroll.UserID → Regist.UserID는 불가 — Regist 테이블에서는 567이 두 번 나와 유일하지 않음 *(p.82)*

@@ -34,10 +34,11 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 개발자가 앱을 만들 때 "패킷이 어떤 광케이블을 타고 갈지"까지 신경 쓰지 않는 건, 인터넷이 앱에 **programming interface(API)**를 제공해서 앱이 "이 데이터 저쪽에 보내줘"라고 요청만 하면 되게 해주기 때문. 이 API는 앱을 인터넷 전송 서비스에 연결해 주는 **"hook(걸이)"** 역할.
 
-> 우체국 비유: 편지를 쓰는 사람(앱)은 "이 주소로 보내주세요"만 말하면 됨. 비행기로 가든 트럭으로 가든 몰라도 되고, 그 부분을 우체국(인터넷)이 맡음.
+우체국 비유: 편지를 쓰는 사람(앱)은 "이 주소로 보내주세요"만 말하면 됨. 비행기로 가든 트럭으로 가든 몰라도 되고, 그 부분을 우체국(인터넷)이 맡음.
 
 ### Protocol이란 정확히 뭔가 *(p.7~8)*
-> Protocols define the **format**, **order** of messages sent and received among network entities, and **actions taken** on message transmission, receipt.
+
+Protocols define the **format**, **order** of messages sent and received among network entities, and **actions taken** on message transmission, receipt.
 
 | 요소 | 의미 | 사람 대화로 비유 |
 |---|---|---|
@@ -180,7 +181,8 @@ edge가 "끝단 장치들"이라면, **core**는 그 사이를 이어주는 **�
 비유: 식당 **예약석**을 잡아두는 게 circuit switching (내가 안 와도 자리는 비워둠). 패킷 스위칭은 **선착순 공용 좌석**.
 
 ### Packet vs Circuit switching 비교 *(p.36~37)*
-> 1Gbps 링크, 사용자는 활성 상태일 때 100Mbps 사용, 각 사용자는 전체 시간 중 **10%만** 활성.
+
+1Gbps 링크, 사용자는 활성 상태일 때 100Mbps 사용, 각 사용자는 전체 시간 중 **10%만** 활성.
 
 - **circuit switching**: 사용자당 100Mbps를 **고정 예약**하니 1Gbps / 100Mbps = **딱 10명**만 수용 가능.
 - **packet switching**: 사용자가 **35명**이어도 괜찮음. 동시에 10명보다 많이 활성일 확률이 **0.0004 미만**이라 사실상 문제 없음.

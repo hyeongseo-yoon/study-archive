@@ -9,7 +9,8 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 ## 1. User Authentication 개념 *(슬라이드 p.3~4)*
 
 ### 정의 (RFC 4949) *(슬라이드 p.3)*
-> "The process of verifying an identity claimed by or for a system entity."
+
+"The process of verifying an identity claimed by or for a system entity."
 
 ### 인증 수단의 4가지 범주 *(슬라이드 p.4)*
 사용자 신원을 확인하는 4가지 수단(개인이 알거나/가지거나/이거나/하는 것에 근거):

@@ -160,7 +160,7 @@ SELECT
 - **ORDER BY**: 남은 결과를 정렬한다
 - **SELECT**: 남은 결과의 컬럼을 변환/선택한다 (예: `UPPER(Name)`처럼 컬럼 값 변형, 필요없는 컬럼 버리기)
 
-> **오해 주의**: implicit 문법(`FROM A, B WHERE ...`)을 보면 join이 WHERE 단계에서 일어나는 것처럼 보이지만, 실제로는 **JOIN은 항상 WHERE보다 먼저** 일어난다. Implicit join도 결국 join이다.
+**오해 주의**: implicit 문법(`FROM A, B WHERE ...`)을 보면 join이 WHERE 단계에서 일어나는 것처럼 보이지만, 실제로는 **JOIN은 항상 WHERE보다 먼저** 일어난다. Implicit join도 결국 join이다.
 
 ## 7. Aggregates + Joins 함께 쓰기 *(슬라이드 p.60~71)*
 

@@ -6,8 +6,8 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 *Database Systems & its Applications — Relational Algebra*
 
-> 슬라이드 쪽번호가 인쇄되어 있지 않거나 잘려 있어서, 아래 `p.N`은 PDF 파일의 페이지 순서(1부터 시작)를 가리킨다.
-> 구성: **① Relational Algebra(RA) 개요와 연산자 → ② SQL을 RA로 변환 → ③ RA tree 변환 규칙(Tree Transformations)**
+슬라이드 쪽번호가 인쇄되어 있지 않거나 잘려 있어서, 아래 `p.N`은 PDF 파일의 페이지 순서(1부터 시작)를 가리킨다.
+구성: **① Relational Algebra(RA) 개요와 연산자 → ② SQL을 RA로 변환 → ③ RA tree 변환 규칙(Tree Transformations)**
 
 ## 0. Outline *(p.2, 15, 52, 76, 91, 110, 116)*
 - Relational Algebra: Introduction, Operators

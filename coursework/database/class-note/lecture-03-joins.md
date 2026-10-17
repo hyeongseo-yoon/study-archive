@@ -4,12 +4,9 @@
 await dv.view("02.Area/study-archive/coursework/_nav")
 ```
 
-> 정리 노트: `notes/lecture-03-joins.md` (슬라이드 p.5~59)
-> 오늘 목표: 두 테이블을 join으로 묶는 쿼리를 쓰고, 그 결과가 어떻게 계산되는지(nested-loop semantics) 설명할 수 있다. 실제 DB가 왜 그 방식대로 돌리지 않는지도 말할 수 있다.
+정리 노트: `notes/lecture-03-joins.md` (슬라이드 p.5~59)
+오늘 목표: 두 테이블을 join으로 묶는 쿼리를 쓰고, 그 결과가 어떻게 계산되는지(nested-loop semantics) 설명할 수 있다. 실제 DB가 왜 그 방식대로 돌리지 않는지도 말할 수 있다.
 
-## 0. 선수 개념 점검
-
-- 2강 내용(foreign key, declarative, alias, for-each semantics, set vs bag)은 이전 수업에서 다뤘기 때문에 점검 없이 바로 진행했다.
 
 ## 1. Recap: Foreign Key & SELECT-FROM-WHERE *(p.5~9)*
 
@@ -39,17 +36,10 @@ await dv.view("02.Area/study-archive/coursework/_nav")
   - 정리: FK는 **유일성이 보장된 쪽(key)을 가리켜야** 한다.
 - SQL은 declarative라서 *what*만 쓰고 *how*는 시스템이 정한다. 이게 7번 섹션의 핵심 복선이다.
 
-## 2. Joins 개요 *(p.11)*
-
-- **Foreign key는 테이블 간 관계를 *describe*(기술)한다.** "이 컬럼은 저 테이블을 가리킨다"는 선언일 뿐이다.
-- **Join은 그 관계를 *realize*(구현)해서** 실제로 두 테이블의 row를 결합한다.
-- 항상 foreign key로만 join하는 건 아니다. join 조건은 자유롭게 줄 수 있다.
-- Join에는 여러 종류(flavor)가 있다. 오늘은 inner join을 배우고, outer join은 4강에서 다룬다.
 
 ## 3. Inner Joins *(p.13)*
 
-> Inner join은 SQL 쿼리의 "bread and butter"다. 흔히 그냥 "join"이라고 부른다. 두 relation을 **join predicate**(결합 조건)로 교집합(intersect)한다.
->  **두 테이블에서 조건(보통 키 값)이 일치하는 행끼리만 붙여서 보여주는 연산. 두 테이블의 교집합.**
+ **두 테이블에서 조건(보통 키 값)이 일치하는 행끼리만 붙여서 보여주는 연산. 두 테이블의 교집합.**
 
 Payroll과 Registry를 **UserID가 같은 값끼리** 묶으면:
 
@@ -59,20 +49,14 @@ Payroll과 Registry를 **UserID가 같은 값끼리** 묶으면:
 | Magda  | Prof | 120k   | Civic   |
 | Magda  | Prof | 120k   | Ferrari |
 
-포인트 세 가지:
-1. **Frances(345)와 Quinn(789)은 결과에 없다.** 차 등록이 없어서 짝이 없다. inner join은 짝이 있는 것만 남긴다.
-2. **Magda는 두 번 나온다.** Registry에 567이 두 row라 매치도 두 건이다. join은 1:1 매칭이 아니라 *조건을 만족하는 모든 조합*을 만든다.
-3. 결과 컬럼은 두 테이블의 컬럼이 이어붙은 형태다. 위 표는 그중 일부만 골라 보여준 것이다.
-
-**확인 문제**: Payroll에 `(999, Zoe, TA, 40k)`, Registry에 `(999, Tesla)`, `(999, Prius)`, `(999, Model3)`을 추가하고 UserID로 inner join하면 Zoe는 3번 나온다. 조건을 만족하는 모든 조합이 나오니까 Zoe(1) × 차(3) = 3 row다.
 
 ## 4. Nested-Loop Semantics *(p.14~27)*
 
 "모든 조합 중 조건 맞는 것"을 정확히 정의하는 방법이 **nested-loop semantics**다. 2강의 for-each semantics를 루프 두 겹으로 확장한 것이다.
 
 ```python
-foreach row_p in Payroll:
-    foreach row_r in Registry:
+for each row_p in Payroll:
+    for each row_r in Registry:
         if row_p.userID == row_r.userID:
             output(row_p.name, row_r.car)
 ```
@@ -230,7 +214,7 @@ foreach row_p in Payroll:
 - `userID` 비교 횟수: 첫 번째 코드는 4 × 3 = **12번**, 두 번째 코드는 4 × 1 = **4번**.
 - Ferrari가 아닌 r은 어떤 p와 만나도 `if`에서 어차피 탈락한다. 이런 r을 미리 치워도 최종 결과는 안 변하고 쓸데없는 비교만 줄어든다.
 
-> 한 테이블의 row만 보고 판단할 수 있는 필터는 join 전에 미리 적용해도 결과가 같다. 그래서 optimizer가 앞으로 당겨 쓸 수 있다.
+한 테이블의 row만 보고 판단할 수 있는 필터는 join 전에 미리 적용해도 결과가 같다. 그래서 optimizer가 앞으로 당겨 쓸 수 있다.
 
 - 반대로 `P.UserID = R.UserID`처럼 **두 테이블을 같이 봐야 하는 조건**은 미리 적용할 수 없다. 그게 join 조건 자체이기 때문이다.
 - "WHERE가 join 뒤에 적용된다"는 건 **결과가 그렇게 계산된 것과 같아야 한다**는 의미(semantics)이지, 실제로 그 순서로 실행한다는 뜻이 아니다. 결과만 같으면 optimizer가 순서를 마음대로 바꿔도 된다.
@@ -284,7 +268,8 @@ CREATE TABLE Payroll (
 - 컬럼 목록 끝에 `PRIMARY KEY (UserId)`로 따로 써도 된다.
 
 ### Aggregate(복합) Key *(p.55~57)*
-> Key = 하나 이상의 attribute가 **in aggregate**(합쳐서) row를 유일하게 식별하는 것
+
+Key = 하나 이상의 attribute가 **in aggregate**(합쳐서) row를 유일하게 식별하는 것
 
 ```sql
 CREATE TABLE Payroll (

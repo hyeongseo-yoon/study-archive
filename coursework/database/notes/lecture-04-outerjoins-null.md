@@ -8,7 +8,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 ## 1. NULLs in SQL *(슬라이드 p.5)*
 
-> **NULL**: missing, unknown, undefined, 또는 inapplicable을 의미하는 값
+**NULL**: missing, unknown, undefined, 또는 inapplicable을 의미하는 값
 
 WHERE절 predicate 안에 NULL이 섞이면 어떻게 평가할지가 문제가 된다:
 ```sql
@@ -127,7 +127,7 @@ WHERE R1.UserID = P.UserID
 ```
 - 결과: Magda(UserID 567) — Civic과 Ferrari를 둘 다 소유
 
-> Self-join은 결국 "테이블 데이터를 다시 한 번 순회"하는 수단이다. Self-join으로 모든 pair(또는 triple, quadruple...)를 만든 뒤, 원하는 조합만 필터링하는 식으로 쓴다.
+Self-join은 결국 "테이블 데이터를 다시 한 번 순회"하는 수단이다. Self-join으로 모든 pair(또는 triple, quadruple...)를 만든 뒤, 원하는 조합만 필터링하는 식으로 쓴다.
 
 ## 5. Set/Bag 연산 *(슬라이드 p.40~44)*
 

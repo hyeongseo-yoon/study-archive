@@ -25,7 +25,8 @@ Internet = 애플리케이션에 서비스를 제공하는 *infrastructure*.
 - 분산 애플리케이션에 **programming interface(API)** 제공 — 앱이 인터넷 전송 서비스를 사용하도록 연결해주는 "hook"
 
 ### What's a protocol? *(슬라이드 p.7~8)*
-> Protocols define the **format**, **order** of messages sent and received among network entities, and **actions taken** on message transmission, receipt.
+
+Protocols define the **format**, **order** of messages sent and received among network entities, and **actions taken** on message transmission, receipt.
 
 사람 사이의 규약(인사, 질문 등)과 마찬가지로, 네트워크 프로토콜은 컴퓨터(장치) 간의 규약이다. 인터넷의 모든 통신 활동은 프로토콜에 의해 지배된다.
 

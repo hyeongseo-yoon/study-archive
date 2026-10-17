@@ -7,7 +7,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 *Database Systems & its Applications, Hanyang University (Instructor: Cha Jaehyuk)*
 *Textbook: Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
 
-> 이 자료는 슬라이드에 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일 자체의 페이지 순서(1부터 시작)를 가리킨다.
+이 자료는 슬라이드에 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일 자체의 페이지 순서(1부터 시작)를 가리킨다.
 
 ## 1. Course Overview *(p.2~10)*
 

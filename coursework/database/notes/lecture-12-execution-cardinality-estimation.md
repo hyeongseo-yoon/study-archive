@@ -6,8 +6,8 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 *Database Systems & its Applications — Cardinality Estimation*
 
-> 슬라이드 쪽번호가 인쇄되어 있지 않거나 잘려 있어서, 아래 `p.N`은 PDF 파일의 페이지 순서(1부터 시작)를 가리킨다.
-> 구성: **① Logical Query Optimization 예제 → ② Cardinality estimation 소개 → ③ 가정(Assumptions)으로부터 selectivity factor 유도 → ④ 종합 예제**
+슬라이드 쪽번호가 인쇄되어 있지 않거나 잘려 있어서, 아래 `p.N`은 PDF 파일의 페이지 순서(1부터 시작)를 가리킨다.
+구성: **① Logical Query Optimization 예제 → ② Cardinality estimation 소개 → ③ 가정(Assumptions)으로부터 selectivity factor 유도 → ④ 종합 예제**
 
 ## 0. Outline *(p.2, 16, 23, 47)*
 - Logical Query Optimization: Examples

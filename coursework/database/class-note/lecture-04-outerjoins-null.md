@@ -4,16 +4,9 @@
 await dv.view("02.Area/study-archive/coursework/_nav")
 ```
 
-> 정리 노트: `notes/lecture-04-outerjoins-null.md` (슬라이드 p.5~44)
-> 오늘 목표: NULL이 섞인 WHERE 조건이 왜 직관과 다르게 평가되는지 설명하고, outer join과 self-join으로 "짝 없는 행 보존"과 "같은 테이블 두 번 순회" 쿼리를 쓸 수 있다.
+정리 노트: `notes/lecture-04-outerjoins-null.md` (슬라이드 p.5~44)
+오늘 목표: NULL이 섞인 WHERE 조건이 왜 직관과 다르게 평가되는지 설명하고, outer join과 self-join으로 "짝 없는 행 보존"과 "같은 테이블 두 번 순회" 쿼리를 쓸 수 있다.
 
-## 0. 선수 개념 점검
-
-- **Inner join**: 짝이 없는 행(차 없는 사람)은 결과에서 빠지고, 매칭이 2건이면(차 2대) 2행으로 나온다.
-- **for-each semantics(nested-loop semantics)**: SQL 쿼리를 "FROM의 테이블들을 row 단위로 하나씩 중첩 루프로 돌면서, 각 조합마다 WHERE를 검사해 True면 SELECT한다"로 해석하는 방식이다. 쿼리 결과의 의미 기준이고, 실제 DB가 이렇게 돌린다는 뜻은 아니다(3강 7번 섹션).
-- **Foreign key**: 가리키는 쪽이 **유일성이 보장된 key**여야 한다. 그래야 FK 값 하나가 row 하나를 확정해서 가리킨다.
-- **Alias**: 테이블/컬럼에 별명을 붙인다(`FROM Payroll AS P`). 이름을 줄이는 용도도 있지만, **같은 테이블이 FROM에 두 번 나올 때** 구분하는 유일한 방법이라 꼭 필요하다(→ self-join).
-- **Set vs Bag**: set은 중복 없음, bag은 중복 허용.
 
 ## 1. NULLs in SQL *(p.5)*
 
@@ -120,8 +113,6 @@ FROM Payroll AS P
 - LEFT OUTER JOIN이 잘 맞는 상황은 **one-to-many 관계**다: 회사 → 0개 이상의 제품, 학생 → 0개 이상의 수업, 고객 → 0개 이상의 주문.
 - RIGHT/FULL을 써야 할 좋은 이유는 거의 없고, SQLite는 아예 지원하지 않는다.
 
-### 점검 문제로 확인한 것 (NULL + outer join)
-- `<>`는 "같지 않다" 연산자다(`!=`와 같은 뜻, 표준 SQL 표기는 `<>`). 한쪽이 NULL이면 Unknown.
 ```sql
 SELECT P.Name, R.Car
 FROM Payroll AS P LEFT OUTER JOIN Registry AS R ON P.UserID = R.UserID
@@ -187,7 +178,7 @@ WHERE R1.UserID = P.UserID
 | ----- | ------ | ------- |
 | Magda | Civic  | Ferrari |
 
-> Self-join은 "테이블 데이터를 다시 한 번 순회"하는 수단이다. 같은 테이블로 all-pairs(또는 triple, quadruple...)를 만든 뒤 원하는 조합만 필터링한다. "한 행에 값 두 개를 나란히 놓고 비교해야 할 때" 쓰는 패턴이다. 세 대를 비교하려면 R3까지 세 번 쓰면 된다. all-pairs를 만든 뒤 거르므로 데이터가 크면 비싸서, join 조건을 꼭 걸어야 한다.
+Self-join은 "테이블 데이터를 다시 한 번 순회"하는 수단이다. 같은 테이블로 all-pairs(또는 triple, quadruple...)를 만든 뒤 원하는 조합만 필터링한다. "한 행에 값 두 개를 나란히 놓고 비교해야 할 때" 쓰는 패턴이다. 세 대를 비교하려면 R3까지 세 번 쓰면 된다. all-pairs를 만든 뒤 거르므로 데이터가 크면 비싸서, join 조건을 꼭 걸어야 한다.
 
 ## 5. Set/Bag 연산 *(p.40~44)*
 

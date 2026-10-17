@@ -14,7 +14,8 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 - **Network security / Internet security**: 상호연결된 네트워크를 통해 전송되는 데이터 보호
 
 ### Computer security 정의 (NIST Computer Security Handbook) *(슬라이드 p.4)*
-> The protection afforded to an automated information system in order to attain the applicable objectives of preserving the **integrity, availability, and confidentiality** of information system resources (including H/W, S/W, firmware, information/data, and telecommunications)
+
+The protection afforded to an automated information system in order to attain the applicable objectives of preserving the **integrity, availability, and confidentiality** of information system resources (including H/W, S/W, firmware, information/data, and telecommunications)
 
 - **Confidentiality**: 비공개/기밀 정보가 비인가자에게 노출·공개되지 않도록 보장
 - **Integrity**: 정보와 프로그램이 지정되고 인가된 방식으로만 변경되도록 보장
@@ -108,7 +109,7 @@ Security Attacks는 크게 **Passive Attacks**와 **Active Attacks**로 나뉜�
 - 새로운 취약점과 다양한 공격 기법 때문에 **예방(prevent)이 어려움**
 - 따라서 목표는 능동적 공격을 최대한 빨리 **탐지(detect)하고 복구(recover)**하는 것
 
-> Passive attack은 "예방" 중심, Active attack은 "탐지+복구" 중심이라는 대비가 핵심.
+Passive attack은 "예방" 중심, Active attack은 "탐지+복구" 중심이라는 대비가 핵심.
 
 ---
 

@@ -6,7 +6,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 *2026 Fall, Hunjun Lee*
 
-> 이 자료는 슬라이드에 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일 자체의 페이지 순서(1부터 시작)를 가리킨다.
+이 자료는 슬라이드에 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일 자체의 페이지 순서(1부터 시작)를 가리킨다.
 
 ## 1. Von Neumann Architecture *(p.3~18)*
 
@@ -88,11 +88,12 @@ Compiler/Assembler/Linker/Loader가 각 단계에서 "격차를 메우는(bridge
 
 ## 2. Instruction Set Architecture (ISA) *(p.19~30)*
 
-> "User's manual for the computer"
+"User's manual for the computer"
 
 ### Architecture의 정의 *(p.21)*
-> "The term architecture is used here to describe the attributes of a system **as seen by the programmer**, i.e., the conceptual structure and functional behavior, as distinct from the organization of the data flow and controls, the logical design, and the physical implementation."
-> — Amdahl, Blaauw and Brooks, *Architecture of the IBM System/360* (1964)
+
+"The term architecture is used here to describe the attributes of a system **as seen by the programmer**, i.e., the conceptual structure and functional behavior, as distinct from the organization of the data flow and controls, the logical design, and the physical implementation."
+— Amdahl, Blaauw and Brooks, *Architecture of the IBM System/360* (1964)
 
 ### Architecture Level vs. Microarchitecture Level *(p.22)*
 - **Architecture Level**: 자동차의 운전 매뉴얼처럼 — 자동차 정비공이 아니어도 운전할 수 있듯, 회로 설계자가 아니어도 컴퓨터를 프로그래밍할 수 있게 해주는 수준(= program manual)

@@ -6,7 +6,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 *Introduction to Algorithms, 3rd Ed. (Cormen, Leiserson, Rivest, Stein) / Slides from Heejin Park, Hanyang Univ.*
 
-> 다루는 문제 4개: **Assembly-line scheduling → Rod cutting → Longest common subsequence(LCS) → Matrix-chain multiplication**. 각 문제마다 "brute force가 왜 안 되는지 → optimal substructure로 점화식 → 표 채우기(bottom-up) → 해 복원(trace) → 공간/시간 복잡도" 순서로 같은 틀을 반복한다.
+다루는 문제 4개: **Assembly-line scheduling → Rod cutting → Longest common subsequence(LCS) → Matrix-chain multiplication**. 각 문제마다 "brute force가 왜 안 되는지 → optimal substructure로 점화식 → 표 채우기(bottom-up) → 해 복원(trace) → 공간/시간 복잡도" 순서로 같은 틀을 반복한다.
 
 ## 0. 개요 *(슬라이드 p.2)*
 - Contents: Assembly-line scheduling, Rod cutting, Longest common subsequence, Matrix-chain multiplication

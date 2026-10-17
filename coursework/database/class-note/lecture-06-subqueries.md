@@ -4,8 +4,8 @@
 await dv.view("02.Area/study-archive/coursework/_nav")
 ```
 
-> 정리 노트: `notes/lecture-06-subqueries.md` (슬라이드 p.6~137)
-> 오늘 목표: 서브쿼리를 FROM/SELECT/WHERE 어디에든 써서 쿼리를 쪼개고, "오직 ~만", "~가 없는" 같은 요구사항을 논리식으로 바꿔 `EXISTS/IN/ANY/ALL`로 쓸 수 있다. 어떤 문제에 서브쿼리가 꼭 필요한지 판단할 수 있다.
+정리 노트: `notes/lecture-06-subqueries.md` (슬라이드 p.6~137)
+오늘 목표: 서브쿼리를 FROM/SELECT/WHERE 어디에든 써서 쿼리를 쪼개고, "오직 ~만", "~가 없는" 같은 요구사항을 논리식으로 바꿔 `EXISTS/IN/ANY/ALL`로 쓸 수 있다. 어떤 문제에 서브쿼리가 꼭 필요한지 판단할 수 있다.
 
 ## 0. 선수 개념 점검
 
@@ -17,7 +17,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 ## 1. Subquery란? *(p.6~10)*
 
-> **Subquery**: 다른 쿼리 안에 들어있는 쿼리. 프로그래밍의 **helper method**와 비슷하다. outer query의 일부를 따로 떼어내 단순화한다.
+**Subquery**: 다른 쿼리 안에 들어있는 쿼리. 프로그래밍의 **helper method**와 비슷하다. outer query의 일부를 따로 떼어내 단순화한다.
 
 ### 동기: "직군별 최고 연봉자는 누구인가?"
 `Payroll(UserID, Name, Job, Salary)`에서 self-join + GROUP BY/HAVING으로 풀면:
@@ -305,7 +305,7 @@ WHERE NOT EXISTS (SELECT * FROM Registry AS R
 
 ## 10. Monotonicity *(p.116~130)*
 
-> **Monotonic 쿼리 q**: 데이터 인스턴스 I, J에 대해 `I ⊆ J → q(I) ⊆ q(J)`. 입력에 행을 더 추가해도 이전 결과가 사라지지 않는다.
+**Monotonic 쿼리 q**: 데이터 인스턴스 I, J에 대해 `I ⊆ J → q(I) ⊆ q(J)`. 입력에 행을 더 추가해도 이전 결과가 사라지지 않는다.
 
 수학의 단조증가함수(`x ≤ y → f(x) ≤ f(y)`)와 같은 개념이다. eˣ, x³, arctan(x)는 단조증가, sin(x), e⁻ˣ, tan(x)는 아니다.
 
@@ -331,7 +331,7 @@ WHERE EXISTS (SELECT * FROM Registry AS R WHERE R.UserID = P.UserID);
 
 ## 11. 유용한 정리 *(p.132~137)*
 
-> **정리**: Q가 subquery와 aggregate가 없는 SELECT-FROM-WHERE 쿼리라면, Q는 **항상 monotone**이다.
+**정리**: Q가 subquery와 aggregate가 없는 SELECT-FROM-WHERE 쿼리라면, Q는 **항상 monotone**이다.
 
 **증명 스케치** (nested-loop 의미):
 ```
@@ -343,7 +343,8 @@ for each tuple t1 in R1:
 어떤 relation에 새 tuple이 추가돼도 그 relation을 도는 for-loop이 한 번 더 돌 뿐이다. 기존에 출력되던 조합은 그대로이고, 새 tuple로 만족되는 조합은 결과에 *추가*만 되므로 기존 출력이 사라질 수 없다.
 
 ### 대우 *(p.137)*
-> 어떤 쿼리가 **not monotone**이면, subquery/aggregate 없는 단순 SFW로 표현할 수 없다.
+
+어떤 쿼리가 **not monotone**이면, subquery/aggregate 없는 단순 SFW로 표현할 수 없다.
 
 즉 "오직 ~만", "~가 없는" 같은 not monotone 요구사항은 반드시 **aggregate**, **`NOT EXISTS`**(∅ =), **`NOT IN`**(∉), **`ALL`**(∀) 중 하나가 필요하다. 문제 구조에 부정(¬)이나 전칭(∀)이 숨어 있으면 not monotone이라는 신호다.
 
