@@ -224,3 +224,11 @@ Message Authentication Code(MAC), 비밀번호 저장, Digital Signature
 - **RSA**: `n=pq`, `Φ(n)=(p-1)(q-1)`, `ed≡1 mod Φ(n)`을 만족하는 (e,n)=공개키, (d,n)=개인키로 `C=M^e mod n`, `M=C^d mod n` — 안전성은 사실상 **n의 소인수분해 난이도**에 의존
 - **One-way hash function**은 임의 길이 메시지를 고정 길이로 압축하며 one-way성과 (약/강) collision resistance를 만족해야 함 — 해시 크기가 작으면 **birthday attack**에 취약
 - **Digital signature**는 해시값을 개인키로 암호화하는 방식(RSA 기반)으로 구현되어, 인증뿐 아니라 부인방지(non-repudiation)까지 제공
+
+## 수업 진행 섹션
+
+1. Block Cipher Modes of Operation (ECB, CTR)
+2. AES
+3. Public Key Cryptography, RSA (원리 / 요구사항·trap-door / RSA 알고리즘·보안)
+4. One-way Hash Functions (요구사항 / Birthday Attack)
+5. Digital Signatures

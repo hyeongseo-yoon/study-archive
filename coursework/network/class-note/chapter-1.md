@@ -7,6 +7,7 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 **이번 수업 목표**: 인터넷이 뭘로 구성돼 있고(구조), 데이터가 어떻게 흘러가며(core), 성능은 뭘로 결정되고(delay/throughput), 계층 구조로 어떻게 설계됐는지를 자기 말로 설명할 수 있게 되는 것.
 
+구조화 프롬프트 : 챕터 1에 나오는 내용들을 엮어 구조화 + 시각화해서 문서로 정리해줘
 선수지식 없는 챕터라 확인질문은 스킵하고 진행함.
 
 ---
@@ -385,13 +386,13 @@ per-connection throughput = min(R_c, R_s, R / (connection 수))
 ISO(International Standards Organization)가 만든 국제 표준 모델. Internet 5계층에 **presentation**과 **session** 두 계층이 더해진 **7계층**.
 
 ```
-7 Application   - 네트워크 자원 접근 허용
-6 Presentation  - 데이터 번역/암호화/압축
+7 Application   - 네트워크 자원 접근 허용 : 프로그램이 주고받는 메시지 자체를 만드는 계층
+6 Presentation  - 데이터 번역/암호화/압축 
 5 Session       - 세션 수립/관리/종료
-4 Transport     - 신뢰성 있는 process-to-process 전달, 에러 복구
-3 Network       - 패킷을 출발지 → 목적지로 이동, 인터네트워킹
-2 Data link     - 비트를 프레임으로 조직, hop-to-hop 전달
-1 Physical      - 매체 위로 비트 전송, 기계적/전기적 스펙
+4 Transport     - 신뢰성 있는 process-to-process 전달, 에러 복구 : 한 컴퓨터 안에 어느 프로그램으로 갈지 정하는 계층
+3 Network       - 패킷을 출발지 → 목적지로 이동, 인터네트워킹 : 출발지에서 목적지 컴퓨터까지 전체 경로를 정하는 계층
+2 Data link     - 비트를 프레임으로 조직, hop-to-hop 전달: 인접한 네트워크 요소간 전송을 정함(호스트 - 라우터, 라우터 -라우터) 
+1 Physical      - 매체 위로 비트 전송, 기계적/전기적 스펙 : 비트를 물리적 신호로 바꿔서 전송하는 계층
 ```
 
 Internet stack에는 presentation과 session이 **없음**. 실제 인터넷에서는 이 두 기능이 필요하면 **애플리케이션이 직접 구현**. Internet 5계층의 application 계층 하나가 OSI의 5~7계층 역할을 다 포함한다고 보면 됨.

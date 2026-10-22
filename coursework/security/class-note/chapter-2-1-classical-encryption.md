@@ -109,7 +109,7 @@ mod 26이 필요한 이유: k=4일 때 `y`(24)를 암호화하면 24+4=28, 28 mo
 
 ## 6. Monoalphabetic Cipher
 
-Caesar cipher는 "26가지 순열 중 하나"만 쓸 수 있다는 제한이 있었음. Monoalphabetic cipher는 그 제한을 풀어서 26개 알파벳을 아무렇게나 재배열한 순열을 키로 씀. 키 공간은 26! ≈ 4×10²⁶개라 brute-force는 완전히 불가능.
+Caesar cipher는 "26가지 순열 중 하나"만 쓸 수 있다는 제한이 있었음(26가지 중 하나). Monoalphabetic cipher는 그 제한을 풀어서 26개 알파벳을 아무렇게나 재배열한 순열을 키로 씀. 키 공간은 26! ≈ 4×10²⁶개라 brute-force는 완전히 불가능.
 
 ### 핵심 아이디어 — 왜 그래도 깨지는가
 

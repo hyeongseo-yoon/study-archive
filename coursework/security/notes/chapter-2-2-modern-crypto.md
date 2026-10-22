@@ -216,3 +216,11 @@ Pr[x←{0,1}^n; y=F_n(x); A(1^n,y)=x': y=F_n(x')] ≤ μ(n)
 - 이를 확률론으로 formalize한 것이 **Perfect Secrecy**(`Pr[M=m|C=c]=Pr[M=m]`) — Shift cipher는 만족 못 하지만, **One-Time Pad**는 만족(Shannon 증명)하며 이론적으로 **최적**(`|K|≥|M|`)
 - 하지만 OTP는 키 길이/재사용 제약이 실용적이지 않음 → **Computational Secrecy**로 완화: 무한 계산능력 대신 **PPT 공격자**, 완전한 안전 대신 **negligible 실패확률** 허용 (asymptotic security parameter n 도입)
 - 이 완화된 정의(**computational indistinguishability / EAV-security**) 위에서, OWF를 기초로 PRG→PRF→PRP→secret-key encryption 등 더 실용적인 프리미티브들을 단계적으로 구성 (**Minicrypt** vs 더 강한 가정이 필요한 **Cryptomania**로 세계가 나뉨)
+
+## 수업 진행 섹션
+
+1. Modern Cryptography란
+2. Defining Secure Encryption
+3. Perfect Secrecy (확률 복습 / 표기 / 정의 / Shift cipher 반례 / One-Time Pad / 증명·한계·최적성)
+4. Computational Secrecy
+5. Constructing Primitives, Worlds in Crypto

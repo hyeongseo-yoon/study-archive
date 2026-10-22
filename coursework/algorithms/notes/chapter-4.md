@@ -94,3 +94,11 @@ T(n) ≤ T(n/3) + T(2n/3) + cn
      ≤ dn lg n   (d ≥ c/(lg3 - 2/3)일 때)
 ```
 → **T(n) = O(n lg n)**
+
+---
+
+## 수업에서 다룬 섹션
+
+1. Recurrence 개념
+2. Substitution method (예제, boundary condition, 흔한 실수)
+3. Recursion-tree method (예제 1: 3T(n/4)+n², 예제 2: T(n/3)+T(2n/3)+n)
