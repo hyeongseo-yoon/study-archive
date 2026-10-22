@@ -3,6 +3,7 @@
 ```dataviewjs
 await dv.view("02.Area/study-archive/coursework/_nav")
 ```
+## 시험 범위 : 챕터 3 UDP 까지
 
 **이번 수업 목표**: 인터넷이 뭘로 구성돼 있고(구조), 데이터가 어떻게 흘러가며(core), 성능은 뭘로 결정되고(delay/throughput), 계층 구조로 어떻게 설계됐는지를 자기 말로 설명할 수 있게 되는 것.
 
