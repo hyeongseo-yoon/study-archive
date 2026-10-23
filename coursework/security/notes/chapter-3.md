@@ -154,3 +154,13 @@ password file에 대한 비인가 접근 차단, 침입탐지(intrusion detectio
 - **Token**: magnetic stripe(단순 저장) → memory card(저장, 별도 reader) → smartcard(자체 연산·암호화 가능, 가장 강력)
 - **Biometric**: enrollment/verification(1:1)/identification(1:N) 세 동작 모드, threshold에 따른 false match/false nonmatch trade-off, 방식별 정확도는 Iris > Fingerprint > Hand/Voice > Face 순
 - **Remote authentication**: KDC + nonce 기반 challenge-response(Needham-Schroeder) → Kerberos(중앙화된 분산 인증)로 발전, 공개키 기반 상호인증 프레임워크로 EAP 계열 존재
+
+---
+
+## 수업 진행 섹션
+
+1. User Authentication 개념
+2. Password Authentication
+3. Token Authentication
+4. Biometric Authentication
+5. Remote User Authentication

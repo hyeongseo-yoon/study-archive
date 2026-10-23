@@ -213,3 +213,14 @@ else fail;
 ## 7. Summary *(p.34)*
 - 슬라이드의 요약 목차: The need for database security / DBMS / Relational databases(요소, SQL) / SQL injection attacks(전형적 공격, injection technique, 공격 경로와 유형, 대응책) / Inference / Database access control(SQL 기반 접근 정의, cascading authorizations, RBAC) / Database encryption / **Cloud computing**(요소, 참조 아키텍처) / Cloud security risks and countermeasures / Data protection in the cloud / Cloud security as a service
 - 이 PDF에는 Cloud 관련 본문 슬라이드는 없고 목차에만 언급된다
+
+---
+
+## 수업 진행 섹션
+
+1. Database와 DBMS
+2. 관계형 데이터베이스와 SQL
+3. SQL Injection (공격 예제, Injection Technique, 공격 경로, 공격 유형, 대응책)
+4. Database Access Control (관리 정책, GRANT/REVOKE, Cascading authorizations, RBAC, SQL Server Fixed Roles)
+5. Inference (Inference channel, 예시, Inference Detection)
+6. Database Encryption (개요와 단점, Encryption Scheme)

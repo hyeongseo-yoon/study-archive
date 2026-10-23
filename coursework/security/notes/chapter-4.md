@@ -176,3 +176,14 @@ Subject(①)가 접근을 요청하면, Access Control Mechanism이 Access Contr
 - **DAC**: access matrix(ACL/capability list로 구현)로 유연하게 권한 설정, 단 관리·성능 부담 존재. UNIX는 12-bit 권한(owner/group/other)과 setUID/setGID/sticky bit/superuser, 그리고 현대 시스템에서는 ACL로 DAC을 구현
 - **RBAC**: user-role-permission의 3단 매개 구조. RBAC₀(base)~RBAC₃(hierarchy+constraint 모두 포함)로 확장되며, role hierarchy로 권한 상속, constraint(mutually exclusive/cardinality/prerequisite)로 정책 세밀화
 - **ABAC**: subject/object/environment 속성 기반 rule 평가로 가장 유연하고 표현력이 높으며, DAC/RBAC/MAC을 모두 포괄할 수 있음 — 다만 성능이 과제
+
+---
+
+## 수업 진행 섹션
+
+1. Access Control 개념
+2. Mandatory Access Control (BLP, BiBa, Clark-Wilson, Chinese-Wall)
+3. Discretionary Access Control
+4. UNIX Access Control
+5. Role-Based Access Control
+6. Attribute-Based Access Control

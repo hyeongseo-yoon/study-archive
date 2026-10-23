@@ -19,6 +19,16 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 
 - (binary) heap의 모양: **nearly complete binary tree**
 - complete binary tree: 모든 leaf가 같은 depth를 가지고 모든 internal node가 degree 2를 가지는 트리
+- 예시 heap (원소 10개): 마지막 층(2, 4, 1)이 왼쪽부터 채워진 모양
+  ```
+            16
+         /      \
+       14        10
+      /  \      /  \
+     8    7    9    3
+    / \  /
+   2  4 1
+  ```
 
 ### Heap property *(p.5~7)*
 
@@ -35,11 +45,17 @@ await dv.view("02.Area/study-archive/coursework/_nav")
   LEFT(i)    return 2i
   RIGHT(i)   return 2i+1
   ```
+- 예시 (p.8~9): 위 트리를 level order로 저장한 배열
+  ```
+  인덱스:  1   2   3  4  5  6  7  8  9  10
+  값:     16  14  10  8  7  9  3  2  4  1
+  ```
+  - i=3(값 10)이면 LEFT=6(값 9), RIGHT=7(값 3), PARENT=⌊3/2⌋=1(값 16)
 
 ### Height *(p.10~11)*
 
 - **node의 height**: 그 node에서 leaf까지의 longest simple downward path에 있는 edge 개수
-- **heap의 height** = root의 height = **Θ(lg n)** (n개 원소의 heap은 complete binary tree 기반이므로)
+- **heap의 height** = root의 height = **Θ(lg n)** (n개 원소의 heap은 complete binary tree 기반이므로). 정확히는 n개 원소 heap의 height = ⌊lg n⌋ *(p.21)*
 
 ---
 
@@ -50,6 +66,18 @@ await dv.view("02.Area/study-archive/coursework/_nav")
 - **running time**: T(n) (n = subtree의 노드 수)
   - 값 교환 자체는 Θ(1)
   - 전체는 O(h) = O(lg n) (h는 그 subtree의 height)
+
+### 예제 *(p.12~13)*
+
+배열 [16, 4, 10, 14, 7, 9, 3, 2, 8, 1]에서 인덱스 2(값 4)가 max-heap property를 깨고 있음 (두 subtree는 max-heap).
+
+```
+1) i=2 (값 4): 자식 14(idx4), 7(idx5) → 최대 14 → 교환
+   [16, 14, 10, 4, 7, 9, 3, 2, 8, 1]
+2) i=4 (값 4): 자식 2(idx8), 8(idx9) → 최대 8 → 교환
+   [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]
+3) i=9: 자식 없음 → 종료 (max-heap 복원)
+```
 
 ---
 
@@ -64,6 +92,22 @@ BUILD-MAX-HEAP(A)
 
 - 배열의 뒤쪽 절반(⌊n/2⌋+1 ... n)은 모두 leaf이므로 그 자체로 1-원소 max-heap
 - 자식을 가진 가장 오른쪽 node(i = ⌊A.length/2⌋)부터 거꾸로 root까지 MAX-HEAPIFY를 호출하며 올라가면, 매 호출 시점에 그 node의 두 subtree는 이미 max-heap이 되어 있어 MAX-HEAPIFY의 input 조건을 만족
+
+### 예제 *(p.16~19)*
+
+입력 배열 [4, 1, 3, 2, 16, 9, 10, 14, 8, 7] (원소 10개, i = 5부터 1까지)
+
+```
+i=5 (16): 자식 7 → 이미 OK, 변화 없음
+i=4 (2):  자식 14, 8 → 14와 교환
+          [4, 1, 3, 14, 16, 9, 10, 2, 8, 7]
+i=3 (3):  자식 9, 10 → 10과 교환
+          [4, 1, 10, 14, 16, 9, 3, 2, 8, 7]
+i=2 (1):  자식 14, 16 → 16과 교환, idx5에서 자식 7과 교환
+          [4, 16, 10, 14, 7, 9, 3, 2, 8, 1]
+i=1 (4):  자식 16, 10 → 16과 교환, idx2에서 14와, idx4에서 8과 교환
+          [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]   ← max-heap 완성
+```
 
 ### Running time *(p.20~23)*
 
@@ -85,6 +129,18 @@ max-heap에서 최댓값(root)을 꺼낸 뒤 heap 구조를 복원하는 절차:
 2. heap 크기를 1 줄임 (마지막 원소를 heap에서 제외 → 정렬된 영역으로 편입)
 3. 새 root에 대해 MAX-HEAPIFY 호출 (O(lg n))
 
+예시 (p.24~25): max-heap [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]에서 최댓값 16을 제거
+```
+root 16 제거, 마지막 원소 1을 root로 → [1, 14, 10, 8, 7, 9, 3, 2, 4]
+MAX-HEAPIFY: 1 ↔ 14, 1 ↔ 8, 1 ↔ 4 순서로 내려감
+→ [14, 8, 10, 4, 7, 9, 3, 2, 1]   (새 root = 14, O(lg n))
+```
+
+### Heapsort 개요 *(p.26)*
+
+- BUILD-MAX-HEAP on A[1..n]: O(n)
+- Extract-Max를 n번: O(n lg n)
+
 ### HEAPSORT *(p.30)*
 
 ```
@@ -97,6 +153,20 @@ HEAPSORT(A)
 ```
 
 - BUILD-MAX-HEAP으로 전체를 max-heap으로 만든 뒤, root(최댓값)를 배열 끝으로 보내고 heap 크기를 줄이는 과정을 반복 — 매번 남은 heap 중 최댓값이 정렬된 영역의 맨 앞에 쌓임
+
+### 예제 *(p.27~29)*
+
+max-heap [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]에서 시작 (`|` 뒤는 정렬 완료 영역)
+
+```
+i=10: A[1]↔A[10], heap-size 9, MAX-HEAPIFY
+      [14, 8, 10, 4, 7, 9, 3, 2, 1 | 16]
+i=9:  A[1]↔A[9], heap-size 8, MAX-HEAPIFY
+      [10, 8, 9, 4, 7, 1, 3, 2 | 14, 16]
+i=8:  [9, 8, 3, 4, 7, 1, 2 | 10, 14, 16]
+ ...  (i=2까지 반복, 마지막 원소 1개는 저절로 제자리)
+최종: [1, 2, 3, 4, 7, 8, 9, 10, 14, 16]
+```
 
 ### Running time *(p.31)*
 
@@ -120,6 +190,13 @@ HEAPSORT(A)
 - **MAXIMUM**: root값을 그냥 읽음 → **O(1)**
 - **EXTRACT-MAX**: root 제거 + MAX-HEAPIFY → **O(lg n)**
 - **INCREASE-KEY (HEAP-INCREASE-KEY)**: key를 증가시킨 뒤, 그 node를 부모와 비교하며 **위로** 이동(bubble up)시켜 max-heap property 복원 → **O(lg n)**
+  - 예시 (p.34~35): idx 9의 값 4를 15로 증가 → 부모 8과 교환 → 부모 14와 교환 → 부모 16보다 작아 멈춤
+    ```
+    [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]  (4 → 15)
+    [16, 14, 10, 8, 7, 9, 3, 2, 15, 1]
+    [16, 14, 10, 15, 7, 9, 3, 2, 8, 1]
+    [16, 15, 10, 14, 7, 9, 3, 2, 8, 1]
+    ```
 - **INSERT (MAX-HEAP-INSERT)**: heap 크기를 늘리고 새 자리에 -∞를 넣은 뒤, HEAP-INCREASE-KEY로 원하는 key값까지 올림 → **O(lg n)**
   ```
   MAX-HEAP-INSERT(A, key)
@@ -127,3 +204,14 @@ HEAPSORT(A)
   2  A[A.heap-size] = -∞
   3  HEAP-INCREASE-KEY(A, A.heap-size, key)
   ```
+
+---
+
+## 수업에서 다룬 섹션
+
+1. Heapsort 개요
+2. Heap (구조, heap property, 배열 표현, height)
+3. MAX-HEAPIFY (예제, running time)
+4. BUILD-MAX-HEAP (예제, running time: 느슨한 O(n lg n) vs tight O(n))
+5. Heapsort 알고리즘 (Extract-Max 아이디어, 예제, running time)
+6. Priority Queue (MAXIMUM, EXTRACT-MAX, INCREASE-KEY, INSERT)
