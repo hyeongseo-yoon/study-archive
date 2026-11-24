@@ -1,7 +1,7 @@
 # Chapter 7: Quicksort
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Introduction to Algorithms, 3rd Ed. (Cormen, Leiserson, Rivest, Stein)*

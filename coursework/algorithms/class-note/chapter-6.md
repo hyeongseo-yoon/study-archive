@@ -1,7 +1,7 @@
 # Chapter 6: Heapsort (수업노트)
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 **수업 목표**: heap 구조를 이해하고, MAX-HEAPIFY / BUILD-MAX-HEAP / HEAPSORT가 어떻게 동작하고 왜 그 시간복잡도가 나오는지 설명할 수 있게 된다.

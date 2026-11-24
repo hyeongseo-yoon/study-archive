@@ -1,7 +1,7 @@
 # Chapter 1 수업노트: Introduction
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 ## 시험 범위 : 챕터 3 UDP 까지
 

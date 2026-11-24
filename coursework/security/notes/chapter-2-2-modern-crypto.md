@@ -1,7 +1,7 @@
 # Chapter 2-2: Modern Cryptography
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Lecture Notes (from J. Katz, S. Goldwasser 등)*

@@ -1,7 +1,7 @@
 # Lecture 7: Conceptual Design and ER Diagrams — 수업노트
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 정리 노트: `notes/lecture-07-design-er-diagram.md` (슬라이드 p.4~89)

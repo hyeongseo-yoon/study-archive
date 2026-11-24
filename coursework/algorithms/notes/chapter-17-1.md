@@ -1,7 +1,7 @@
 # Chapter 17-1: Amortized Analysis (Aggregate analysis)
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Slides from Heejin Park, Hanyang Univ. / 파일: `17_Amortized Analysis_1.pdf`*

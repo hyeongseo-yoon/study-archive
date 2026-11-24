@@ -1,7 +1,7 @@
 # Chapter 5: Database Security
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 이 슬라이드에는 쪽번호가 인쇄되어 있지 않아서, 아래 `p.N`은 PDF 파일의 페이지 순서(1부터 시작)를 가리킨다.

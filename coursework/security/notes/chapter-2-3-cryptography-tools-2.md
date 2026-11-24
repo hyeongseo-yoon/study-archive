@@ -1,7 +1,7 @@
 # Chapter 2-3: Cryptographic Tools - 2
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 ## 1. Block Cipher Modes of Operation (simplified) *(슬라이드 p.3~11)*

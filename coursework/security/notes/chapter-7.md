@@ -1,7 +1,7 @@
 # Chapter 7: Denial-of-Service Attacks
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 슬라이드 우측 하단 쪽번호 기준(`p.N`).

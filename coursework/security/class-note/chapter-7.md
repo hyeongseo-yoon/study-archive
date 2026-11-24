@@ -1,7 +1,7 @@
 # Chapter 7: Denial-of-Service Attacks (수업노트)
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 ## 0. 선수 지식

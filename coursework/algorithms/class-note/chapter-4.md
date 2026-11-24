@@ -1,7 +1,7 @@
 # Chapter 4: Divide-and-Conquer (수업노트)
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 **수업 목표**: 재귀 알고리즘의 running time을 recurrence로 세우고, substitution method와 recursion-tree method로 점근적 bound를 구할 수 있게 된다.

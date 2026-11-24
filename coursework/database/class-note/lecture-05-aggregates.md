@@ -1,7 +1,7 @@
 # Lecture 5: Aggregates — 수업노트
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 정리 노트: `notes/lecture-05-aggregates.md` (슬라이드 p.9~81)

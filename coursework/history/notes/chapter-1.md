@@ -1,7 +1,7 @@
 # 1강: 파리의 딜릴리 — 벨 에포크와 제국주의
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *영화로 보는 서양의 역사 (한양대학교 2026-2)*

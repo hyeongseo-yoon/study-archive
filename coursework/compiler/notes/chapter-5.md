@@ -1,7 +1,7 @@
 # Chapter 5: Semantic Analysis
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *2026 Fall, Hunjun Lee*

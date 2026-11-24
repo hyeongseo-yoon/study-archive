@@ -1,7 +1,7 @@
 # Chapter 2-1: Classical Encryption Techniques
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Hanyang University, Division of Computer Science and Engineering*

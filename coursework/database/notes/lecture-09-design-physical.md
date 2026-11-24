@@ -1,7 +1,7 @@
 # Lecture 9: Physical Design and Indices
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Database Systems & its Applications — Physical Design and Indices*

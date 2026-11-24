@@ -1,7 +1,7 @@
 # Chapter 2: Application Layer
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Computer Networking: A Top-Down Approach, 8th ed. (Kurose & Ross)*

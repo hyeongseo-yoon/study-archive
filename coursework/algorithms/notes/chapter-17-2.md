@@ -1,7 +1,7 @@
 # Chapter 17-2: Amortized Analysis (Accounting method, Potential method)
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Slides from Heejin Park, Hanyang Univ. / 파일: `17_Amortized Analysis2.pdf` (슬라이드 p.20~57)*

@@ -1,7 +1,7 @@
 # Chapter 4: Syntax Analysis - 2 — 수업노트
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *수업일: 2026-10-13 / 대응 정리노트: `notes/chapter-4.md`*

@@ -1,7 +1,7 @@
 # Chapter 3 수업노트
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *(수업일: 2026-10-23, 참조 노트: `notes/chapter-3.md`)*

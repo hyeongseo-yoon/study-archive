@@ -1,7 +1,7 @@
 # Lecture 1: Introduction & The Relational Model
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Database Systems & its Applications, Hanyang University (Instructor: Cha Jaehyuk)*

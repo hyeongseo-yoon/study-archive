@@ -1,7 +1,7 @@
 # Lecture 7: Conceptual Design and ER Diagrams
 
 ```dataviewjs
-await dv.view("02.Area/study-archive/coursework/_nav")
+await dv.view("02.Area/archive/coursework/_nav")
 ```
 
 *Database Management Systems, 3rd ed. (Ramakrishnan & Gehrke)*
