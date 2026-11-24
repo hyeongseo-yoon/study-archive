@@ -679,19 +679,109 @@ done
 - 완벽한 검증은 아님 — 최초 접속 순간에 이미 중간자가 끼어있었다면 가짜 키를 정상으로 신뢰해버릴 수 있음. 보안이 중요한 환경에서는 out-of-band(전화 등 별도 채널)로 지문값을 대조하기도 함
 - localhost 접속 시에도 동일한 호스트 키 검증 메시지가 뜨는데, loopback이라 중간자가 낄 네트워크 경로 자체가 없어 실질적 위협은 거의 없음 — 다만 SSH 프로토콜이 접속 대상을 구분해서 동작하지 않기 때문에 동일 로직이 항상 적용됨
 
+### SSH 자주 쓰는 옵션
+
+**기본 형태**
+```bash
+ssh 계정@호스트                  # 기본 포트(22)로 접속
+ssh bandit0@localhost            # localhost = 자기 자신
+ssh -p 2220 bandit0@localhost    # 포트 2220으로 접속
+```
+- 처음 접속하면 호스트 키 지문 확인 질문이 나옴 → `yes` 입력 (`y`만 쓰면 다시 물어봄)
+```
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+```
+- 접속하면 비밀번호를 물어봄 (키 인증이면 `-i`로 키를 지정해서 생략)
+- 접속을 끝낼 때는 `exit` 또는 `Ctrl+D`
+
+| 옵션 | 의미 | 예시 |
+| --- | --- | --- |
+| `-p 포트` | 접속할 포트 지정 (소문자) | `ssh -p 2220 bandit0@localhost` |
+| `-i 키파일` | 인증에 쓸 개인키 지정 | `ssh -i ./sshkey.private bandit14@localhost` |
+
+- 둘을 같이 쓸 수 있음
+```bash
+ssh -i ./sshkey.private -p 2220 bandit14@localhost
+```
+- `-i`로 지정한 키는 `@` 앞 계정에 그 키의 공개키가 등록돼 있을 때만 인증에 쓰임 → 계정 이름이 틀리면 키가 있어도 비밀번호 인증으로 넘어감
+```bash
+ssh -i ./sshkey.private -p 2220 user@localhost      # 없는 계정 → Password: 프롬프트로 넘어감
+ssh -i ./sshkey.private -p 2220 bandit14@localhost  # 키에 맞는 계정 → 키 인증
+```
+
+**개인키 파일 권한**
+- 개인키 파일을 다른 사용자가 읽거나 쓸 수 있으면 ssh가 키를 무시함
+```
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+Permissions 0777 for './sshkey.private' are too open.
+This private key will be ignored.
+```
+- 이유: 다른 사람이 읽을 수 있으면 이미 유출됐을 수 있다고 보기 때문
+- 해결: 소유자만 접근하도록 권한 축소 (키 파일에 실행 권한은 불필요해서 `600`이 정석, `700`도 통과)
+```bash
+chmod 600 sshkey.private
+ls -l sshkey.private    # -rw------- 확인
+```
+
+**경고지만 무시해도 되는 메시지**
+```
+Could not create directory '/home/bandit13/.ssh' (Permission denied).
+Failed to add the host to the list of known hosts
+```
+- 홈 디렉터리에 쓰기 권한이 없어서 `known_hosts`에 호스트 키를 저장하지 못했다는 뜻
+- 접속 자체와는 무관
+
 ### scp / rsync — 원격 파일 전송
 
 - 새로운 암호화 체계를 만드는 게 아니라, SSH가 이미 만들어둔 인증+암호화 통로를 그대로 재활용해서 파일 데이터를 실어 보냄
 - `rsync`는 `scp`와 달리 파일 전체를 매번 복사하지 않고, 체크섬으로 비교해서 **바뀐 부분(delta)만** 전송 → 반복 동기화(백업, 배포 등)에 효율적
 
-| 명령어 | 기능 |
-| --- | --- |
-| `scp 파일 user@호스트:경로` | 로컬 → 원격 복사 |
-| `scp user@호스트:경로 .` | 원격 → 로컬 복사 |
-| `rsync -avz 로컬경로/ user@호스트:원격경로/` | 변경분만 동기화 |
+| 명령어                               | 기능         |
+| --------------------------------- | ---------- |
+| `scp 파일 user@호스트:경로`              | 로컬 → 원격 복사 |
+| `scp user@호스트:경로 .`               | 원격 → 로컬 복사 |
+| `rsync -avz 로컬경로/ user@호스트:원격경로/` | 변경분만 동기화   |
 
 - `rsync` 옵션: `-a`(권한/링크/타임스탬프 보존 + 재귀), `-v`(진행상황 출력), `-z`(전송 중 압축)
 - 경로 끝 `/` 유무로 동작 차이: `경로/`(슬래시 있음) → 폴더 안 내용물만 복사, `경로`(슬래시 없음) → 폴더 자체를 대상 밑에 복사
+
+### scp 옵션과 파일 가져오기
+
+| 옵션 | 의미 |
+| --- | --- |
+| `-P 포트` | 포트 지정 (**대문자**) |
+| `-p` | 원본의 수정시간·권한 유지 (**소문자**, 포트 아님) |
+
+- `ssh`는 `-p`가 포트, `scp`는 `-P`가 포트 → 대소문자가 반대
+```bash
+scp -P 2220 bandit13@localhost:~/sshkey.private .   # 올바른 형태
+scp -p 2220 bandit13@localhost:~/sshkey.private .   # 잘못됨
+# cp: cannot stat '2220': No such file or directory
+# -p는 시간·권한 유지 옵션이라 2220이 복사할 파일 이름으로 읽힘
+```
+- 포트를 안 쓰면 기본 22번 포트로 접속 시도 → 다른 서버(또는 서비스)에 접속하게 되어 비밀번호가 맞아도 실패(`Permission denied`)
+
+**저장 위치**
+- 마지막 인자가 저장 위치. `.`은 홈이 아니라 **명령을 실행한 현재 디렉터리**
+```bash
+pwd                                                  # 지금 위치 확인
+scp -P 2220 bandit13@localhost:~/sshkey.private .    # 현재 디렉터리에 저장
+scp -P 2220 bandit13@localhost:~/sshkey.private ~/k  # ~/k라는 이름으로 저장
+```
+
+**어디서 실행해야 하나 (가져오기 vs 보내기)**
+- 컨테이너/원격 안에서 `localhost`는 호스트가 아니라 **자기 자신**을 가리킴
+- 그래서 컨테이너 안에서 `localhost`로 접속하면 자기 자신에게 접속하는 셈
+  - Bandit은 이를 막음: `Connecting from/to localhost is blocked`, `no authentication methods enabled`
+- 컨테이너 → 호스트로 보내려면 호스트에서 sshd가 돌고 있고 접속할 계정이 있어야 해서 번거로움
+- 이미 열려 있는 **호스트 → 컨테이너** 방향 통로를 써서, 호스트 터미널에서 파일을 끌어오는 게 자연스러움
+
+```bash
+# 호스트 터미널에서 실행
+scp -P 2220 bandit13@localhost:~/sshkey.private .
+chmod 600 sshkey.private
+ssh -i ./sshkey.private -p 2220 bandit14@localhost
+```
 
 ### curl / wget — HTTP(S) 요청
 
