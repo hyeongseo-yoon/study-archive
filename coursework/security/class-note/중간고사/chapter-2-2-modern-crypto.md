@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*(수업일: 2026-10-22, 참조 노트: `notes/chapter-2-2-modern-crypto.md`)*
+*(수업일: 2026-10-22, 참조 노트: `notes/중간고사/chapter-2-2-modern-crypto.md`)*
 
 수업 목표: "안전한 암호"가 뭔지 수학적으로 정의하고, 왜 Perfect Secrecy(OTP)에서 Computational Secrecy로 넘어갈 수밖에 없었는지 자기 말로 설명할 수 있게 되기.
 

@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-정리 노트: `notes/lecture-02-sql-basics.md` (슬라이드 p.6~88)
+정리 노트: `notes/중간고사/lecture-02-sql-basics.md` (슬라이드 p.6~88)
 오늘 목표: 테이블을 만들고 키로 관계를 걸 수 있고, 기본 쿼리가 계산하는 결과(for-each semantics)를 설명할 수 있다.
 
 ## 0. 선수 개념

@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-정리 노트: `notes/lecture-03-joins.md` (슬라이드 p.5~59)
+정리 노트: `notes/중간고사/lecture-03-joins.md` (슬라이드 p.5~59)
 오늘 목표: 두 테이블을 join으로 묶는 쿼리를 쓰고, 그 결과가 어떻게 계산되는지(nested-loop semantics) 설명할 수 있다. 실제 DB가 왜 그 방식대로 돌리지 않는지도 말할 수 있다.
 
 

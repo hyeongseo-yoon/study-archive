@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-정리 노트: `notes/lecture-05-aggregates.md` (슬라이드 p.9~81)
+정리 노트: `notes/중간고사/lecture-05-aggregates.md` (슬라이드 p.9~81)
 오늘 목표: 테이블을 요약하는 쿼리(집계, 그룹핑)를 쓰고, SQL이 실제로 어떤 순서로 실행되는지 머릿속에서 그려서 결과를 예측할 수 있다.
 
 ## 0. 선수 개념 점검

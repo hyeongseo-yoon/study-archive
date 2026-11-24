@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-정리 노트: `notes/lecture-07-design-er-diagram.md` (슬라이드 p.4~89)
+정리 노트: `notes/중간고사/lecture-07-design-er-diagram.md` (슬라이드 p.4~89)
 오늘 목표: ER diagram을 보고 `CREATE TABLE`(PK/FK/UNIQUE/NOT NULL)로 변환할 수 있고, 요구사항에서 multiplicity를 판단해 ER diagram으로 그릴 수 있다.
 
 ## 0. 선수 개념 점검

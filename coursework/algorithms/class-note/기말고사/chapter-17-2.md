@@ -1,6 +1,6 @@
 # Chapter 17-2 수업노트: Amortized Analysis (Accounting method, Potential method)
 
-*정리 노트: `notes/chapter-17-2.md` / 수업일: 2026-11-23*
+*정리 노트: `notes/기말고사/chapter-17-2.md` / 수업일: 2026-11-23*
 
 ## 0. 선수 개념 확인 (17-1 복습)
 - **amortized cost**: 전체 연산 비용을 연산 개수로 나눈 값. worst case 상황에서 sequence 전체를 놓고 tight하게 구한 연산당 평균 비용.

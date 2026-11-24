@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*수업일: 2026-10-16 / 대응 정리노트: `notes/chapter-5.md`*
+*수업일: 2026-10-16 / 대응 정리노트: `notes/중간고사/chapter-5.md`*
 
 `p.N`은 슬라이드 우측 하단 쪽번호 기준이다.
 

@@ -1,13 +1,14 @@
-// 노트 상단 네비게이션: 같은 과목의 notes / class-note 목차, 짝 노트, 이전/다음
+// 노트 상단 네비게이션: 같은 과목의 notes / class-note 목차(중간고사 → 기말고사 순), 짝 노트, 이전/다음
 const cur = dv.current().file.path;
-const m = cur.match(/^(.*)\/(notes|class-note)\/([^/]+)\.md$/);
+const m = cur.match(/^(.*)\/(notes|class-note)\/(?:(?:중간고사|기말고사)\/)?([^/]+)\.md$/);
 if (m) {
     const [, course, kind, name] = m;
     const nat = (a, b) => a.localeCompare(b, undefined, { numeric: true });
+    const exam = (f) => (f.path.includes("/기말고사/") ? 1 : 0);
     const list = (k) => app.vault.getMarkdownFiles()
-        .filter(f => f.path.startsWith(`${course}/${k}/`) && f.parent.path === `${course}/${k}`)
+        .filter(f => f.path.startsWith(`${course}/${k}/`))
         .filter(f => f.path !== `${course}/${k}/공부 계획.md`)
-        .sort((a, b) => nat(a.basename, b.basename));
+        .sort((a, b) => (exam(a) - exam(b)) || nat(a.basename, b.basename));
     const label = (f) => {
         const t = f.basename.match(/^(?:chapter|lecture)-([\d-]+?)(?:-[a-z].*)?$/);
         return t ? t[1] : f.basename;

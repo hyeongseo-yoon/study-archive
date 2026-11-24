@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*(수업일: 2026-09-29, 참조 노트: `notes/chapter-2-1-classical-encryption.md`)*
+*(수업일: 2026-09-29, 참조 노트: `notes/중간고사/chapter-2-1-classical-encryption.md`)*
 
 ## 1. Symmetric Cipher Model + 용어
 

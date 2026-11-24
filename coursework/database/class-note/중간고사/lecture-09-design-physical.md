@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-정리 노트: `notes/lecture-09-design-physical.md` (슬라이드 p.2~78, 쪽번호는 PDF 페이지 순서 기준)
+정리 노트: `notes/중간고사/lecture-09-design-physical.md` (슬라이드 p.2~78, 쪽번호는 PDF 페이지 순서 기준)
 오늘 목표: 쿼리와 workload를 보고 **어떤 index를 어떤 속성 순서로, clustered로 할지 unclustered로 할지** 근거를 들어 고를 수 있다.
 
 ## 0. 선수 개념 점검

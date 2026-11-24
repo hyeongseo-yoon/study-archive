@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*(수업일: 2026-10-22, 참조 노트: `notes/chapter-2-3-cryptography-tools-2.md`)*
+*(수업일: 2026-10-22, 참조 노트: `notes/중간고사/chapter-2-3-cryptography-tools-2.md`)*
 
 수업 목표: 블록 암호 모드와 AES 구조를 설명하고, 공개키 암호(RSA)·해시·디지털 서명이 각각 무슨 문제를 푸는지 설명할 수 있게 되기. RSA 키 생성과 암복호화는 직접 계산할 수 있어야 함.
 

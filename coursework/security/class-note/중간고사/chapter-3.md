@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*(수업일: 2026-10-23, 참조 노트: `notes/chapter-3.md`)*
+*(수업일: 2026-10-23, 참조 노트: `notes/중간고사/chapter-3.md`)*
 
 ## 1. User Authentication 개념 *(p.3~4)*
 

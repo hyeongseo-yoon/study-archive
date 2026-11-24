@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*수업일: 2026-10-11 / 대응 정리노트: `notes/chapter-3.md`*
+*수업일: 2026-10-11 / 대응 정리노트: `notes/중간고사/chapter-3.md`*
 
 ---
 
@@ -129,7 +129,7 @@ var-declaration → type-specifier ID ;
 24. term → term mulop factor | factor
 26. factor → ( expression ) | var | call | NUM
 ```
-(전체 29개 규칙은 `notes/chapter-3.md` 참고.) 눈여겨볼 점:
+(전체 29개 규칙은 `notes/중간고사/chapter-3.md` 참고.) 눈여겨볼 점:
 - 위에서 아래로 **큰 구조 → 작은 구조**로 쪼개져 내려간다.
 - `declaration-list → declaration-list declaration | declaration`처럼 자기 자신이 RHS에 들어가는 **재귀**로 "0개 이상 반복"을 표현한다. RE의 `*` 역할.
 - 수식이 `additive-expression → term`, `term → factor`로 **계층**이 있다. 이게 나중에 우선순위(precedence)를 만드는 장치.

@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-*(수업일: 2026-10-23, 참조 노트: `notes/chapter-4.md`)*
+*(수업일: 2026-10-23, 참조 노트: `notes/중간고사/chapter-4.md`)*
 
 ## 0. 선수 지식 복습
 

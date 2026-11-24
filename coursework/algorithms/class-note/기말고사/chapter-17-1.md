@@ -1,6 +1,6 @@
 # Chapter 17-1 수업노트: Amortized Analysis (Aggregate analysis)
 
-*정리 노트: `notes/chapter-17-1.md` / 수업일: 2026-11-23*
+*정리 노트: `notes/기말고사/chapter-17-1.md` / 수업일: 2026-11-23*
 
 ## 1. Aggregate analysis 정의 *(p.3)*
 

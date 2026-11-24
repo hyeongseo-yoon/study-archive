@@ -4,7 +4,7 @@
 await dv.view("02.Area/archive/coursework/_nav")
 ```
 
-정리 노트: `notes/lecture-08-design-normalization.md` (슬라이드 p.6~96)
+정리 노트: `notes/중간고사/lecture-08-design-normalization.md` (슬라이드 p.6~96)
 오늘 목표: 테이블이 anomaly를 갖는지 FD로 판정하고, BCNF 분해 알고리즘으로 직접 쪼갤 수 있다.
 
 ## 0. 선수 개념 점검
