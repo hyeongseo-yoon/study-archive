@@ -1,0 +1,168 @@
+# Chapter 6: Code Generation - 1 — 수업노트
+
+```dataviewjs
+await dv.view("02.Area/archive/coursework/_nav")
+```
+
+*수업일: 2026-11-25 / 대응 정리노트: `notes/기말고사/chapter-6.md`*
+
+## 0. 선수 개념
+
+### 0-1. Register file과 Memory
+
+**Register file**: CPU 안에 있는, 연산 대상이 되는 아주 빠르고 아주 작은 저장소.
+**Memory**: CPU 밖에 있는 크고 느린 저장소.
+
+| | Register file | Memory |
+|---|---|---|
+| 위치 | CPU 내부 | CPU 외부 (캐시 계층 너머의 DRAM) |
+| 용량 | 수십 개 (x86-64 범용 16개, 각 8byte) | GB 단위 |
+| 속도 | 1 cycle 안팎 | 캐시 미스면 수백 cycle |
+| 접근 방식 | 이름 (`rax`, `r1`) | 주소 (`[0x7ffc...]`) |
+
+- 연산은 거의 항상 register 위에서만 한다. `add r1, r2`는 되지만 memory 두 칸을 직접 더하는 연산은 (RISC 계열에서는) 없다.
+- memory 값을 쓰려면 `load`로 register에 가져오고, 결과는 `store`로 memory에 되돌려 쓴다.
+  ```
+  load  r1, [addr_a]     ; memory → register
+  load  r2, [addr_b]
+  add   r3, r1, r2       ; register끼리 연산
+  store [addr_c], r3     ; register → memory
+  ```
+- **Byte addressable memory**: 주소 하나가 1byte를 가리키는 memory. 현대 machine은 대부분 이 방식.
+- 컴파일러의 핵심 질문은 "이 변수를 register에 둘까, memory에 둘까?" → 이번 챕터의 Storage Class Selection 문제.
+
+### 0-2. 지역 변수와 malloc 변수는 어디에 생기나
+
+```
+낮은 주소  [ Code ]    기계어 명령어 (read-only)
+           [ Static ]  전역 변수, static 변수
+           [ Heap ]    malloc/free 영역
+              ...
+           [ Stack ]   함수 호출마다 쌓이는 영역
+높은 주소
+```
+
+실제 Linux 배치에서는 heap은 낮은 주소에서 위로, stack은 높은 주소에서 아래로 자라 서로 마주 본다. 슬라이드 그림은 방향이 다를 수 있다.
+
+**Stack과 지역 변수**
+```c
+void f() {
+    int y = 10;     // 지역 변수 → stack
+}
+```
+- 지역 변수는 함수가 호출될 때 stack에 생기고, return하면 자동으로 사라진다.
+- 사라진다는 건 공간을 반납한다는 뜻이다. 값이 지워지는 게 아니라 다음 호출이 덮어쓸 수 있는 상태가 된다.
+- 지역 변수의 주소를 return하면 안 된다 (dangling pointer).
+
+**Heap과 malloc**
+```c
+int *p = malloc(sizeof(int));   // heap에 할당
+*p = 10;
+free(p);                        // 직접 반납
+```
+- heap 데이터는 `free`를 부르기 전까지 함수가 끝나도 살아 있다. 생성한 함수보다 오래 사는 데이터는 heap에 둔다.
+- `p` 자체(포인터 변수)는 지역 변수라 stack에 있고, `p`가 가리키는 대상은 heap에 있다.
+
+**Stack이 지역 변수에 맞는 이유**: A가 B를 호출하면 B가 먼저 return한다. 이 **LIFO**(Last In First Out) 구조가 stack과 정확히 같아서 push/pop만으로 관리된다.
+
+### 0-3. 함수 호출과 return address
+
+```c
+void f() {
+    g();          // (A) 이 줄을 실행
+    x = 1;        // (B) g가 끝나면 여기로 돌아와야 함
+}
+```
+
+**Return address**: 호출 명령 바로 다음 명령어의 주소. 위 예시에서는 (B).
+
+- `g`는 여러 곳에서 호출될 수 있어서 `g`의 코드에 돌아갈 곳을 고정할 수 없다. 호출하는 쪽이 돌아올 곳을 알려줘야 한다.
+- call 명령은 두 가지를 한다.
+  1. return address(= call 다음 명령어 주소)를 stack에 push
+  2. `g`의 시작 주소로 jump
+- return 명령은 저장해 둔 주소를 꺼내 거기로 jump한다.
+  ```
+  call g   =  push (다음 명령어 주소);  jump g
+  ret      =  pop → PC
+  ```
+- 재귀가 가능한 이유: 호출할 때마다 return address가 stack에 따로 쌓여서 순서대로 풀린다.
+- 이 챕터에서 return address, 파라미터, 지역 변수, 이전 frame 위치를 한 덩어리로 묶은 것이 **Activation Record(= stack frame)**. 호출 한 번당 stack에 한 덩어리가 쌓인다.
+
+### 0-4. PC와 control flow 명령
+
+**PC(Program Counter)**: 다음에 실행할 명령어의 주소를 담은 special register.
+
+- 기본 동작은 순차 실행. 4byte 고정 길이 명령어라면 `PC ← PC + 4`.
+- **Branch**: 조건이 참일 때만 PC를 바꾼다.
+  ```
+  beq r1, r2, L    ; r1 == r2 이면 PC ← L의 주소, 아니면 PC ← PC + 4
+  ```
+- **Jump**: 조건 없이 PC를 바꾼다.
+  ```
+  j L              ; PC ← L의 주소
+  ```
+- if, while, for, 함수 호출은 모두 PC를 바꾸는 명령으로 번역된다.
+
+| 종류 | 예 | 끝날 때 PC |
+|---|---|---|
+| 산술/논리 | add, sub, and, or | 다음 명령어로 |
+| 데이터 이동 | load, store | 다음 명령어로 |
+| 제어 흐름 | branch, jump | 조건에 따라 target 또는 다음 명령어 |
+
+### 0-5. Struct 크기(alignment)와 Endian
+
+#### Alignment
+
+**Alignment**: 변수의 주소가 그 변수 크기의 배수여야 한다는 규칙 (C/x86 기준).
+
+| 타입 | 크기 | 주소 조건 |
+|---|---|---|
+| char | 1 | 아무 주소 |
+| short | 2 | 2의 배수 |
+| int | 4 | 4의 배수 |
+
+- CPU는 memory를 word 단위(4 또는 8byte)로 읽는 게 효율적이다. int가 word 경계를 걸치면 두 번 읽어야 하거나 오류가 나는 machine도 있다.
+- 컴파일러는 필요하면 **padding**(빈 바이트)을 끼워 넣는다.
+
+```c
+struct { char a; int b; char c; };
+```
+| offset | 내용 |
+|---|---|
+| 0 | `a` (1byte) |
+| 1~3 | padding (b를 4의 배수 주소에 맞추려고) |
+| 4~7 | `b` (4byte) |
+| 8 | `c` (1byte) |
+| 9~11 | padding (struct 크기를 4의 배수로 맞추려고) |
+
+- `sizeof`는 **12byte**. 필드 크기의 합(1+4+1=6)이 아니다.
+- struct 전체 크기는 가장 큰 필드(int, 4byte)의 배수여야 한다. 그래야 struct 배열의 두 번째 원소의 `b`도 4의 배수 주소에 놓인다.
+  ```c
+  struct S arr[2];   // arr[1].b가 aligned 되려면 sizeof(S)가 4의 배수여야 함
+  ```
+- 선언 순서가 크기를 바꾼다. `int b; char a; char c;` 순서면 4 + 1 + 1 + padding 2 = 8byte.
+
+#### Endian
+
+**Endian**: 여러 byte로 된 값을 memory에 저장할 때 byte를 놓는 순서.
+
+`int x = 0x12345678;` → `12 | 34 | 56 | 78`. 12가 **MSB**(가장 큰 자릿수 byte), 78이 **LSB**(가장 작은 자릿수 byte).
+
+| 방식 | 낮은 주소 → 높은 주소 | 특징 |
+|---|---|---|
+| **Big Endian** | `12 34 56 78` | MSB가 낮은 주소. 사람이 읽는 순서 그대로 |
+| **Little Endian** | `78 56 34 12` | LSB가 낮은 주소. x86, 대부분의 ARM |
+
+- 값은 같고 memory에 놓이는 byte 순서만 다르다.
+- 같은 machine 안에서는 거의 신경 쓸 일이 없고, 다른 machine과 데이터를 주고받을 때(네트워크, 파일) 문제가 된다. 네트워크 byte order는 big endian이라 `htonl` 같은 변환 함수를 쓴다.
+- gdb에서 `x/4xb &x`를 하면 little endian machine은 `0x78 0x56 0x34 0x12`로 보인다.
+
+### 0-6. 본 수업과의 연결
+
+| 선수 개념 | 이어지는 곳 |
+|---|---|
+| register vs. memory | Storage Class Selection, 호출 시 register 저장 |
+| stack vs. heap | Runtime Organization, Activation Record, Dynamic Allocation |
+| return address | AR 구성, Prologue/Epilogue |
+| PC와 control flow | 명령어 종류, call/return의 의미 |
+| alignment, endian | Memory Addressing, Data Layout, Structure Alignment |
