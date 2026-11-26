@@ -313,3 +313,28 @@ void main() {
   }
   ```
   배치: `w PAD PAD PAD` / `x[0]` / `x[1]` / `x[2]` / `y PAD z(2 byte)` → 총 20 byte
+
+## 수업에서 다룬 섹션 (2026-11-26)
+
+1. 컴파일러 전체 구조에서의 위치
+2. Microarchitecture / ISA: 컴파일러가 아는 것
+3. Storage Class Selection Problem
+4. General Instruction Classes
+5. Compiler Backend와 Runtime Organization
+6. Executing a Program
+7. Execution Sequence
+8. Activation & Lifetime (Activation Tree 포함)
+9. Stack Management (AR, Return Data in x86, SP/FP)
+10. Saving Registers
+11. Pushing / Popping Values on the Stack
+12. Example Call
+13. Caller vs. Callee Saved Registers
+14. Accessing Stack Variables
+15. Global Variables
+16. Dynamic Allocation
+17. Recap: Organization of Storage
+18. Memory Addressing
+19. Memory Alignment
+20. Big Endian vs. Little Endian
+21. Data Layout
+22. Structure Alignment (for C)
